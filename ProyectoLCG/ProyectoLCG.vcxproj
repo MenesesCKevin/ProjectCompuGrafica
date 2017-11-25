@@ -23,6 +23,7 @@
     <ProjectGuid>{F319F2CB-EFA3-4E11-B4F5-0950941CE850}</ProjectGuid>
     <RootNamespace>ProyectoLCG</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
+    <ProjectName>ProyectoCG</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -125,7 +126,7 @@
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="figuras.cpp" />
-    <ClCompile Include="main_plcg.cpp" />
+    <ClCompile Include="main_pcg.cpp" />
     <ClCompile Include="texture.cpp" />
   </ItemGroup>
   <ItemGroup>
