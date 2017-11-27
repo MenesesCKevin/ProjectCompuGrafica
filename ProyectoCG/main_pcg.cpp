@@ -734,7 +734,10 @@ void EstructuraCasa()
 	glPushMatrix();	//Pared planta 1 de 1.5 m separacion rara del cuarto de lavado
 		glTranslatef(3.25, 1.15, -3.9);
 		glScalef(2.0, 2.3, 0.2);
-		cubo.prisma2(0.0, muro.GLindex, 2);
+		if (elotroLado)
+			cubo.prisma2(0.0, muro.GLindex, 2);
+		else
+			cubo.prisma2(0.0, 0.0, 1);
 	glPopMatrix();
 
 	glPushMatrix();	//Pared planta 1 de 1.85 m separacion cuarto de maquinas y lavado
