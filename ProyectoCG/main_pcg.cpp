@@ -134,7 +134,14 @@ GLfloat m_spec2[] = { 0.0, 0.0, 0.0, 1.0 };				// Specular Light Values
 GLfloat m_amb2[] = { 0.0, 0.0, 0.0, 1.0 };				// Ambiental Light Values
 GLfloat m_s2[] = {22};
 
-
+/*********************************/
+CTexture cielo_nx;
+CTexture cielo_ny;
+CTexture cielo_nz;
+CTexture cielo_px;
+CTexture cielo_py;
+CTexture cielo_pz;
+CTexture pasto;
 CTexture fuego; //fuego para antorcha
 CTexture madera; //madera general
 CTexture puerta1; //Puertas de la sala de tortura
@@ -171,9 +178,8 @@ CTexture cuadro9;
 CTexture cuadro10;
 CTexture cuadro11;
 CTexture porton;
-
 CTexture tree;
-
+/********************************************/
 CFiguras fig1;
 CFiguras fig2;
 CFiguras fig3;
@@ -378,7 +384,36 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 	/* setup blending */
     //glBlendFunc(GL_SRC_ALPHA,GL_ONE);			// Set The Blending Function For Translucency
     //glColor4f(1.0f, 1.0f, 1.0f, 0.5); 
-    
+    /***********************/
+	cielo_nx.LoadTGA("Texturas/cielo_nx.tga");
+	cielo_nx.BuildGLTexture();
+	cielo_nx.ReleaseImage();
+
+	cielo_ny.LoadTGA("Texturas/cielo_ny.tga");
+	cielo_ny.BuildGLTexture();
+	cielo_ny.ReleaseImage();
+
+	cielo_nz.LoadTGA("Texturas/cielo_nz.tga");
+	cielo_nz.BuildGLTexture();
+	cielo_nz.ReleaseImage();
+
+	cielo_px.LoadTGA("Texturas/cielo_px.tga");
+	cielo_px.BuildGLTexture();
+	cielo_px.ReleaseImage();
+
+	cielo_py.LoadTGA("Texturas/cielo_py.tga");
+	cielo_py.BuildGLTexture();
+	cielo_py.ReleaseImage();
+
+	cielo_pz.LoadTGA("Texturas/cielo_pz.tga");
+	cielo_pz.BuildGLTexture();
+	cielo_pz.ReleaseImage();
+
+	pasto.LoadTGA("Texturas/pasto.tga");
+	pasto.BuildGLTexture();
+	pasto.ReleaseImage();
+
+
     nx.LoadTGA("Texturas/nx.tga");
 	nx.BuildGLTexture();
 	nx.ReleaseImage();
@@ -516,7 +551,7 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 	porton.LoadTGA("Texturas/porton.tga");
 	porton.BuildGLTexture();
 	porton.ReleaseImage();
-
+	/*************************************/
 	craneo._3dsLoad("modelos/skull.3DS");
 
 	objCamera.Position_Camera(6.3,1.3f, 30.0f , 6.0,0.0f,0, 0, 1, 0);
@@ -1832,9 +1867,16 @@ void display ( void )   // Creamos la funcion donde se dibuja
 		glPushMatrix();
 			glPushMatrix(); //Creamos cielo
 				glDisable(GL_LIGHTING);
-				glTranslatef(0, 50, 0);
-				fig1.skybox(100.0, 100.0, 100.0, ny.GLindex, nx.GLindex, pz.GLindex, px.GLindex, nz.GLindex, py.GLindex);
+				glTranslatef(0, 0, 0);
+				fig1.skybox(100.0, 100.0, 100.0,cielo_ny.GLindex,cielo_nx.GLindex,cielo_pz.GLindex,cielo_px.GLindex,cielo_nz.GLindex,cielo_py.GLindex);
 				glEnable(GL_LIGHTING);
+			glPopMatrix();
+			//suelo con pasto
+			glPushMatrix();
+			
+				glScalef(100, 1, 100);
+				fig3.prisma2(pasto.GLindex,pasto.GLindex,30);
+			
 			glPopMatrix();
 			glTranslatef(0.0, 0.0, 10.0);
 			glPushMatrix();
