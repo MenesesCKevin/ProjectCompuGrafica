@@ -118,21 +118,12 @@ GLUT_BITMAP_HELVETICA_18*/
 
 
 
-//GLfloat Diffuse[]= { 1.0f, 1.0f, 1.0f, 1.0f };				// Diffuse Light Values
-GLfloat Diffuse[]= { 0.5f, 0.5f, 0.5f, 1.0f };				// Diffuse Light Values
+GLfloat Diffuse[]= { 1.0f, 1.0f, 1.0f, 1.0f };				// Diffuse Light Values
+//GLfloat Diffuse[]= { 0.5f, 0.5f, 0.5f, 1.0f };				// Diffuse Light Values
 GLfloat Specular[] = { 1.0, 1.0, 1.0, 1.0 };				// Specular Light Values
 GLfloat Position[]= { 0.0f, 7.0f, -5.0f, 0.0f };			// Light Position
 GLfloat Position2[]= { 0.0f, 0.0f, -5.0f, 1.0f };			// Light Position
 
-GLfloat m_dif1[] = { 0.0f, 0.2f, 1.0f, 1.0f };				// Diffuse Light Values
-GLfloat m_spec1[] = { 0.0, 0.0, 0.0, 1.0 };				// Specular Light Values
-GLfloat m_amb1[] = { 0.0, 0.0, 0.0, 1.0 };				// Ambiental Light Values
-GLfloat m_s1[] = {18};
-
-GLfloat m_dif2[] = { 0.8f, 0.2f, 0.0f, 1.0f };				// Diffuse Light Values
-GLfloat m_spec2[] = { 0.0, 0.0, 0.0, 1.0 };				// Specular Light Values
-GLfloat m_amb2[] = { 0.0, 0.0, 0.0, 1.0 };				// Ambiental Light Values
-GLfloat m_s2[] = {22};
 
 /*********************************/
 CTexture cielo_nx;
@@ -1873,10 +1864,11 @@ void display ( void )   // Creamos la funcion donde se dibuja
 			glPopMatrix();
 			//suelo con pasto
 			glPushMatrix();
-			
-				glScalef(100, 1, 100);
-				fig3.prisma2(pasto.GLindex,pasto.GLindex,30);
-			
+			glDisable(GL_LIGHTING);
+				glTranslatef(0, -0.1, 0);
+				glScalef(100, 0.2, 100);
+				fig3.prisma2(pasto.GLindex,pasto.GLindex,40);
+				glEnable(GL_LIGHTING);
 			glPopMatrix();
 			glTranslatef(0.0, 0.0, 10.0);
 			glPushMatrix();
