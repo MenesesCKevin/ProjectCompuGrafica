@@ -2335,11 +2335,12 @@ void display ( void )   // Creamos la funcion donde se dibuja
 			glPopMatrix();
 			//suelo con pasto
 			glPushMatrix();
-			
+				glDisable(GL_LIGHTING);
 				glTranslatef(0.0, -0.5, 10.0);
-				glScalef(100, 1, 100);
+				glTranslatef(0.0, -0.1, 0.0);
+				glScalef(100,0.2 , 100);
 				fig3.prisma2(pasto.GLindex,pasto.GLindex,30);
-			
+				glEnable(GL_LIGHTING);
 			glPopMatrix();
 			glTranslatef(0.0, 0.0, 10.0);
 			glPushMatrix();
