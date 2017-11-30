@@ -182,6 +182,8 @@ CTexture tree;
 CTexture marmol_uno;
 CTexture marmol_dos;
 CTexture tela_beige;
+CTexture madera_oscura;
+CTexture madera_oscura_puerta;
 /********************************************/
 CFiguras fig1;
 CFiguras fig2;
@@ -190,7 +192,7 @@ CFiguras fig4;	//Pasto011
 CFiguras fig5;	//Casa01
 CFiguras fig6;
 CFiguras fig7;	//Para crear Monito
-CFiguras fig8;	//Para crear sillon
+CFiguras fig8;	//Para crear sillon, mueble bajo
 
 CFiguras cubo;
 CFiguras cilindro;
@@ -567,6 +569,14 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 	tela_beige.LoadTGA("Texturas/tela_beige.tga");
 	tela_beige.BuildGLTexture();
 	tela_beige.ReleaseImage();
+
+	madera_oscura.LoadTGA("Texturas/madera_oscura.tga");
+	madera_oscura.BuildGLTexture();
+	madera_oscura.ReleaseImage();
+
+	madera_oscura_puerta.LoadTGA("Texturas/madera_oscura_puerta.tga");
+	madera_oscura_puerta.BuildGLTexture();
+	madera_oscura_puerta.ReleaseImage();
 
 	/*************************************/
 	craneo._3dsLoad("modelos/skull.3DS");
@@ -2101,28 +2111,28 @@ void sillon_pata(float separacion)
 	//Asume que de manera externa se hace push y pop
 	glPushMatrix();
 		glScalef(0.05, 0.15, 0.05);
-		fig8.prisma2(madera.GLindex, madera.GLindex, 1);
+		fig8.prisma2(madera_oscura.GLindex, madera_oscura.GLindex, 1);
 	glPopMatrix();
 
 	glTranslatef(0.0, 0.0, -0.5);
 
 	glPushMatrix();
 		glScalef(0.05, 0.15, 0.05);
-		fig8.prisma2(madera.GLindex, madera.GLindex, 1);
+		fig8.prisma2(madera_oscura.GLindex, madera_oscura.GLindex, 1);
 	glPopMatrix();
 
 	glTranslatef(separacion, 0.0, 0.0);
 
 	glPushMatrix();
 		glScalef(0.05, 0.15, 0.05);
-		fig8.prisma2(madera.GLindex, madera.GLindex, 1);
+		fig8.prisma2(madera_oscura.GLindex, madera_oscura.GLindex, 1);
 	glPopMatrix();
 
 	glTranslatef(0, 0.0, 0.5);
 
 	glPushMatrix();
 		glScalef(0.05, 0.15, 0.05);
-		fig8.prisma2(madera.GLindex, madera.GLindex, 1);
+		fig8.prisma2(madera_oscura.GLindex, madera_oscura.GLindex, 1);
 	glPopMatrix();
 
 }
@@ -2166,6 +2176,14 @@ void sillon(float largo_base, int cojines, float rotar)
 	glPopMatrix();
 }
 
+void mueble_bajo(float ancho, float profundidad, float rotacion)
+{
+	glPushMatrix();
+		glRotatef(rotacion, 0.0, 1.0, 0.0);
+		glScalef(ancho, 1.0, profundidad);
+		fig8.prisma3(madera_oscura.GLindex, madera_oscura_puerta.GLindex, 5, 1);
+	glPopMatrix();
+}
 void display ( void )   // Creamos la funcion donde se dibuja
 {
 	glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -2485,6 +2503,13 @@ void display ( void )   // Creamos la funcion donde se dibuja
 				glTranslatef(12.149f, 2.395f, -16.325f);
 				sillon(2.55, 3, 270.0);
 			glPopMatrix();
+
+			//PLANTA SEGUNDO NIVEL
+			glPushMatrix();
+				glTranslatef(6.4f, 4.79f, -16.6f);	//Corregir posición
+				mueble_bajo(4.8, 0.6, 90.0);
+			glPopMatrix();
+
 		glPopMatrix();
 
 
