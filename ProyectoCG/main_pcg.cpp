@@ -2459,18 +2459,30 @@ void display ( void )   // Creamos la funcion donde se dibuja
 				EstructuraCasa();
 			glPopMatrix();
 
+			//PLANTA BAJA
 			glPushMatrix();
-				glTranslatef(6.4f, 0.0f, -13.0f);
+				glTranslatef(10.1f, 0.0f, -12.2f);
+				sillon(2.55, 3, 180.0);
+			glPopMatrix();
+
+			glPushMatrix();
+				glTranslatef(12.149f, 0.0f, -13.825f);
+				sillon(1.7, 2, 270.0); 
+			glPopMatrix();
+
+			//PLANTA PRIMER NIVEL
+			glPushMatrix();
+				glTranslatef(6.4f, 2.395f, -14.6f);
 				sillon(1.7, 2, 180.0);
 			glPopMatrix();
 
 			glPushMatrix();
-				glTranslatef(10.1f, 0.0f, -13.1f);
+				glTranslatef(10.1f, 2.395f, -14.7f);
 				sillon(1.7, 2, 180.0);
 			glPopMatrix();
 
 			glPushMatrix();
-				glTranslatef(12.15f, 0.0f, -14.725f);
+				glTranslatef(12.149f, 2.395f, -16.325f);
 				sillon(2.55, 3, 270.0);
 			glPopMatrix();
 		glPopMatrix();
