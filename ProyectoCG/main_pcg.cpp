@@ -181,6 +181,7 @@ CTexture porton;
 CTexture tree;
 CTexture marmol_uno;
 CTexture marmol_dos;
+CTexture tela_beige;
 /********************************************/
 CFiguras fig1;
 CFiguras fig2;
@@ -189,6 +190,7 @@ CFiguras fig4;	//Pasto011
 CFiguras fig5;	//Casa01
 CFiguras fig6;
 CFiguras fig7;	//Para crear Monito
+CFiguras fig8;	//Para crear sillon
 
 CFiguras cubo;
 CFiguras cilindro;
@@ -561,6 +563,11 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 	marmol_dos.LoadTGA("Texturas/marmol_dos.tga");
 	marmol_dos.BuildGLTexture();
 	marmol_dos.ReleaseImage();
+
+	tela_beige.LoadTGA("Texturas/tela_beige.tga");
+	tela_beige.BuildGLTexture();
+	tela_beige.ReleaseImage();
+
 	/*************************************/
 	craneo._3dsLoad("modelos/skull.3DS");
 
@@ -2061,6 +2068,103 @@ void guillotina()
 	glPopMatrix();
 
 }
+//Elementos de sillon
+void sillon_cojin(float largo, int n_cojin)
+{
+	//Asume que de manera externa se hace push y pop
+	glScalef(largo-0.4, 0.2, 0.5);
+	fig8.prisma3(tela_beige.GLindex, tela_beige.GLindex, n_cojin, 1);
+}
+void sillon_brazos(float separacion)
+{
+	//Asume que de manera externa se hace push y pop
+	glPushMatrix();
+		glScalef(0.2, 0.6, 0.7);
+		fig8.prisma2(tela_beige.GLindex, tela_beige.GLindex, 1);
+	glPopMatrix();
+	glTranslatef(separacion, 0.0, 0.0);
+	glPushMatrix();
+		glScalef(0.2, 0.6, 0.7);
+		fig8.prisma2(tela_beige.GLindex, tela_beige.GLindex, 1);
+	glPopMatrix();
+}
+
+void sillon_respaldo(float largo, int n_respaldo)
+{
+	//Asume que de manera externa se hace push y pop
+	glScalef(largo-0.4, 0.8, 0.2);
+	fig8.prisma3(tela_beige.GLindex, tela_beige.GLindex, n_respaldo, 1);
+}
+
+void sillon_pata(float separacion)
+{
+	//Asume que de manera externa se hace push y pop
+	glPushMatrix();
+		glScalef(0.05, 0.15, 0.05);
+		fig8.prisma2(madera.GLindex, madera.GLindex, 1);
+	glPopMatrix();
+
+	glTranslatef(0.0, 0.0, -0.5);
+
+	glPushMatrix();
+		glScalef(0.05, 0.15, 0.05);
+		fig8.prisma2(madera.GLindex, madera.GLindex, 1);
+	glPopMatrix();
+
+	glTranslatef(separacion, 0.0, 0.0);
+
+	glPushMatrix();
+		glScalef(0.05, 0.15, 0.05);
+		fig8.prisma2(madera.GLindex, madera.GLindex, 1);
+	glPopMatrix();
+
+	glTranslatef(0, 0.0, 0.5);
+
+	glPushMatrix();
+		glScalef(0.05, 0.15, 0.05);
+		fig8.prisma2(madera.GLindex, madera.GLindex, 1);
+	glPopMatrix();
+
+}
+
+void sillon(float largo_base, int cojines, float rotar)
+{
+	glPushMatrix();
+		glRotatef(rotar, 0.0, 1.0, 0.0);	//En Y, girar sillon
+		
+		glTranslatef(0.0, 0.2, 0.0);		//Offset natural
+		glPushMatrix();
+			
+			glPushMatrix();
+				glTranslatef(-largo_base*0.5+0.1, 0.4, 0.0);
+				sillon_brazos(largo_base-0.2);
+			glPopMatrix();
+
+			glPushMatrix();
+				glTranslatef(0.0, 0.5, -0.25);
+				sillon_respaldo(largo_base, cojines);
+			glPopMatrix();
+
+			glPushMatrix();
+
+				glPushMatrix();
+					glTranslatef(0.0, 0.2, 0.1);
+					sillon_cojin(largo_base, cojines);
+				glPopMatrix();
+
+				glPushMatrix();
+					glTranslatef(-largo_base*0.5+0.1, -0.175, 0.25);
+					sillon_pata(largo_base-0.25);
+				glPopMatrix();
+
+			glPopMatrix();
+			
+		glPopMatrix();
+
+		glScalef(largo_base, 0.2, 0.7);
+		fig8.prisma2(tela_beige.GLindex, tela_beige.GLindex, 1);
+	glPopMatrix();
+}
 
 void display ( void )   // Creamos la funcion donde se dibuja
 {
@@ -2329,7 +2433,7 @@ void display ( void )   // Creamos la funcion donde se dibuja
 		glPopMatrix();
 		glPushMatrix();
 		glTranslatef(5.0, 1.5, 3);
-		cuadro;
+		//cuadro;
 		glPopMatrix();
 	}
 	else { // Aqui comenzar a dibujar la casa :p ********************************************************************
@@ -2353,6 +2457,21 @@ void display ( void )   // Creamos la funcion donde se dibuja
 			glTranslatef(0.0, 0.0, 10.0);
 			glPushMatrix();
 				EstructuraCasa();
+			glPopMatrix();
+
+			glPushMatrix();
+				glTranslatef(6.4f, 0.0f, -13.0f);
+				sillon(1.7, 2, 180.0);
+			glPopMatrix();
+
+			glPushMatrix();
+				glTranslatef(10.1f, 0.0f, -13.1f);
+				sillon(1.7, 2, 180.0);
+			glPopMatrix();
+
+			glPushMatrix();
+				glTranslatef(12.15f, 0.0f, -14.725f);
+				sillon(2.55, 3, 270.0);
 			glPopMatrix();
 		glPopMatrix();
 

@@ -24,7 +24,8 @@ class CFiguras
 	//Funcíon creacion movimiento
 	void prisma (float altura, float largo, float profundidad, GLuint text);//Funcíon creacion prisma
 	void prisma2 (GLuint text, GLuint text2, GLfloat n);
-	
+	void prisma3(GLuint text, GLuint text2, GLfloat n_x, GLfloat n_y);
+
 
 	//void torus(GLfloat radioM, GLfloat radiom, int meridianos, int paralelos, GLuint text );
 	void torus(GLfloat radioM, GLfloat radiom, int meridianos, int paralelos);
