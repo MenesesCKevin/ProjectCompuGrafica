@@ -1067,6 +1067,34 @@ void EstructuraCasa()
 
 	///////////////////////////////////////Apartir de aqui inicia la planta baja
 
+	glPushMatrix();	//Pared de cocina1
+		glTranslatef(1.2, 1.15, -10.3);
+		glScalef(2.0, 2.3, 0.2);
+		if (elotroLado)
+			cubo.prisma2(0.0, muro.GLindex, 2);
+		else
+			cubo.prisma2(0.0, muro_casa.GLindex, 1);
+	glPopMatrix();
+
+	glPushMatrix();	//Pared de cocina2
+		glTranslatef(1.2, 1.15, -6.3);
+		glScalef(2.0, 2.3, 0.2);
+		if (elotroLado)
+			cubo.prisma2(0.0, muro.GLindex, 2);
+		else
+			cubo.prisma2(0.0, muro_casa.GLindex, 1);
+	glPopMatrix();
+
+
+	glPushMatrix();	//Pared de cocina2
+		glTranslatef(2.1, 1.15, -7.9);
+		glScalef(0.2, 2.3, 3.0);
+		if (elotroLado)
+			cubo.prisma2(0.0, muro.GLindex, 2);
+		else
+			cubo.prisma2(0.0, muro_casa.GLindex, 1);
+	glPopMatrix();
+
 
 	glPushMatrix();	//Pared planta 1 de 5.75 m lado izquierdo
 		glTranslatef(0.1, 1.15, -2.875);
@@ -1366,7 +1394,7 @@ void EstructuraCasa()
 		if (elotroLado)
 			cubo.prisma2(0.0, ny.GLindex, 2);
 		else
-			cubo.prisma2(0.0, 0.0, 1);
+			cubo.prisma2(0.0, marmol_dos.GLindex, 1);
 	glPopMatrix();
 
 	glPushMatrix();
@@ -1375,7 +1403,7 @@ void EstructuraCasa()
 		if (elotroLado)
 			cubo.prisma2(0.0, ny.GLindex, 2);
 		else
-			cubo.prisma2(0.0, 0.0, 1);
+			cubo.prisma2(0.0, marmol_dos.GLindex, 1);
 	glPopMatrix();
 
 	glPushMatrix();
@@ -1384,7 +1412,7 @@ void EstructuraCasa()
 		if (elotroLado)
 			cubo.prisma2(0.0, ny.GLindex, 2);
 		else
-			cubo.prisma2(0.0, 0.0, 1);
+			cubo.prisma2(0.0, marmol_dos.GLindex, 1);
 	glPopMatrix();
 
 	glPushMatrix();	
@@ -1393,7 +1421,7 @@ void EstructuraCasa()
 		if (elotroLado)
 			cubo.prisma2(0.0, ny.GLindex, 1);
 		else
-			cubo.prisma2(0.0, 0.0, 1);
+			cubo.prisma2(0.0, marmol_dos.GLindex, 1);
 	glPopMatrix();
 
 	//Fin de techo planta 1
@@ -1409,8 +1437,8 @@ void EstructuraCasa()
 		glTranslatef(0.0, 0.0, -5.75); //Cambio mi centro momentaneamente
 
 		glPushMatrix();	//Pared planta 1 de 4.4 m del patio servicio
-			glTranslatef(0.1, 1.15, -2.2);
-			glScalef(0.2, 2.3, 4.4);
+			glTranslatef(0.1, 1.15, -2.93);
+			glScalef(0.2, 2.3, 5.86);
 			if (elotroLado)
 				cubo.prisma2(0.0, muro.GLindex, 2);
 			else
@@ -2614,6 +2642,14 @@ void display ( void )   // Creamos la funcion donde se dibuja
 				glTranslatef(1.2, 0.1, -1.9);
 				cama();
 			glPopMatrix();
+
+			/////////////////////comedor
+			glPushMatrix(); //Mesa del comedor
+				glTranslatef(2.7, 0.1, -12.4);
+				mesa_ovalada();
+			glPopMatrix();
+
+			///////////////////Fin comedor
 
 			//PLANTA BAJA
 			glPushMatrix();

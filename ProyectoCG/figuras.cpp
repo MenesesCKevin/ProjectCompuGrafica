@@ -252,7 +252,7 @@ void CFiguras::prisma2 (GLuint text, GLuint text2, GLfloat n)  //Funcion creacio
 			glTexCoord2f(0.0f, n); glVertex3fv(vertice[3]);
 		glEnd();
 
-		glBindTexture(GL_TEXTURE_2D, text);   // choose the texture to use.
+		glBindTexture(GL_TEXTURE_2D, text2);   // choose the texture to use.
 		glBegin(GL_POLYGON);  //Top
 			glNormal3f( 0.0f,1.0f, 0.0f);
 			glTexCoord2f(n, 0.0f); glVertex3fv(vertice[4]);
