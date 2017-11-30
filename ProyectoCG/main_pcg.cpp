@@ -179,6 +179,8 @@ CTexture cuadro10;
 CTexture cuadro11;
 CTexture porton;
 CTexture tree;
+CTexture marmol_uno;
+CTexture marmol_dos;
 /********************************************/
 CFiguras fig1;
 CFiguras fig2;
@@ -551,31 +553,19 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 	porton.LoadTGA("Texturas/porton.tga");
 	porton.BuildGLTexture();
 	porton.ReleaseImage();
+
+	marmol_uno.LoadTGA("Texturas/marmol_uno.tga");
+	marmol_uno.BuildGLTexture();
+	marmol_uno.ReleaseImage();
+
+	marmol_dos.LoadTGA("Texturas/marmol_dos.tga");
+	marmol_dos.BuildGLTexture();
+	marmol_dos.ReleaseImage();
 	/*************************************/
 	craneo._3dsLoad("modelos/skull.3DS");
 
-	objCamera.Position_Camera(6.3,1.3f, 30.0f , 6.0,0.0f,0, 0, 1, 0);
+	objCamera.Position_Camera(6.3,1.3f, 2.0f , 6.0,0.0f,0, 0, 1, 0);
 
-	/*for (int i = 0; i<MAX_FRAMES; i++)
-	{
-		KeyFrame[i].posX = 0;
-		KeyFrame[i].posY = 0;
-		KeyFrame[i].posZ = 0;
-		KeyFrame[i].viewX = 0;
-		KeyFrame[i].angdown = 0;
-		KeyFrame[i].viewY = 0;
-		KeyFrame[i].viewZ = 0;
-		KeyFrame[i].upX = 1;
-		KeyFrame[i].upY = 0;
-		KeyFrame[i].upZ = 0;
-		KeyFrame[i].angMedi3 = 0;
-		KeyFrame[i].angMen1 = 0;
-		KeyFrame[i].angMen2 = 0;
-		KeyFrame[i].angMen3 = 0;
-		KeyFrame[i].angAnu1 = 0;
-		KeyFrame[i].angAnu2 = 0;
-		KeyFrame[i].angAnu3 = 0;
-	}*/
 
 }
 
@@ -1130,7 +1120,23 @@ void EstructuraCasa()
 		glPopMatrix();
 	}
 	/********************FIN EXTERIOR******************************/
+	//PISO
+	if (elotroLado != TRUE) {
+		glDisable(GL_LIGHTING);
+		glPushMatrix();
+			glTranslatef(2.2, 0, -5.2);
+			glScalef(4.1, 0.001, 10.4);
+			fig2.prisma2(marmol_uno.GLindex, marmol_uno.GLindex, 5);
+		glPopMatrix();
+		glPushMatrix();
+			glTranslatef(6.35, 0, -13.2);
+			glScalef(12.4, 0.001, 5.6);
+			fig2.prisma2(marmol_dos.GLindex, marmol_dos.GLindex, 12);
+		glPopMatrix();
 
+		glEnable(GL_LIGHTING);
+	}
+	/////////////////////////////////////////////////
 	glPushMatrix();	//Pared planta 1 de 5.75 m lado derecho
 		glTranslatef(4.15, 1.15, -2.875);
 		glScalef(0.2, 2.3, 5.75);
@@ -1722,6 +1728,7 @@ void EstructuraCasa()
 				cubo.prisma2(0.0, 0.0, 1);
 		glPopMatrix();
 	glPopMatrix();
+	
 }
 
 void cuartoTortura() //aqui se definiran algunos objetos del cuarto de tortura
@@ -2337,11 +2344,12 @@ void display ( void )   // Creamos la funcion donde se dibuja
 			glPushMatrix();
 				glDisable(GL_LIGHTING);
 				glTranslatef(0.0, -0.5, 10.0);
-				glTranslatef(0.0, -0.1, 0.0);
+				glTranslatef(0.0, -0.1, -10.0);
 				glScalef(100,0.2 , 100);
 				fig3.prisma2(pasto.GLindex,pasto.GLindex,30);
 				glEnable(GL_LIGHTING);
 			glPopMatrix();
+
 			glTranslatef(0.0, 0.0, 10.0);
 			glPushMatrix();
 				EstructuraCasa();
