@@ -184,6 +184,11 @@ CTexture muro_casa;
 CTexture escalones;
 CTexture cama_cuerpo;
 CTexture cama_cabecera;
+CTexture marmol_uno;
+CTexture marmol_dos;
+CTexture tela_beige;
+CTexture madera_oscura;
+CTexture madera_oscura_puerta;
 /********************************************/
 CFiguras fig1;
 CFiguras fig2;
@@ -192,6 +197,7 @@ CFiguras fig4;	//Pasto011
 CFiguras fig5;	//Casa01
 CFiguras fig6;
 CFiguras fig7;	//Para crear Monito
+CFiguras fig8;	//Para crear sillon, mueble bajo
 
 CFiguras cubo;
 CFiguras cilindro;
@@ -576,31 +582,32 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 	cama_cuerpo.LoadTGA("Texturas/cama_cuerpo.tga");
 	cama_cuerpo.BuildGLTexture();
 	cama_cuerpo.ReleaseImage();
+  
+	marmol_uno.LoadTGA("Texturas/marmol_uno.tga");
+	marmol_uno.BuildGLTexture();
+	marmol_uno.ReleaseImage();
+
+	marmol_dos.LoadTGA("Texturas/marmol_dos.tga");
+	marmol_dos.BuildGLTexture();
+	marmol_dos.ReleaseImage();
+
+	tela_beige.LoadTGA("Texturas/tela_beige.tga");
+	tela_beige.BuildGLTexture();
+	tela_beige.ReleaseImage();
+
+	madera_oscura.LoadTGA("Texturas/madera_oscura.tga");
+	madera_oscura.BuildGLTexture();
+	madera_oscura.ReleaseImage();
+
+	madera_oscura_puerta.LoadTGA("Texturas/madera_oscura_puerta.tga");
+	madera_oscura_puerta.BuildGLTexture();
+	madera_oscura_puerta.ReleaseImage();
+
 	/*************************************/
 	craneo._3dsLoad("modelos/skull.3DS");
 
-	objCamera.Position_Camera(6.3,1.3f, 30.0f , 6.0,0.0f,0, 0, 1, 0);
+	objCamera.Position_Camera(6.3,1.3f, 2.0f , 6.0,0.0f,0, 0, 1, 0);
 
-	/*for (int i = 0; i<MAX_FRAMES; i++)
-	{
-		KeyFrame[i].posX = 0;
-		KeyFrame[i].posY = 0;
-		KeyFrame[i].posZ = 0;
-		KeyFrame[i].viewX = 0;
-		KeyFrame[i].angdown = 0;
-		KeyFrame[i].viewY = 0;
-		KeyFrame[i].viewZ = 0;
-		KeyFrame[i].upX = 1;
-		KeyFrame[i].upY = 0;
-		KeyFrame[i].upZ = 0;
-		KeyFrame[i].angMedi3 = 0;
-		KeyFrame[i].angMen1 = 0;
-		KeyFrame[i].angMen2 = 0;
-		KeyFrame[i].angMen3 = 0;
-		KeyFrame[i].angAnu1 = 0;
-		KeyFrame[i].angAnu2 = 0;
-		KeyFrame[i].angAnu3 = 0;
-	}*/
 
 }
 
@@ -1187,7 +1194,23 @@ void EstructuraCasa()
 		glPopMatrix();
 	}
 	/********************FIN EXTERIOR******************************/
+	//PISO
+	if (elotroLado != TRUE) {
+		glDisable(GL_LIGHTING);
+		glPushMatrix();
+			glTranslatef(2.2, 0, -5.2);
+			glScalef(4.1, 0.001, 10.4);
+			fig2.prisma2(marmol_uno.GLindex, marmol_uno.GLindex, 5);
+		glPopMatrix();
+		glPushMatrix();
+			glTranslatef(6.35, 0, -13.2);
+			glScalef(12.4, 0.001, 5.6);
+			fig2.prisma2(marmol_dos.GLindex, marmol_dos.GLindex, 12);
+		glPopMatrix();
 
+		glEnable(GL_LIGHTING);
+	}
+	/////////////////////////////////////////////////
 	glPushMatrix();	//Pared planta 1 de 5.75 m lado derecho
 		glTranslatef(4.15, 1.15, -2.875);
 		glScalef(0.2, 2.3, 5.75);
@@ -1768,7 +1791,7 @@ void EstructuraCasa()
 				cubo.prisma2(0.0, escalones.GLindex, 1);
 		glPopMatrix();
 	glPopMatrix();
-
+  
 	glDisable(GL_LIGHTING);
 	glPushMatrix();//////////////////////////////////Camino de piedra
 		glTranslatef(4.75, -0.04, -1.0);
@@ -1795,7 +1818,6 @@ void EstructuraCasa()
 	glPopMatrix();
 
 	glEnable(GL_LIGHTING);
-
 
 }
 
@@ -2129,6 +2151,64 @@ void guillotina()
 	glPopMatrix();
 
 }
+//Elementos de sillon
+void sillon_cojin(float largo, int n_cojin)
+{
+	//Asume que de manera externa se hace push y pop
+	glScalef(largo-0.4, 0.2, 0.5);
+	fig8.prisma3(tela_beige.GLindex, tela_beige.GLindex, n_cojin, 1);
+}
+void sillon_brazos(float separacion)
+{
+	//Asume que de manera externa se hace push y pop
+	glPushMatrix();
+		glScalef(0.2, 0.6, 0.7);
+		fig8.prisma2(tela_beige.GLindex, tela_beige.GLindex, 1);
+	glPopMatrix();
+	glTranslatef(separacion, 0.0, 0.0);
+	glPushMatrix();
+		glScalef(0.2, 0.6, 0.7);
+		fig8.prisma2(tela_beige.GLindex, tela_beige.GLindex, 1);
+	glPopMatrix();
+}
+
+void sillon_respaldo(float largo, int n_respaldo)
+{
+	//Asume que de manera externa se hace push y pop
+	glScalef(largo-0.4, 0.8, 0.2);
+	fig8.prisma3(tela_beige.GLindex, tela_beige.GLindex, n_respaldo, 1);
+}
+
+void sillon_pata(float separacion)
+{
+	//Asume que de manera externa se hace push y pop
+	glPushMatrix();
+		glScalef(0.05, 0.15, 0.05);
+		fig8.prisma2(madera_oscura.GLindex, madera_oscura.GLindex, 1);
+	glPopMatrix();
+
+	glTranslatef(0.0, 0.0, -0.5);
+
+	glPushMatrix();
+		glScalef(0.05, 0.15, 0.05);
+		fig8.prisma2(madera_oscura.GLindex, madera_oscura.GLindex, 1);
+	glPopMatrix();
+
+	glTranslatef(separacion, 0.0, 0.0);
+
+	glPushMatrix();
+		glScalef(0.05, 0.15, 0.05);
+		fig8.prisma2(madera_oscura.GLindex, madera_oscura.GLindex, 1);
+	glPopMatrix();
+
+	glTranslatef(0, 0.0, 0.5);
+
+	glPushMatrix();
+		glScalef(0.05, 0.15, 0.05);
+		fig8.prisma2(madera_oscura.GLindex, madera_oscura.GLindex, 1);
+	glPopMatrix();
+
+}
 
 void cama()
 {
@@ -2179,6 +2259,54 @@ void cama()
 	glPopMatrix();
 
 
+}
+
+void sillon(float largo_base, int cojines, float rotar)
+{
+	glPushMatrix();
+		glRotatef(rotar, 0.0, 1.0, 0.0);	//En Y, girar sillon
+		
+		glTranslatef(0.0, 0.2, 0.0);		//Offset natural
+		glPushMatrix();
+			
+			glPushMatrix();
+				glTranslatef(-largo_base*0.5+0.1, 0.4, 0.0);
+				sillon_brazos(largo_base-0.2);
+			glPopMatrix();
+
+			glPushMatrix();
+				glTranslatef(0.0, 0.5, -0.25);
+				sillon_respaldo(largo_base, cojines);
+			glPopMatrix();
+
+			glPushMatrix();
+
+				glPushMatrix();
+					glTranslatef(0.0, 0.2, 0.1);
+					sillon_cojin(largo_base, cojines);
+				glPopMatrix();
+
+				glPushMatrix();
+					glTranslatef(-largo_base*0.5+0.1, -0.175, 0.25);
+					sillon_pata(largo_base-0.25);
+				glPopMatrix();
+
+			glPopMatrix();
+			
+		glPopMatrix();
+
+		glScalef(largo_base, 0.2, 0.7);
+		fig8.prisma2(tela_beige.GLindex, tela_beige.GLindex, 1);
+	glPopMatrix();
+}
+
+void mueble_bajo(float ancho, float profundidad, float rotacion)
+{
+	glPushMatrix();
+		glRotatef(rotacion, 0.0, 1.0, 0.0);
+		glScalef(ancho, 1.0, profundidad);
+		fig8.prisma3(madera_oscura.GLindex, madera_oscura_puerta.GLindex, 5, 1);
+	glPopMatrix();
 }
 
 void display ( void )   // Creamos la funcion donde se dibuja
@@ -2445,7 +2573,7 @@ void display ( void )   // Creamos la funcion donde se dibuja
 		glPopMatrix();
 		glPushMatrix();
 		glTranslatef(5.0, 1.5, 3);
-		cuadro;
+		//cuadro;
 		glPopMatrix();
 	}
 	else { // Aqui comenzar a dibujar la casa :p ********************************************************************
@@ -2465,10 +2593,12 @@ void display ( void )   // Creamos la funcion donde se dibuja
 				fig3.prisma2(pasto.GLindex,pasto.GLindex,30);
 				glEnable(GL_LIGHTING);
 			glPopMatrix();
+
 			glTranslatef(0.0, 0.0, 10.0);
 			glPushMatrix();
 				EstructuraCasa();
 			glPopMatrix();
+
 
 			glPushMatrix(); //Cama habitacion principal
 				glTranslatef(1.2, 2.4, -2.0);
@@ -2484,6 +2614,40 @@ void display ( void )   // Creamos la funcion donde se dibuja
 				glTranslatef(1.2, 0.1, -1.9);
 				cama();
 			glPopMatrix();
+
+			//PLANTA BAJA
+			glPushMatrix();
+				glTranslatef(10.1f, 0.0f, -12.2f);
+				sillon(2.55, 3, 180.0);
+			glPopMatrix();
+
+			glPushMatrix();
+				glTranslatef(12.149f, 0.0f, -13.825f);
+				sillon(1.7, 2, 270.0); 
+			glPopMatrix();
+
+			//PLANTA PRIMER NIVEL
+			glPushMatrix();
+				glTranslatef(6.4f, 2.395f, -14.6f);
+				sillon(1.7, 2, 180.0);
+			glPopMatrix();
+
+			glPushMatrix();
+				glTranslatef(10.1f, 2.395f, -14.7f);
+				sillon(1.7, 2, 180.0);
+			glPopMatrix();
+
+			glPushMatrix();
+				glTranslatef(12.149f, 2.395f, -16.325f);
+				sillon(2.55, 3, 270.0);
+			glPopMatrix();
+
+			//PLANTA SEGUNDO NIVEL
+			glPushMatrix();
+				glTranslatef(6.4f, 4.79f, -16.6f);	//Corregir posición
+				mueble_bajo(4.8, 0.6, 90.0);
+			glPopMatrix();
+
 		glPopMatrix();
 
 
