@@ -179,6 +179,11 @@ CTexture cuadro10;
 CTexture cuadro11;
 CTexture porton;
 CTexture tree;
+CTexture camino;
+CTexture muro_casa;
+CTexture escalones;
+CTexture cama_cuerpo;
+CTexture cama_cabecera;
 CTexture marmol_uno;
 CTexture marmol_dos;
 CTexture tela_beige;
@@ -558,6 +563,26 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 	porton.BuildGLTexture();
 	porton.ReleaseImage();
 
+	camino.LoadTGA("Texturas/camino.tga");
+	camino.BuildGLTexture();
+	camino.ReleaseImage();
+
+	muro_casa.LoadTGA("Texturas/muro_casa.tga");
+	muro_casa.BuildGLTexture();
+	muro_casa.ReleaseImage();
+
+	escalones.LoadTGA("Texturas/escalones.tga");
+	escalones.BuildGLTexture();
+	escalones.ReleaseImage();
+
+	cama_cabecera.LoadTGA("Texturas/cama_cabecera.tga");
+	cama_cabecera.BuildGLTexture();
+	cama_cabecera.ReleaseImage();
+
+	cama_cuerpo.LoadTGA("Texturas/cama_cuerpo.tga");
+	cama_cuerpo.BuildGLTexture();
+	cama_cuerpo.ReleaseImage();
+  
 	marmol_uno.LoadTGA("Texturas/marmol_uno.tga");
 	marmol_uno.BuildGLTexture();
 	marmol_uno.ReleaseImage();
@@ -608,6 +633,38 @@ void cuadro(GLint textura) {
 
 void EstructuraCasa()
 {
+
+	///////////////Entrada de la cochera
+
+	glPushMatrix();
+
+		glPushMatrix();	//Pilar 
+			glTranslatef(5.35, 1.15, -0.1);
+			glScalef(0.2, 2.3, 0.2);
+			if (!elotroLado)
+				cubo.prisma2(0.0, muro_casa.GLindex, 1);
+		glPopMatrix();
+
+		/*glPushMatrix();	//Puerta Izquierda de la cochera
+			glTranslatef(7.2125, 1.15, -0.1);
+			glScalef(3.525, 2.3, 0.2);
+			if (!elotroLado)
+				cubo.prisma2(0.0, 0.0, 1);
+		glPopMatrix();
+
+		glPushMatrix();	//Puerta derechaa de la cochera
+			glTranslatef(10.7375, 1.15, -0.1);
+			glScalef(3.525, 2.3, 0.2);
+			if (!elotroLado)
+				cubo.prisma2(0.0, 0.0, 1);
+		glPopMatrix();*/
+
+
+		
+
+	glPopMatrix();
+
+
 	///////////////Piso 2 
 
 	glPushMatrix();
@@ -620,7 +677,7 @@ void EstructuraCasa()
 			if (elotroLado)
 				cubo.prisma2(0.0, muro.GLindex, 2);
 			else
-				cubo.prisma2(0.0, 0.0, 1);
+				cubo.prisma2(0.0, muro_casa.GLindex, 1);
 		glPopMatrix();
 
 		glPushMatrix();	//muro frontal delantero derecho
@@ -629,7 +686,7 @@ void EstructuraCasa()
 			if (elotroLado)
 				cubo.prisma2(0.0, muro.GLindex, 2);
 			else
-				cubo.prisma2(0.0, 0.0, 1);
+				cubo.prisma2(0.0, muro_casa.GLindex, 1);
 		glPopMatrix();
 
 		glPushMatrix();	//muro frontal delantero superior
@@ -638,7 +695,7 @@ void EstructuraCasa()
 			if (elotroLado)
 				cubo.prisma2(0.0, muro.GLindex, 2);
 			else
-				cubo.prisma2(0.0, 0.0, 1);
+				cubo.prisma2(0.0, muro_casa.GLindex, 1);
 		glPopMatrix();
 
 		glPushMatrix();	//muro frontal delantero inferior
@@ -647,7 +704,7 @@ void EstructuraCasa()
 			if (elotroLado)
 				cubo.prisma2(0.0, muro.GLindex, 2);
 			else
-				cubo.prisma2(0.0, 0.0, 1);
+				cubo.prisma2(0.0, muro_casa.GLindex, 1);
 		glPopMatrix();
 
 
@@ -667,7 +724,7 @@ void EstructuraCasa()
 			if (elotroLado)
 				cubo.prisma2(0.0, muro.GLindex, 2);
 			else
-				cubo.prisma2(0.0, 0.0, 1);
+				cubo.prisma2(0.0, muro_casa.GLindex, 3);
 		glPopMatrix();
 
 		glPushMatrix();	//muro lateral izquierdo
@@ -676,7 +733,7 @@ void EstructuraCasa()
 			if (elotroLado)
 				cubo.prisma2(0.0, muro.GLindex, 2);
 			else
-				cubo.prisma2(0.0, 0.0, 1);
+				cubo.prisma2(0.0, muro_casa.GLindex, 3);
 		glPopMatrix();
 
 
@@ -688,7 +745,7 @@ void EstructuraCasa()
 			if (elotroLado)
 				cubo.prisma2(0.0, muro.GLindex, 2);
 			else
-				cubo.prisma2(0.0, 0.0, 1);
+				cubo.prisma2(0.0, muro_casa.GLindex, 1);
 		glPopMatrix();
 
 		glPushMatrix();	//Muro izquierdo a la puerta
@@ -697,7 +754,7 @@ void EstructuraCasa()
 			if (elotroLado)
 				cubo.prisma2(0.0, muro.GLindex, 2);
 			else
-				cubo.prisma2(0.0, 0.0, 1);
+				cubo.prisma2(0.0, muro_casa.GLindex, 1);
 		glPopMatrix();
 
 		glPushMatrix();	//Parte del muro arriba de la puerta
@@ -706,7 +763,7 @@ void EstructuraCasa()
 			if (elotroLado)
 				cubo.prisma2(0.0, muro.GLindex, 1);
 			else
-				cubo.prisma2(0.0, 0.0, 1);
+				cubo.prisma2(0.0, muro_casa.GLindex, 1);
 		glPopMatrix();
 
 		/*glPushMatrix();	//Puerta de la recamara principal  Poner cuando se texturizemos
@@ -726,7 +783,7 @@ void EstructuraCasa()
 			if (elotroLado)
 				cubo.prisma2(0.0, muro.GLindex, 2);
 			else
-				cubo.prisma2(0.0, 0.0, 1);
+				cubo.prisma2(0.0, muro_casa.GLindex, 1);
 		glPopMatrix();
 
 		glPushMatrix();	//Muro frontal pegado a las escaleras der
@@ -735,7 +792,7 @@ void EstructuraCasa()
 			if (elotroLado)
 				cubo.prisma2(0.0, muro.GLindex, 2);
 			else
-				cubo.prisma2(0.0, 0.0, 1);	
+				cubo.prisma2(0.0, muro_casa.GLindex, 1);
 		glPopMatrix();
 
 
@@ -745,7 +802,7 @@ void EstructuraCasa()
 			if (elotroLado)
 				cubo.prisma2(0.0, muro.GLindex, 2);
 			else
-				cubo.prisma2(0.0, 0.0, 1);
+				cubo.prisma2(0.0, muro_casa.GLindex, 1);
 		glPopMatrix();
 
 
@@ -755,7 +812,7 @@ void EstructuraCasa()
 			if (elotroLado)
 				cubo.prisma2(0.0, muro.GLindex, 2);
 			else
-				cubo.prisma2(0.0, 0.0, 1);
+				cubo.prisma2(0.0, muro_casa.GLindex, 1);
 		glPopMatrix();
 
 		/*glPushMatrix();	//Bloque para poner ventan frontal frente a escaleras
@@ -776,7 +833,7 @@ void EstructuraCasa()
 			if (elotroLado)
 				cubo.prisma2(0.0, muro.GLindex, 2);
 			else
-				cubo.prisma2(0.0, 0.0, 1);
+				cubo.prisma2(0.0, muro_casa.GLindex, 1);
 		glPopMatrix();
 
 		glPushMatrix();	//Pared del baño junto a la puerta
@@ -785,7 +842,7 @@ void EstructuraCasa()
 			if (elotroLado)
 				cubo.prisma2(0.0, muro.GLindex, 2);
 			else
-				cubo.prisma2(0.0, 0.0, 1);
+				cubo.prisma2(0.0, muro_casa.GLindex, 1);
 		glPopMatrix();
 
 		glPushMatrix();	//Cuadro de arriba de la puerta del baño
@@ -794,7 +851,7 @@ void EstructuraCasa()
 			if (elotroLado)
 				cubo.prisma2(0.0, muro.GLindex, 2);
 			else
-				cubo.prisma2(0.0, 0.0, 1);
+				cubo.prisma2(0.0, muro_casa.GLindex, 1);
 		glPopMatrix();
 		////////////////////////////////////////////////////////
 
@@ -807,7 +864,7 @@ void EstructuraCasa()
 			if (elotroLado)
 				cubo.prisma2(0.0, muro.GLindex, 2);
 			else
-				cubo.prisma2(0.0, 0.0, 1);
+				cubo.prisma2(0.0, muro_casa.GLindex, 1);
 		glPopMatrix();
 
 		glPushMatrix();	//Muro a la derecha de la puerta
@@ -816,7 +873,7 @@ void EstructuraCasa()
 			if (elotroLado)
 				cubo.prisma2(0.0, muro.GLindex, 2);
 			else
-				cubo.prisma2(0.0, 0.0, 1);
+				cubo.prisma2(0.0, muro_casa.GLindex, 1);
 		glPopMatrix();
 
 		glPushMatrix();	//Muro izquierdo a la puerta
@@ -825,7 +882,7 @@ void EstructuraCasa()
 			if (elotroLado)
 				cubo.prisma2(0.0, muro.GLindex, 2);
 			else
-				cubo.prisma2(0.0, 0.0, 1);
+				cubo.prisma2(0.0, muro_casa.GLindex, 1);
 		glPopMatrix();
 
 		glPushMatrix();	//Parte del muro arriba de la puerta
@@ -834,7 +891,7 @@ void EstructuraCasa()
 			if (elotroLado)
 				cubo.prisma2(0.0, muro.GLindex, 1);
 			else
-				cubo.prisma2(0.0, 0.0, 1);
+				cubo.prisma2(0.0, muro_casa.GLindex, 1);
 		glPopMatrix();
 
 		/*glPushMatrix();	//Puerta de la recamara principal  Poner cuando se texturizemos
@@ -853,7 +910,7 @@ void EstructuraCasa()
 			if (elotroLado)
 				cubo.prisma2(0.0, muro.GLindex, 2);
 			else
-				cubo.prisma2(0.0, 0.0, 1);
+				cubo.prisma2(0.0, muro_casa.GLindex, 1);
 		glPopMatrix();
 
 		glPushMatrix();	//muro trasero derecho
@@ -862,7 +919,7 @@ void EstructuraCasa()
 			if (elotroLado)
 				cubo.prisma2(0.0, muro.GLindex, 2);
 			else
-				cubo.prisma2(0.0, 0.0, 3);
+				cubo.prisma2(0.0, muro_casa.GLindex, 1);
 		glPopMatrix();
 
 		glPushMatrix();	//muro trasero superior
@@ -871,7 +928,7 @@ void EstructuraCasa()
 			if (elotroLado)
 				cubo.prisma2(0.0, muro.GLindex, 2);
 			else
-				cubo.prisma2(0.0, 0.0, 1);
+				cubo.prisma2(0.0, muro_casa.GLindex, 1);
 		glPopMatrix();
 
 		glPushMatrix();	//muro trasero delantero inferior
@@ -880,7 +937,7 @@ void EstructuraCasa()
 			if (elotroLado)
 				cubo.prisma2(0.0, muro.GLindex, 2);
 			else
-				cubo.prisma2(0.0, 0.0, 1);
+				cubo.prisma2(0.0, muro_casa.GLindex, 1);
 		glPopMatrix();
 
 
@@ -905,7 +962,7 @@ void EstructuraCasa()
 			if (elotroLado)
 				cubo.prisma2(0.0, muro.GLindex, 1);
 			else
-				cubo.prisma2(0.0, 0.0, 1);
+				cubo.prisma2(0.0, muro_casa.GLindex, 1);
 		glPopMatrix();
 
 		glPushMatrix();	//Muro de la sala de juegos parte derecha
@@ -914,7 +971,7 @@ void EstructuraCasa()
 			if (elotroLado)
 				cubo.prisma2(0.0, muro.GLindex, 1);
 			else
-				cubo.prisma2(0.0, 0.0, 1);
+				cubo.prisma2(0.0, muro_casa.GLindex, 1);
 		glPopMatrix();
 
 
@@ -924,7 +981,7 @@ void EstructuraCasa()
 			if (elotroLado)
 				cubo.prisma2(0.0, muro.GLindex, 2);
 			else
-				cubo.prisma2(0.0, 0.0, 1);
+				cubo.prisma2(0.0, muro_casa.GLindex, 1);
 		glPopMatrix();
 
 
@@ -934,7 +991,7 @@ void EstructuraCasa()
 			if (elotroLado)
 				cubo.prisma2(0.0, muro.GLindex, 2);
 			else
-				cubo.prisma2(0.0, 0.0, 1);
+				cubo.prisma2(0.0, muro_casa.GLindex, 1);
 		glPopMatrix();
 
 		/*glPushMatrix();	//Bloque para poner ventana de la sala de juegos
@@ -952,7 +1009,7 @@ void EstructuraCasa()
 			if (elotroLado)
 				cubo.prisma2(0.0, muro.GLindex, 2);
 			else
-				cubo.prisma2(0.0, 0.0, 1);
+				cubo.prisma2(0.0, muro_casa.GLindex, 1);
 		glPopMatrix();
 
 
@@ -962,7 +1019,7 @@ void EstructuraCasa()
 			if (elotroLado)
 				cubo.prisma2(0.0, muro.GLindex, 1);
 			else
-				cubo.prisma2(0.0, 0.0, 1);
+				cubo.prisma2(0.0, muro_casa.GLindex, 1);
 		glPopMatrix();
 
 		glPushMatrix();	//Muro de la entrada de la sala de juegos parte derecha
@@ -971,7 +1028,7 @@ void EstructuraCasa()
 			if (elotroLado)
 				cubo.prisma2(0.0, muro.GLindex, 1);
 			else
-				cubo.prisma2(0.0, 0.0, 1);
+				cubo.prisma2(0.0, muro_casa.GLindex, 1);
 		glPopMatrix();
 
 		/*glPushMatrix();	//Puerta izquierda
@@ -998,7 +1055,7 @@ void EstructuraCasa()
 			if (elotroLado)
 				cubo.prisma2(0.0, muro.GLindex, 1);
 			else
-				cubo.prisma2(0.0, 0.0, 1);	
+				cubo.prisma2(0.0, muro_casa.GLindex, 1);
 		glPopMatrix();
 
 
@@ -1017,7 +1074,7 @@ void EstructuraCasa()
 		if(elotroLado)
 			cubo.prisma2(0.0, muro.GLindex, 2);
 		else 
-			cubo.prisma2(0.0, 0.0, 1);
+			cubo.prisma2(0.0, muro_casa.GLindex, 1);
 	glPopMatrix();
 
 	glPushMatrix();	//Pared planta 1 de 4.05 m frontal
@@ -1026,7 +1083,7 @@ void EstructuraCasa()
 		if (elotroLado)
 			cubo.prisma2(0.0, muro.GLindex, 2);
 		else
-			cubo.prisma2(0.0, 0.0, 1);
+			cubo.prisma2(0.0, muro_casa.GLindex, 1);
 	glPopMatrix();
 	/*********************INICIO EXTERIOR************************************/
 	if (elotroLado) {
@@ -1160,14 +1217,14 @@ void EstructuraCasa()
 		if (elotroLado)
 			cubo.prisma2(0.0, muro.GLindex, 2);
 		else
-			cubo.prisma2(0.0, 0.0, 1);
+			cubo.prisma2(0.0, muro_casa.GLindex, 1);
 	glPopMatrix();
 
 	glPushMatrix();	//cuadro de muro arriba de la puerta
 		glTranslatef(4.15, 1.95, -6.05);
 		glScalef(0.2, 0.7, 0.6);
 		if (!elotroLado)
-			cubo.prisma2(0.0, 0.0, 1);
+			cubo.prisma2(0.0, muro_casa.GLindex, 1);
 	glPopMatrix();
 
 	
@@ -1182,25 +1239,17 @@ void EstructuraCasa()
 		glTranslatef(4.15, 1.15, -8.375);
 		glScalef(0.2, 2.3, 4.06);
 		if (!elotroLado)
-			cubo.prisma2(0.0, 0.0, 1);
+			cubo.prisma2(0.0, muro_casa.GLindex, 1);
 	glPopMatrix();
 
 	glPushMatrix();	//Contianuacion de la pared despues de la puerta
 	glTranslatef(5.24, 1.15, -10.3);
 	glScalef(2.18, 2.3, 0.2);
 	if (!elotroLado)
-		cubo.prisma2(0.0, 0.0, 1);
+		cubo.prisma2(0.0, muro_casa.GLindex, 1);
 	glPopMatrix();
 	
-
-	glPushMatrix();	//Pared planta 1 de 1.52 m separacion entre baño y cuarto de servicio
-		glTranslatef(2.0, 1.15, -0.76);
-		glScalef(0.2, 2.3, 1.52);
-		if (elotroLado)
-			cubo.prisma2(0.0, muro.GLindex, 2);
-		else
-			cubo.prisma2(0.0, 0.0, 1);
-	glPopMatrix();
+	
 
 	glPushMatrix();	//Pared planta 1 de 1.52 m separacion entre baño y cuarto lavado
 		glTranslatef(1.1, 1.15, -2.5);
@@ -1208,7 +1257,7 @@ void EstructuraCasa()
 		if (elotroLado)
 			cubo.prisma2(0.0, muro.GLindex, 2);
 		else
-			cubo.prisma2(0.0, 0.0, 1);
+			cubo.prisma2(0.0, muro_casa.GLindex, 1);
 	glPopMatrix();
 
 	glPushMatrix();	//Pared planta 1 de 1.5 m separacion rara del cuarto de lavado
@@ -1217,7 +1266,7 @@ void EstructuraCasa()
 		if (elotroLado)
 			cubo.prisma2(0.0, muro.GLindex, 2);
 		else
-			cubo.prisma2(0.0, 0.0, 1);;
+			cubo.prisma2(0.0, muro_casa.GLindex, 1);;
 	glPopMatrix();
 
 	glPushMatrix();	//Pared planta 1 de 1.5 m separacion rara del cuarto de lavado
@@ -1226,7 +1275,7 @@ void EstructuraCasa()
 		if (elotroLado)
 			cubo.prisma2(0.0, muro.GLindex, 2);
 		else
-			cubo.prisma2(0.0, 0.0, 1);
+			cubo.prisma2(0.0, muro_casa.GLindex, 1);
 	glPopMatrix();
 
 	glPushMatrix();	//Pared planta 1 de 1.85 m separacion cuarto de maquinas y lavado
@@ -1235,7 +1284,7 @@ void EstructuraCasa()
 		if (elotroLado)
 			cubo.prisma2(0.0, muro.GLindex, 2);
 		else
-			cubo.prisma2(0.0, 0.0, 1);
+			cubo.prisma2(0.0, muro_casa.GLindex, 1);
 	glPopMatrix();
 
 	glPushMatrix();	//Pared planta 1 de 0.8 m de lado de la entrada al cuarto de maquinas
@@ -1244,7 +1293,7 @@ void EstructuraCasa()
 		if (elotroLado)
 			cubo.prisma2(0.0, muro.GLindex, 2);
 		else
-			cubo.prisma2(0.0, 0.0, 1);
+			cubo.prisma2(0.0, muro_casa.GLindex, 1);
 	glPopMatrix();
 
 	//Paredes del jardin y pared del estacinamiento
@@ -1255,7 +1304,7 @@ void EstructuraCasa()
 		if (elotroLado)
 			cubo.prisma2(0.0, muro.GLindex, 2);
 		else
-			cubo.prisma2(0.0, 0.0, 1);
+			cubo.prisma2(0.0, muro_casa.GLindex, 1);
 	glPopMatrix();
 
 	if (elotroLado) {
@@ -1286,7 +1335,7 @@ void EstructuraCasa()
 		if (elotroLado)
 			cubo.prisma2(0.0, muro.GLindex, 2);
 		else
-			cubo.prisma2(0.0, 0.0, 1);
+			cubo.prisma2(0.0, muro_casa.GLindex, 1);
 	glPopMatrix();
 
 	glPushMatrix();	//pared jardin superior
@@ -1295,7 +1344,7 @@ void EstructuraCasa()
 		if (elotroLado)
 			cubo.prisma2(0.0, muro.GLindex, 2);
 		else
-			cubo.prisma2(0.0, 0.0, 1);
+			cubo.prisma2(0.0, muro_casa.GLindex, 1);
 	glPopMatrix();
 
 
@@ -1305,14 +1354,13 @@ void EstructuraCasa()
 		if(elotroLado)
 			cubo.prisma2(0.0, muro.GLindex, 2);
 		else 
-			cubo.prisma2(0.0, 0.0, 1);
+			cubo.prisma2(0.0, muro_casa.GLindex, 1);
 	glPopMatrix();
 
 
 	//techo planta 1
 
 	glPushMatrix();
-		glColor3f(1.0, 0.0, 0.0);
 		glTranslatef(2.125, 2.32, -9.275);
 		glScalef(4.25, 0.05, 18.55);
 		if (elotroLado)
@@ -1322,7 +1370,6 @@ void EstructuraCasa()
 	glPopMatrix();
 
 	glPushMatrix();
-		glColor3f(1.0, 0.0, 0.0);
 		glTranslatef(8.475, 2.32, -14.975);
 		glScalef(8.45, 0.05, 7.15);
 		if (elotroLado)
@@ -1332,7 +1379,6 @@ void EstructuraCasa()
 	glPopMatrix();
 
 	glPushMatrix();
-		glColor3f(1.0, 0.0, 0.0);
 		glTranslatef(8.475, 2.32, -9.65);
 		glScalef(8.45, 0.05, 1.5);
 		if (elotroLado)
@@ -1368,7 +1414,7 @@ void EstructuraCasa()
 			if (elotroLado)
 				cubo.prisma2(0.0, muro.GLindex, 2);
 			else
-				cubo.prisma2(0.0, 0.0, 1);
+				cubo.prisma2(0.0, muro_casa.GLindex, 1);
 		glPopMatrix();	
 
 		glTranslatef(0.0, 0.0, -5.75); //Cambio mi centro momentaneamente
@@ -1379,7 +1425,7 @@ void EstructuraCasa()
 			if (elotroLado)
 				cubo.prisma2(0.0, muro.GLindex, 2);
 			else
-				cubo.prisma2(0.0, 0.0, 1);
+				cubo.prisma2(0.0, muro_casa.GLindex, 1);
 		glPopMatrix();
 
 		glPushMatrix();	//Pared planta 1  de 1.35 m de la bodega lado izquierdo
@@ -1388,7 +1434,7 @@ void EstructuraCasa()
 			if (elotroLado)
 				cubo.prisma2(0.0, muro.GLindex, 2);
 			else
-				cubo.prisma2(0.0, 0.0, 1);
+				cubo.prisma2(0.0, muro_casa.GLindex, 1);
 		glPopMatrix();
 
 		glPushMatrix();	//Pared planta 1  de 1 m de la bodega lado superior
@@ -1397,7 +1443,7 @@ void EstructuraCasa()
 			if (elotroLado)
 				cubo.prisma2(0.0, muro.GLindex, 2);
 			else
-				cubo.prisma2(0.0, 0.0, 1);
+				cubo.prisma2(0.0, muro_casa.GLindex, 1);
 		glPopMatrix();
 
 		glPushMatrix();	//Pared planta 1  de 1.35 m de la alacena lado derecho
@@ -1406,7 +1452,7 @@ void EstructuraCasa()
 			if (elotroLado)
 				cubo.prisma2(0.0, muro.GLindex, 2);
 			else
-				cubo.prisma2(0.0, 0.0, 1);
+				cubo.prisma2(0.0, muro_casa.GLindex, 1);
 		glPopMatrix();
 
 		glPushMatrix();	//Pared planta 1  de 1 m de la alacena parte superior
@@ -1415,7 +1461,7 @@ void EstructuraCasa()
 			if (elotroLado)
 				cubo.prisma2(0.0, muro.GLindex, 2);
 			else
-				cubo.prisma2(0.0, 0.0, 1);
+				cubo.prisma2(0.0, muro_casa.GLindex, 1);
 		glPopMatrix();
 
 		glPushMatrix();	//Pared planta 1  de 2 m de la alacena parte inferior
@@ -1424,7 +1470,7 @@ void EstructuraCasa()
 			if (elotroLado)
 				cubo.prisma2(0.0, muro.GLindex, 2);
 			else
-				cubo.prisma2(0.0, 0.0, 1);
+				cubo.prisma2(0.0, muro_casa.GLindex, 1);
 		glPopMatrix();
 
 		glPushMatrix();	//Pared planta 1 de 5.75 m lado derecho
@@ -1433,7 +1479,7 @@ void EstructuraCasa()
 			if (elotroLado)
 				cubo.prisma2(0.0, muro.GLindex, 2);
 			else
-				cubo.prisma2(0.0, 0.0, 1);
+				cubo.prisma2(0.0, muro_casa.GLindex, 1);
 		glPopMatrix();
 
 		glPushMatrix();	//continuacion de pared
@@ -1442,7 +1488,7 @@ void EstructuraCasa()
 		if (elotroLado)
 			cubo.prisma2(0.0, muro.GLindex, 2);
 		else
-			cubo.prisma2(0.0, 0.0, 1);
+			cubo.prisma2(0.0, muro_casa.GLindex, 1);
 		glPopMatrix();
 
 	glPopMatrix();
@@ -1460,7 +1506,7 @@ void EstructuraCasa()
 			if (elotroLado)
 				cubo.prisma2(0.0, muro.GLindex, 2);
 			else
-				cubo.prisma2(0.0, 0.0, 1);
+				cubo.prisma2(0.0, muro_casa.GLindex, 1);
 		glPopMatrix();
 
 		glPushMatrix();	//Pared planta 1 de 1m continiacion del cocina lado izquierdo
@@ -1469,7 +1515,7 @@ void EstructuraCasa()
 			if (elotroLado)
 				cubo.prisma2(0.0, muro.GLindex, 2);
 			else
-				cubo.prisma2(0.0, 0.0, 1);
+				cubo.prisma2(0.0, muro_casa.GLindex, 1);
 		glPopMatrix();
 
 		glPushMatrix();	//Ventana puerta deslizante cocina 1
@@ -1505,7 +1551,7 @@ void EstructuraCasa()
 			if (elotroLado)
 				cubo.prisma2(0.0, muro.GLindex, 2);
 			else
-				cubo.prisma2(0.0, 0.0, 1);
+				cubo.prisma2(0.0, muro_casa.GLindex, 1);
 		glPopMatrix();
 
 		glPushMatrix();	//Ventana puerta deslizante cocina 2
@@ -1542,7 +1588,7 @@ void EstructuraCasa()
 			if (elotroLado)
 				cubo.prisma2(0.0, muro.GLindex, 2);
 			else
-				cubo.prisma2(0.0, 0.0, 1);
+				cubo.prisma2(0.0, muro_casa.GLindex, 1);
 		glPopMatrix();
 
 		glPushMatrix();	//Ventana puerta deslizante comedor 1
@@ -1561,7 +1607,7 @@ void EstructuraCasa()
 			if (elotroLado)
 				cubo.prisma2(0.0, muro.GLindex, 2);
 			else
-				cubo.prisma2(0.0, 0.0, 1);
+				cubo.prisma2(0.0, muro_casa.GLindex, 1);
 		glPopMatrix();
 
 		glPushMatrix();	//Ventana puerta deslizante comedor 2
@@ -1579,7 +1625,7 @@ void EstructuraCasa()
 			if (elotroLado)
 				cubo.prisma2(0.0, muro.GLindex, 2);
 			else
-				cubo.prisma2(0.0, 0.0, 1);
+				cubo.prisma2(0.0, muro_casa.GLindex, 1);
 		glPopMatrix();
 
 		glPushMatrix();	//Pared planta 1 de 1m continuacion area de juegos
@@ -1588,7 +1634,7 @@ void EstructuraCasa()
 			if (elotroLado)
 				cubo.prisma2(0.0, muro.GLindex, 2);
 			else
-				cubo.prisma2(0.0, 0.0, 1);
+				cubo.prisma2(0.0, muro_casa.GLindex, 1);
 		glPopMatrix();
 
 		glPushMatrix();	//Pilar entre la estancia comedor al inicio de las escaleras
@@ -1597,7 +1643,7 @@ void EstructuraCasa()
 			if (elotroLado)
 				cubo.prisma2(0.0, muro.GLindex, 2);
 			else
-				cubo.prisma2(0.0, 0.0, 1);
+				cubo.prisma2(0.0, muro_casa.GLindex, 1);
 		glPopMatrix();
 
 		glPushMatrix();	//Pared planta 1 de 4.1m area de juegos parte superior
@@ -1606,7 +1652,7 @@ void EstructuraCasa()
 			if (elotroLado)
 				cubo.prisma2(0.0, muro.GLindex, 2);
 			else
-				cubo.prisma2(0.0, 0.0, 1);
+				cubo.prisma2(0.0, muro_casa.GLindex, 1);
 		glPopMatrix();
 
 		glPushMatrix();	//Pared planta 1 de 4.1m area de juegos parte derecha
@@ -1615,7 +1661,7 @@ void EstructuraCasa()
 			if (elotroLado)
 				cubo.prisma2(0.0, muro.GLindex, 2);
 			else
-				cubo.prisma2(0.0, 0.0, 1);
+				cubo.prisma2(0.0, muro_casa.GLindex, 1);
 		glPopMatrix();
 
 
@@ -1637,7 +1683,7 @@ void EstructuraCasa()
 			if (elotroLado)
 				cubo.prisma2(0.0, muro.GLindex, 2);
 			else
-				cubo.prisma2(0.0, 0.0, 1);
+				cubo.prisma2(0.0, muro_casa.GLindex, 1);
 		glPopMatrix();
 
 		glPushMatrix();	//Pared planta 1 de 5.1m estancia y vestibulo
@@ -1646,7 +1692,7 @@ void EstructuraCasa()
 			if (elotroLado)
 				cubo.prisma2(0.0, muro.GLindex, 2);
 			else
-				cubo.prisma2(0.0, 0.0, 1);
+				cubo.prisma2(0.0, muro_casa.GLindex, 1);
 		glPopMatrix();
 
 
@@ -1656,7 +1702,7 @@ void EstructuraCasa()
 			if (elotroLado)
 				cubo.prisma2(0.0, muro.GLindex, 2);
 			else
-				cubo.prisma2(0.0, 0.0, 1);
+				cubo.prisma2(0.0, muro_casa.GLindex, 1);
 		glPopMatrix();
 
 	glPopMatrix();
@@ -1669,7 +1715,7 @@ void EstructuraCasa()
 			if (elotroLado)
 				cubo.prisma2(0.0, ny.GLindex, 1);
 			else
-				cubo.prisma2(0.0, 0.0, 1);
+				cubo.prisma2(0.0, escalones.GLindex, 1);
 				
 		glPopMatrix();
 
@@ -1679,7 +1725,7 @@ void EstructuraCasa()
 			if (elotroLado)
 				cubo.prisma2(0.0, ny.GLindex, 1);
 			else
-				cubo.prisma2(0.0, 0.0, 1);
+				cubo.prisma2(0.0, escalones.GLindex, 1);
 		glPopMatrix();
 
 		glPushMatrix();	//escalon 3
@@ -1688,7 +1734,7 @@ void EstructuraCasa()
 			if (elotroLado)
 				cubo.prisma2(0.0, ny.GLindex, 1);
 			else
-				cubo.prisma2(0.0, 0.0, 1);
+				cubo.prisma2(0.0, escalones.GLindex, 1);
 		glPopMatrix();
 
 		glPushMatrix();	//escalon 4
@@ -1697,7 +1743,7 @@ void EstructuraCasa()
 			if (elotroLado)
 				cubo.prisma2(0.0, ny.GLindex, 1);
 			else
-				cubo.prisma2(0.0, 0.0, 1);
+				cubo.prisma2(0.0, escalones.GLindex, 1);
 		glPopMatrix();
 
 		glPushMatrix();	//escalon 5
@@ -1706,7 +1752,7 @@ void EstructuraCasa()
 			if (elotroLado)
 				cubo.prisma2(0.0, ny.GLindex, 1);
 			else
-				cubo.prisma2(0.0, 0.0, 1);
+				cubo.prisma2(0.0, escalones.GLindex, 1);
 		glPopMatrix();
 
 		glPushMatrix();	//escalon 6
@@ -1715,7 +1761,7 @@ void EstructuraCasa()
 			if (elotroLado)
 				cubo.prisma2(0.0, ny.GLindex, 1);
 			else
-				cubo.prisma2(0.0, 0.0, 1);
+				cubo.prisma2(0.0, escalones.GLindex, 1);
 		glPopMatrix();
 
 		glPushMatrix();	//escalon 7
@@ -1724,7 +1770,7 @@ void EstructuraCasa()
 			if (elotroLado)
 				cubo.prisma2(0.0, ny.GLindex, 1);
 			else
-				cubo.prisma2(0.0, 0.0, 1);
+				cubo.prisma2(0.0, escalones.GLindex, 1);
 		glPopMatrix();
 
 		glPushMatrix();	//escalon 8
@@ -1733,7 +1779,7 @@ void EstructuraCasa()
 			if (elotroLado)
 				cubo.prisma2(0.0, ny.GLindex, 1);
 			else
-				cubo.prisma2(0.0, 0.0, 1);
+				cubo.prisma2(0.0, escalones.GLindex, 1);
 		glPopMatrix();
 
 		glPushMatrix();	//escalon 9
@@ -1742,10 +1788,37 @@ void EstructuraCasa()
 			if (elotroLado)
 				cubo.prisma2(0.0, ny.GLindex, 1);
 			else
-				cubo.prisma2(0.0, 0.0, 1);
+				cubo.prisma2(0.0, escalones.GLindex, 1);
 		glPopMatrix();
 	glPopMatrix();
-	
+  
+	glDisable(GL_LIGHTING);
+	glPushMatrix();//////////////////////////////////Camino de piedra
+		glTranslatef(4.75, -0.04, -1.0);
+		glRotatef(90, 1.0, 0.0, 0.0);
+		fig2.plano(2.0, 1.0, 0.1, camino.GLindex, 1);
+	glPopMatrix();
+
+	glPushMatrix();//////////////////////////////////Camino de piedra
+		glTranslatef(4.75, -0.04, -3.0);
+		glRotatef(90, 1.0, 0.0, 0.0);
+		fig2.plano(2.0, 1.0, 0.1, camino.GLindex, 1);
+	glPopMatrix();
+
+	glPushMatrix();//////////////////////////////////Camino de piedra
+		glTranslatef(4.75, -0.04, -5.0);
+		glRotatef(90, 1.0, 0.0, 0.0);
+		fig2.plano(2.0, 1.0, 0.1, camino.GLindex, 1);
+	glPopMatrix();
+
+	glPushMatrix();//////////////////////////////////Camino de piedra
+		glTranslatef(4.75, -0.04, -7.0);
+		glRotatef(90, 1.0, 0.0, 0.0);
+		fig2.plano(2.0, 1.0, 0.1, camino.GLindex, 1);
+	glPopMatrix();
+
+	glEnable(GL_LIGHTING);
+
 }
 
 void cuartoTortura() //aqui se definiran algunos objetos del cuarto de tortura
@@ -2137,6 +2210,57 @@ void sillon_pata(float separacion)
 
 }
 
+void cama()
+{
+
+	glPushMatrix();
+		glPushMatrix();							//Cuerpo de la cama
+			glTranslatef(0.0, 0.25, 0.0);
+			glScalef(1.2, 0.3, 1.0);
+			cubo.prisma2(0.0, cama_cuerpo.GLindex, 1);
+		glPopMatrix();
+
+		glPushMatrix();							//cabeza cama
+			glTranslatef(-0.8, 0.25, 0.0);
+			glScalef(0.4, 0.3, 1.0);
+			cubo.prisma2(0.0, cama_cabecera.GLindex, 1);
+		glPopMatrix();
+
+		glPushMatrix();							//base
+			glTranslatef(-0.2, 0.05, 0.0);
+			glScalef(1.6, 0.1, 1.0);
+			cubo.prisma2(0.0, madera.GLindex, 1);
+		glPopMatrix();
+
+		glPushMatrix();							//Pata 1
+			glTranslatef(0.5, -0.05, 0.4);
+			glScalef(0.1, 0.1, 0.1);
+			cubo.prisma2(0.0, madera.GLindex, 1);
+		glPopMatrix();
+
+		glPushMatrix();							//Pata 2
+			glTranslatef(0.5, -0.05, -0.4);
+			glScalef(0.1, 0.1, 0.1);
+			cubo.prisma2(0.0, madera.GLindex, 1);
+		glPopMatrix();
+
+		glPushMatrix();							//Pata 3
+			glTranslatef(-0.9, -0.05, 0.4);
+			glScalef(0.1, 0.1, 0.1);
+			cubo.prisma2(0.0, madera.GLindex, 1);
+		glPopMatrix();
+
+		glPushMatrix();							//Pata 4
+			glTranslatef(-0.9, -0.05, -0.4);
+			glScalef(0.1, 0.1, 0.1);
+			cubo.prisma2(0.0, madera.GLindex, 1);
+		glPopMatrix();
+
+	glPopMatrix();
+
+
+}
+
 void sillon(float largo_base, int cojines, float rotar)
 {
 	glPushMatrix();
@@ -2184,6 +2308,7 @@ void mueble_bajo(float ancho, float profundidad, float rotacion)
 		fig8.prisma3(madera_oscura.GLindex, madera_oscura_puerta.GLindex, 5, 1);
 	glPopMatrix();
 }
+
 void display ( void )   // Creamos la funcion donde se dibuja
 {
 	glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -2245,19 +2370,16 @@ void display ( void )   // Creamos la funcion donde se dibuja
 		glPopMatrix();
 
 		glBegin(GL_LINES);
-			glColor3f(1.0f, 0.0f, 0.0f);
 			glVertex3f(0.0f, 0.0f, 0.0f);
 			glVertex3f(200.0f, 0.0f, muro.GLindex);
 		glEnd();
 
 		glBegin(GL_LINES);
-		glColor3f(1.0f, 0.0f, 0.0f);
 		glVertex3f(0.0f, 0.0f, 0.0f);
 		glVertex3f(0.0f, 200.0f, 0.0f);
 		glEnd();
 
 		glBegin(GL_LINES);
-		glColor3f(1.0f, 0.0f, 0.0f);
 		glVertex3f(0.0f, 0.0f, 0.0f);
 		glVertex3f(0.0f, 0.0f, 200.0f);
 		glEnd();
@@ -2465,8 +2587,8 @@ void display ( void )   // Creamos la funcion donde se dibuja
 			//suelo con pasto
 			glPushMatrix();
 				glDisable(GL_LIGHTING);
-				glTranslatef(0.0, -0.5, 10.0);
-				glTranslatef(0.0, -0.1, -10.0);
+				glTranslatef(0.0, -0.05, -10.0);
+				glTranslatef(0.0, -0.1, 0.0);
 				glScalef(100,0.2 , 100);
 				fig3.prisma2(pasto.GLindex,pasto.GLindex,30);
 				glEnable(GL_LIGHTING);
@@ -2475,6 +2597,22 @@ void display ( void )   // Creamos la funcion donde se dibuja
 			glTranslatef(0.0, 0.0, 10.0);
 			glPushMatrix();
 				EstructuraCasa();
+			glPopMatrix();
+
+
+			glPushMatrix(); //Cama habitacion principal
+				glTranslatef(1.2, 2.4, -2.0);
+				cama();
+			glPopMatrix();
+
+			glPushMatrix(); //Cama habitacion 2 del segundo piso
+				glTranslatef(1.2, 2.4, -16.5);
+				cama();
+			glPopMatrix();
+
+			glPushMatrix(); //Cama habitacion del primer piso
+				glTranslatef(1.2, 0.1, -1.9);
+				cama();
 			glPopMatrix();
 
 			//PLANTA BAJA
