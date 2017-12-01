@@ -2483,12 +2483,12 @@ void sillon(float largo_base, int cojines, float rotar)
 	glPopMatrix();
 }
 
-void mueble_bajo(float ancho, float profundidad, float rotacion)
+void mueble_bajo(float ancho, float profundidad, int puertas, float rotacion)
 {
 	glPushMatrix();
-		glRotatef(rotacion, 0.0, 1.0, 0.0);
-		glScalef(ancho, 1.0, profundidad);
-		fig8.prisma3(madera_oscura.GLindex, madera_oscura_puerta.GLindex, 5, 1);
+		glRotatef(rotacion, 0.0, 0.1, 0.0);
+		glScalef(ancho, 0.7, profundidad);
+		fig8.prisma3(madera_oscura.GLindex, madera_oscura_puerta.GLindex, puertas, 1);
 	glPopMatrix();
 }
 
@@ -3488,6 +3488,11 @@ void display ( void )   // Creamos la funcion donde se dibuja
 			glPushMatrix();
 				glTranslatef(12.149f, 2.395f, -16.325f);
 				sillon(2.55, 3, 270.0);
+			glPopMatrix();
+
+			glPushMatrix();
+				glTranslatef(11.5f, 2.9-0.125, -13.675f);
+				mueble_bajo(2.0f, 0.4f, 4, 0.0);
 			glPopMatrix();
 
 			//PLANTA SEGUNDO NIVEL
