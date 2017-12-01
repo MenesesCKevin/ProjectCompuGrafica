@@ -30,4 +30,6 @@ class CFiguras
 	//void torus(GLfloat radioM, GLfloat radiom, int meridianos, int paralelos, GLuint text );
 	void torus(GLfloat radioM, GLfloat radiom, int meridianos, int paralelos);
 
+	void prisma4(GLuint front, GLuint right, GLfloat back, GLfloat left, GLfloat bottom, GLfloat top);
+
 };

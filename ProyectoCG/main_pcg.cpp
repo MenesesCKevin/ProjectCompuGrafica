@@ -193,6 +193,13 @@ CTexture armario;
 CTexture lrojo;
 CTexture lazul;
 CTexture lamarillo;
+CTexture cc1;
+CTexture cc2;
+CTexture cc3;
+CTexture cc4;
+CTexture cc5;
+CTexture cc6;
+CTexture cc7;
 /********************************************/
 CFiguras fig1;
 CFiguras fig2;
@@ -624,6 +631,34 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 	lamarillo.LoadTGA("Texturas/lamarillo.tga");
 	lamarillo.BuildGLTexture();
 	lamarillo.ReleaseImage();
+
+	cc1.LoadTGA("Texturas/cc1.tga");
+	cc1.BuildGLTexture();
+	cc1.ReleaseImage();
+
+	cc2.LoadTGA("Texturas/cc2.tga");
+	cc2.BuildGLTexture();
+	cc2.ReleaseImage();
+
+	cc3.LoadTGA("Texturas/cc3.tga");
+	cc3.BuildGLTexture();
+	cc3.ReleaseImage();
+
+	cc4.LoadTGA("Texturas/cc4.tga");
+	cc4.BuildGLTexture();
+	cc4.ReleaseImage();
+
+	cc5.LoadTGA("Texturas/cc5.tga");
+	cc5.BuildGLTexture();
+	cc5.ReleaseImage();
+
+	cc6.LoadTGA("Texturas/cc6.tga");
+	cc6.BuildGLTexture();
+	cc6.ReleaseImage();
+
+	cc7.LoadTGA("Texturas/cc7.tga");
+	cc7.BuildGLTexture();
+	cc7.ReleaseImage();
 
 
 	/*************************************/
@@ -3183,6 +3218,13 @@ void display ( void )   // Creamos la funcion donde se dibuja
 				mesa_cuadrada();
 			glPopMatrix();
 
+
+			glPushMatrix();
+				glTranslatef(4.05, 3.5, -3.0);
+				cuadro(cc7.GLindex);
+			glPopMatrix();
+
+
 			//////////////////////Habitacion secundaria superior
 			glPushMatrix(); //Cama habitacion 2 del segundo piso
 				glTranslatef(1.2, 2.4, -16.5);
@@ -3201,6 +3243,12 @@ void display ( void )   // Creamos la funcion donde se dibuja
 				glScalef(0.6, 0.5, 3.0);
 				mesa_cuadrada();
 				glPopMatrix();
+			glPopMatrix();
+
+			glPushMatrix();
+				glTranslatef(4.05, 3.5, -17.2);
+				glRotatef(-90, 1.0, 0.0, 0.0);
+				cuadro(cc5.GLindex);
 			glPopMatrix();
 
 
@@ -3247,6 +3295,11 @@ void display ( void )   // Creamos la funcion donde se dibuja
 				silla();
 			glPopMatrix();
 
+			glPushMatrix(); //cuadro
+				glTranslatef(0.2, 1.2, -12.5);
+				cuadro(cc3.GLindex);
+			glPopMatrix();
+
 
 			///////////////////Fin comedor
 
@@ -3261,11 +3314,47 @@ void display ( void )   // Creamos la funcion donde se dibuja
 				sillon(1.7, 2, 270.0); 
 			glPopMatrix();
 
+			glPushMatrix();
+				glTranslatef(6.3, 1.6, -10.42);
+				glRotatef(90, 0.0, 1.0, 0.0);
+				glScalef(2.0, 1.0, 1.0);
+				cuadro(cc6.GLindex);
+			glPopMatrix();
+
 			/////////////librero
 
 			glPushMatrix();
 				glTranslatef(10.3f, 0.9f, -16.8f);
 				librero();
+			glPopMatrix();
+
+			glPushMatrix();		//Cuadro del pasillo junto a la entrada frente a la cocina
+				glTranslatef(4.0, 1.6, -8.0);
+				glScalef(1.0, 1.0, 1.0);
+				glRotatef(-90, 1.0, 0.0, 0.0);
+				cuadro(cc5.GLindex);
+			glPopMatrix();
+
+
+			glPushMatrix();		//Cuadro planta alta en la parte grande
+				glTranslatef(0.3, 3.9, -12.0);
+				glScalef(1.5, 1.0, 1.0);
+				glRotatef(-90, 1.0, 0.0, 0.0);
+				cuadro(cc4.GLindex);
+			glPopMatrix();
+
+			glPushMatrix();		//afuera de la sala de juegos
+				glTranslatef(5.6, 3.9, -14.0);
+				glScalef(1.5, 1.0, 1.0);
+				glRotatef(-90, 0.0, 1.0, 0.0);
+				cuadro(cc1.GLindex);
+			glPopMatrix();
+
+			glPushMatrix();		//cuadro en la sala de juegos
+				glTranslatef(4.3, 3.9, -16.0);
+				glScalef(1.0, 1.0, 2.5);
+				//glRotatef(-90, 0.0, 1.0, 0.0);
+				cuadro(cc2.GLindex);
 			glPopMatrix();
 
 
