@@ -190,6 +190,9 @@ CTexture tela_beige;
 CTexture madera_oscura;
 CTexture madera_oscura_puerta;
 CTexture armario;
+CTexture lrojo;
+CTexture lazul;
+CTexture lamarillo;
 /********************************************/
 CFiguras fig1;
 CFiguras fig2;
@@ -206,6 +209,7 @@ CFiguras cilindro;
 //Figuras de 3D Studio
 CModel slender;
 CModel craneo;
+CModel carro1;
 
 //variables de animacion
 float angCuadros = 0.0;
@@ -607,9 +611,24 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 	armario.LoadTGA("Texturas/armario.tga");
 	armario.BuildGLTexture();
 	armario.ReleaseImage();
+	
+
+	lrojo.LoadTGA("Texturas/librorojo.tga");
+	lrojo.BuildGLTexture();
+	lrojo.ReleaseImage();
+
+	lazul.LoadTGA("Texturas/libro_a.tga");
+	lazul.BuildGLTexture();
+	lazul.ReleaseImage();
+
+	lamarillo.LoadTGA("Texturas/lamarillo.tga");
+	lamarillo.BuildGLTexture();
+	lamarillo.ReleaseImage();
+
 
 	/*************************************/
 	craneo._3dsLoad("modelos/skull.3DS");
+
 
 	objCamera.Position_Camera(6.3,1.3f, 2.0f , 6.0,0.0f,0, 0, 1, 0);
 
@@ -2379,6 +2398,478 @@ void ropero()
 	glPopMatrix();
 }
 
+void libro_rojo()
+{
+	glPushMatrix();
+		glScalef(0.15, 0.2, 0.04);
+		cubo.prisma2(0, 0, 1);
+	glPopMatrix();
+
+	glPushMatrix();
+		glTranslatef(0.01, 0.0, 0.02);
+		glScalef(0.17, 0.22, 0.01);
+		cubo.prisma2(0, lrojo.GLindex, 1);
+	glPopMatrix();
+
+	glPushMatrix();
+		glTranslatef(0.01, 0.0, -0.02);
+		glScalef(0.17, 0.22, 0.01);
+		cubo.prisma2(0, lrojo.GLindex, 1);
+	glPopMatrix();
+
+	glPushMatrix();
+		glTranslatef(-0.08, 0.0, 0.0);
+		glScalef(0.01, 0.22, 0.05);
+		cubo.prisma2(0, lrojo.GLindex, 1);
+	glPopMatrix();
+}
+
+void libro_amarillo()
+{
+	glPushMatrix();
+	glScalef(0.15, 0.2, 0.04);
+	cubo.prisma2(0, 0, 1);
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(0.01, 0.0, 0.02);
+	glScalef(0.17, 0.22, 0.01);
+	cubo.prisma2(0, lamarillo.GLindex, 1);
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(0.01, 0.0, -0.02);
+	glScalef(0.17, 0.22, 0.01);
+	cubo.prisma2(0, lamarillo.GLindex, 1);
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(-0.08, 0.0, 0.0);
+	glScalef(0.01, 0.22, 0.05);
+	cubo.prisma2(0, lamarillo.GLindex, 1);
+	glPopMatrix();
+}
+
+void libro_azul()
+{
+	glPushMatrix();
+	glScalef(0.15, 0.2, 0.04);
+	cubo.prisma2(0, 0, 1);
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(0.01, 0.0, 0.02);
+	glScalef(0.17, 0.22, 0.01);
+	cubo.prisma2(0, lazul.GLindex, 1);
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(0.01, 0.0, -0.02);
+	glScalef(0.17, 0.22, 0.01);
+	cubo.prisma2(0, lazul.GLindex, 1);
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(-0.08, 0.0, 0.0);
+	glScalef(0.01, 0.22, 0.05);
+	cubo.prisma2(0, lazul.GLindex, 1);
+	glPopMatrix();
+}
+
+void librero()
+{
+	glPushMatrix();
+	glScalef(1.2, 1.8, 0.05);
+	cubo.prisma2(0, madera.GLindex, 1);
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(0.575, 0.0, 0.2);
+	glScalef(0.05, 1.8, 0.4);
+	cubo.prisma2(0, madera.GLindex, 1);
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(-0.575, 0.0, 0.2);
+	glScalef(0.05, 1.8, 0.4);
+	cubo.prisma2(0, madera.GLindex, 1);
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(0.0, -0.4, 0.2);
+	glScalef(1.1, 0.05, 0.4);
+	cubo.prisma2(0, madera.GLindex, 1);
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(0.0, 0.0, 0.2);
+	glScalef(1.1, 0.05, 0.4);
+	cubo.prisma2(0, madera.GLindex, 1);
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(0.0, 0.4, 0.2);
+	glScalef(1.1, 0.05, 0.4);
+	cubo.prisma2(0, madera.GLindex, 1);
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(0.0, 0.8, 0.2);
+	glScalef(1.1, 0.05, 0.4);
+	cubo.prisma2(0, madera.GLindex, 1);
+	glPopMatrix();
+
+	////////////Libros del librerooo primer nivel
+
+	glPushMatrix();
+	glTranslatef(-0.48, -0.3, 0.3);
+	glRotatef(90, 0, 1, 0);
+	libro_rojo();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(-0.42, -0.3, 0.3);
+	glRotatef(90, 0, 1, 0);
+	libro_rojo();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(-0.36, -0.3, 0.3);
+	glRotatef(90, 0, 1, 0);
+	libro_rojo();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(-0.30, -0.3, 0.3);
+	glRotatef(90, 0, 1, 0);
+	libro_rojo();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(-0.24, -0.3, 0.3);
+	glRotatef(90, 0, 1, 0);
+	libro_rojo();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(-.18, -0.3, 0.3);
+	glRotatef(90, 0, 1, 0);
+	libro_rojo();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(-.12, -0.3, 0.3);
+	glRotatef(90, 0, 1, 0);
+	libro_rojo();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(-0.06, -0.3, 0.3);
+	glRotatef(90, 0, 1, 0);
+	libro_rojo();
+	glPopMatrix();
+
+
+	glPushMatrix();
+	glTranslatef(0.0, -0.3, 0.3);
+	glRotatef(90, 0, 1, 0);
+	libro_rojo();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(0.06, -0.3, 0.3);
+	glRotatef(90, 0, 1, 0);
+	libro_rojo();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(0.12, -0.3, 0.3);
+	glRotatef(90, 0, 1, 0);
+	libro_rojo();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(0.18, -0.3, 0.3);
+	glRotatef(90, 0, 1, 0);
+	libro_rojo();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(0.24, -0.3, 0.3);
+	glRotatef(90, 0, 1, 0);
+	libro_rojo();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(0.30, -0.3, 0.3);
+	glRotatef(90, 0, 1, 0);
+	libro_rojo();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(0.36, -0.3, 0.3);
+	glRotatef(90, 0, 1, 0);
+	libro_rojo();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(0.42, -0.3, 0.3);
+	glRotatef(90, 0, 1, 0);
+	libro_rojo();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(0.48, -0.3, 0.3);
+	glRotatef(90, 0, 1, 0);
+	libro_rojo();
+	glPopMatrix();
+
+
+	////////////Libros del librerooo segundo nivel
+
+	glPushMatrix();
+	glTranslatef(-0.48, 0.1, 0.3);
+	glRotatef(90, 0, 1, 0);
+	libro_azul();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(-0.42, 0.1, 0.3);
+	glRotatef(90, 0, 1, 0);
+	libro_azul();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(-0.36, 0.1, 0.3);
+	glRotatef(90, 0, 1, 0);
+	libro_azul();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(-0.30, 0.1, 0.3);
+	glRotatef(90, 0, 1, 0);
+	libro_azul();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(-0.24, 0.1, 0.3);
+	glRotatef(90, 0, 1, 0);
+	libro_azul();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(-.18, 0.1, 0.3);
+	glRotatef(90, 0, 1, 0);
+	libro_azul();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(-.12, 0.1, 0.3);
+	glRotatef(90, 0, 1, 0);
+	libro_azul();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(-0.06, 0.1, 0.3);
+	glRotatef(90, 0, 1, 0);
+	libro_azul();
+	glPopMatrix();
+
+
+	glPushMatrix();
+	glTranslatef(0.0, 0.1, 0.3);
+	glRotatef(90, 0, 1, 0);
+	libro_azul();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(0.06, 0.1, 0.3);
+	glRotatef(90, 0, 1, 0);
+	libro_azul();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(0.12, 0.1, 0.3);
+	glRotatef(90, 0, 1, 0);
+	libro_azul();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(0.18, 0.1, 0.3);
+	glRotatef(90, 0, 1, 0);
+	libro_azul();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(0.24, 0.1, 0.3);
+	glRotatef(90, 0, 1, 0);
+	libro_azul();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(0.30, 0.1, 0.3);
+	glRotatef(90, 0, 1, 0);
+	libro_azul();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(0.36, 0.1, 0.3);
+	glRotatef(90, 0, 1, 0);
+	libro_azul();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(0.42, 0.1, 0.3);
+	glRotatef(90, 0, 1, 0);
+	libro_azul();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(0.48, 0.1, 0.3);
+	glRotatef(90, 0, 1, 0);
+	libro_azul();
+	glPopMatrix();
+
+	////////////Libros del librerooo segundo nivel
+
+	glPushMatrix();
+	glTranslatef(-0.48, 0.5, 0.3);
+	glRotatef(90, 0, 1, 0);
+	libro_amarillo();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(-0.42, 0.5, 0.3);
+	glRotatef(90, 0, 1, 0);
+	libro_amarillo();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(-0.36, 0.5, 0.3);
+	glRotatef(90, 0, 1, 0);
+	libro_amarillo();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(-0.30, 0.5, 0.3);
+	glRotatef(90, 0, 1, 0);
+	libro_amarillo();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(-0.24, 0.5, 0.3);
+	glRotatef(90, 0, 1, 0);
+	libro_amarillo();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(-.18, 0.5, 0.3);
+	glRotatef(90, 0, 1, 0);
+	libro_amarillo();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(-.12, 0.5, 0.3);
+	glRotatef(90, 0, 1, 0);
+	libro_amarillo();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(-0.06, 0.5, 0.3);
+	glRotatef(90, 0, 1, 0);
+	libro_amarillo();
+	glPopMatrix();
+
+
+	glPushMatrix();
+	glTranslatef(0.0, 0.5, 0.3);
+	glRotatef(90, 0, 1, 0);
+	libro_amarillo();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(0.06, 0.5, 0.3);
+	glRotatef(90, 0, 1, 0);
+	libro_amarillo();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(0.12, 0.5, 0.3);
+	glRotatef(90, 0, 1, 0);
+	libro_amarillo();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(0.18, 0.5, 0.3);
+	glRotatef(90, 0, 1, 0);
+	libro_amarillo();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(0.24, 0.5, 0.3);
+	glRotatef(90, 0, 1, 0);
+	libro_amarillo();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(0.30, 0.5, 0.3);
+	glRotatef(90, 0, 1, 0);
+	libro_amarillo();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(0.36, 0.5, 0.3);
+	glRotatef(90, 0, 1, 0);
+	libro_amarillo();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(0.42, 0.5, 0.3);
+	glRotatef(90, 0, 1, 0);
+	libro_amarillo();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(0.48, 0.5, 0.3);
+	glRotatef(90, 0, 1, 0);
+	libro_amarillo();
+	glPopMatrix();
+}
+
+void mesa_cuadrada()
+{
+	glPushMatrix();
+		glTranslatef(-0.3, 0.0, -0.3);
+		glScalef(0.06, 0.8, 0.06);
+		cubo.prisma2(0, madera.GLindex, 1);
+	glPopMatrix();
+
+	glPushMatrix();
+		glTranslatef(-0.3, 0.0, 0.3);
+		glScalef(0.06, 0.8, 0.06);
+		cubo.prisma2(0, madera.GLindex, 1);
+	glPopMatrix();
+
+	glPushMatrix();
+		glTranslatef(0.3, 0.0, -0.3);
+		glScalef(0.06, 0.8, 0.06);
+		cubo.prisma2(0, madera.GLindex, 1);
+	glPopMatrix();
+
+	glPushMatrix();
+		glTranslatef(0.3, 0.0, 0.3);
+		glScalef(0.06, 0.8, 0.06);
+		cubo.prisma2(0, madera.GLindex, 1);
+	glPopMatrix();
+
+	glPushMatrix();
+		glTranslatef(0.0, 0.43, 0.0);
+		glScalef(0.7, 0.06, 0.7);
+		cubo.prisma2(0, madera.GLindex, 1);
+	glPopMatrix();
+}
+
+
 void display ( void )   // Creamos la funcion donde se dibuja
 {
 	glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -2680,6 +3171,17 @@ void display ( void )   // Creamos la funcion donde se dibuja
 				ropero();
 			glPopMatrix();
 
+			glPushMatrix();	//librero
+				glTranslatef(4.0f, 3.3f, -1.0f);
+				glRotatef(-90, 0.0, 1.0, 0.0);
+				librero();
+			glPopMatrix();
+
+			glPushMatrix();	//mesita
+				glScalef(0.5, 0.5, 1.0);
+				glTranslatef(7.5, 5.1, -2.0);
+				mesa_cuadrada();
+			glPopMatrix();
 
 			//////////////////////Habitacion secundaria superior
 			glPushMatrix(); //Cama habitacion 2 del segundo piso
@@ -2691,6 +3193,14 @@ void display ( void )   // Creamos la funcion donde se dibuja
 				glTranslatef(1.0, 3.0, -14.36);
 				glRotatef(-180, 0.0, 1.0, 0.0);
 				ropero();
+			glPopMatrix();
+
+			glPushMatrix();	//mesita
+				glTranslatef(3.85, 2.5, -17.2);
+				glPushMatrix();
+				glScalef(0.6, 0.5, 3.0);
+				mesa_cuadrada();
+				glPopMatrix();
 			glPopMatrix();
 
 
@@ -2737,6 +3247,7 @@ void display ( void )   // Creamos la funcion donde se dibuja
 				silla();
 			glPopMatrix();
 
+
 			///////////////////Fin comedor
 
 			//PLANTA BAJA
@@ -2749,6 +3260,15 @@ void display ( void )   // Creamos la funcion donde se dibuja
 				glTranslatef(12.149f, 0.0f, -13.825f);
 				sillon(1.7, 2, 270.0); 
 			glPopMatrix();
+
+			/////////////librero
+
+			glPushMatrix();
+				glTranslatef(10.3f, 0.9f, -16.8f);
+				librero();
+			glPopMatrix();
+
+
 
 			//PLANTA PRIMER NIVEL
 			glPushMatrix();
@@ -2771,6 +3291,7 @@ void display ( void )   // Creamos la funcion donde se dibuja
 				glTranslatef(6.4f, 4.79f, -16.6f);	//Corregir posición
 				mueble_bajo(4.8, 0.6, 90.0);
 			glPopMatrix();
+
 
 		glPopMatrix();
 
