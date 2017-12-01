@@ -211,6 +211,8 @@ CTexture deslizante;
 CTexture ventana1;
 CTexture ventana2;
 CTexture escalera;
+CTexture azul;
+CTexture aqua;
 /********************************************/
 CFiguras fig1;
 CFiguras fig2;
@@ -219,7 +221,7 @@ CFiguras fig4;	//Pasto011
 CFiguras fig5;	//Casa01
 CFiguras fig6;
 CFiguras fig7;	//Para crear Monito
-CFiguras fig8;	//Para crear sillon, mueble bajo
+CFiguras fig8;	//Para crear sillon, mueble bajo, baño
 CFiguras fig9; //Para la estufa 
 CFiguras cubo;
 CFiguras cilindro;
@@ -731,11 +733,17 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 	ventana2.BuildGLTexture();
 	ventana2.ReleaseImage();
 
-
-
 	escalera.LoadTGA("Texturas/escalera.tga");
 	escalera.BuildGLTexture();
 	escalera.ReleaseImage();
+
+	azul.LoadTGA("Texturas/azul.tga");
+	azul.BuildGLTexture();
+	azul.ReleaseImage();
+
+	aqua.LoadTGA("Texturas/aqua.tga");
+	aqua.BuildGLTexture();
+	aqua.ReleaseImage();
 
 	/*************************************/
 	craneo._3dsLoad("modelos/skull.3DS");
@@ -3169,7 +3177,55 @@ void piscina()
 		glDisable(GL_ALPHA_TEST);
 	glPopMatrix();
 }
+void banio_tapa(void)
+{
+	glScalef(1.35f, 0.66f, 0.8f);
+	fig8.cilindro(0.25f, 0.05f, 10, azul.GLindex);
+}
 
+void banio_base(void)
+{
+	glScalef(1.0f, 1.0f, 1.0f);
+	fig8.cilindro(0.15f, 0.2, 10, aqua.GLindex);
+}
+void banio_taza(void)
+{
+	glScalef(1.0f, 0.66f, 0.8f);
+	fig8.esfera(0.3f, 10, 10, aqua.GLindex);
+}
+
+void banio_caja(void)
+{
+	glScalef(0.15f, 0.5f, 0.8f);
+	fig8.prisma2(aqua.GLindex, azul.GLindex, 1);
+}
+
+void banio(float rotar)
+{
+	glPushMatrix();
+		glRotatef(rotar, 0.0, 1.0, 0.0);
+	
+		glPushMatrix();
+			glPushMatrix();
+				glTranslatef(0.05f, 0.52f, 0.0f);
+				banio_tapa();
+			glPopMatrix();
+			
+			glPushMatrix();
+				glTranslatef(0.0f, 0.35f, 0.0f);
+				banio_taza();
+			glPopMatrix();
+		
+		glPopMatrix();
+		
+		glPushMatrix();
+			glTranslatef(-0.24f, 0.57f, 0.0f);
+			banio_caja();
+		glPopMatrix();
+
+		banio_base();
+	glPopMatrix();
+}
 
 void display ( void )   // Creamos la funcion donde se dibuja
 {
@@ -3655,6 +3711,11 @@ void display ( void )   // Creamos la funcion donde se dibuja
 			glPushMatrix();
 				glTranslatef(11.5f, 2.9-0.125, -13.675f);
 				mueble_bajo(2.0f, 0.4f, 4, 0.0);
+			glPopMatrix();
+
+			glPushMatrix();
+				glTranslatef(3.5f, 0.0f, -4.35f);
+				banio(90);
 			glPopMatrix();
 
 			//PLANTA SEGUNDO NIVEL
