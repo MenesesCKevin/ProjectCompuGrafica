@@ -200,6 +200,9 @@ CTexture cc4;
 CTexture cc5;
 CTexture cc6;
 CTexture cc7;
+CTexture estufa1;//parte delantera
+CTexture estufa2;//parte superior
+CTexture estufa3;//Lados de la estufa
 /********************************************/
 CFiguras fig1;
 CFiguras fig2;
@@ -209,7 +212,7 @@ CFiguras fig5;	//Casa01
 CFiguras fig6;
 CFiguras fig7;	//Para crear Monito
 CFiguras fig8;	//Para crear sillon, mueble bajo
-
+CFiguras fig9; //Para la estufa 
 CFiguras cubo;
 CFiguras cilindro;
 
@@ -659,6 +662,18 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 	cc7.LoadTGA("Texturas/cc7.tga");
 	cc7.BuildGLTexture();
 	cc7.ReleaseImage();
+
+	estufa1.LoadTGA("Texturas/estufa_delante.tga");
+	estufa1.BuildGLTexture();
+	estufa1.ReleaseImage();
+
+	estufa2.LoadTGA("Texturas/estufa_arriba.tga");
+	estufa2.BuildGLTexture();
+	estufa2.ReleaseImage();
+
+	estufa3.LoadTGA("Texturas/estufa_silver.tga");
+	estufa3.BuildGLTexture();
+	estufa3.ReleaseImage();
 
 
 	/*************************************/
@@ -1904,6 +1919,12 @@ void EstructuraCasa()
 		fig2.plano(2.0, 1.0, 0.1, camino.GLindex, 1);
 	glPopMatrix();
 
+	glPushMatrix();//////////////////////////////////Camino de piedra
+	glTranslatef(4.75, -0.04, -9.1);
+	glRotatef(90, 1.0, 0.0, 0.0);
+	fig2.plano(2.2, 1.0, 0.1, camino.GLindex, 1);
+	glPopMatrix();
+
 	glEnable(GL_LIGHTING);
 
 }
@@ -2904,6 +2925,15 @@ void mesa_cuadrada()
 	glPopMatrix();
 }
 
+void estufa()
+{
+	glPushMatrix();						//estufa
+	glScalef(0.4, 0.9, 0.5);
+	fig9.prisma4(estufa3.GLindex, estufa1.GLindex, estufa3.GLindex, estufa3.GLindex, estufa3.GLindex, estufa2.GLindex);
+	glPopMatrix();
+
+}
+
 
 void display ( void )   // Creamos la funcion donde se dibuja
 {
@@ -3302,6 +3332,16 @@ void display ( void )   // Creamos la funcion donde se dibuja
 
 
 			///////////////////Fin comedor
+			glPushMatrix(); //cuadro
+				glTranslatef(0.5, 0.5, -9.5);
+				estufa();
+			glPopMatrix();
+
+			//////////cocinaaaaaa
+
+
+
+			/////////fin cocina
 
 			//PLANTA BAJA
 			glPushMatrix();
