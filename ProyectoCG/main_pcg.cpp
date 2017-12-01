@@ -42,10 +42,43 @@ float angMen1 = 0.0f;
 float angMen2 = 0.0f;
 float angMen3 = 0.0f;
 
+//VARIABLES PARA ANIMACIÓN DE MONO
+float monkey_ang0 = 0.0;					//Cintura
+float monkey_ang1 = -35.0;					//Piernas
+float monkey_ang2 = 35.0;					//Rodillas
+float monkey_ang3 = -35.0;					//Brazos
+float monkey_ang4 = 25.0;					//Antebrazos
+float monkey_ang5 = 10.0;					//Cuello
+float monkey_posY = 0.0;
+float monkey_posZ = 0.0;		//Moverse de donde está originalmente
+
+typedef struct _monkey_frame
+{
+	//Variables para GUARDAR Key Frames
+	float monkey_posY;		//Variable para PosicionY
+	float monkey_posZ;		//Variable para PosicionZ
+	float monkey_incY;		//Variable para IncrementoY
+	float monkey_incZ;		//Variable para IncrementoZ
+	float monkey_ang0;
+	float monkey_incang0;
+	float monkey_ang1;
+	float monkey_incang1;
+	float monkey_ang2;
+	float monkey_incang2;
+	float monkey_ang3;
+	float monkey_incang3;
+	float monkey_ang4;
+	float monkey_incang4;
+	float monkey_ang5;
+	float monkey_incang5;
+}MONKEY_FRAME;
+
+//TERMINAN
+
 #define MAX_FRAMES 500
 int i_max_steps = 90;
 int i_curr_steps = 0;
-
+int i_curr_steps_monkey = 0;	//Para iteración en monkey, permite actuar junto a las demás animaciones
 typedef struct _frame
 {
 	//Variables para GUARDAR Key Frames
@@ -94,6 +127,12 @@ bool play_murcielagos = false;
 bool recorrido = false;
 bool play_cuadros = false;
 
+//PARA MONKEY
+MONKEY_FRAME MonkeyKeyFrame[MAX_FRAMES];
+int MonkeyFrameIndex = 13;			//introducir datos
+bool monkey_play = false;
+int monkeyplayIndex = 0;
+//TERMINA
 
 //NEW//////////////////NEW//////////////////NEW//////////////////NEW////////////////
 
@@ -225,11 +264,21 @@ CFiguras fig8;	//Para crear sillon, mueble bajo, baño
 CFiguras fig9; //Para la estufa 
 CFiguras cubo;
 CFiguras cilindro;
+CFiguras mi_figura;	//Para monito
 
 //Figuras de 3D Studio
 CModel slender;
 CModel craneo;
 CModel carro1;
+
+//Materiales
+GLfloat blankMaterial[] = { 1.0f, 1.0f, 1.0f };
+GLfloat brownDiffuseMaterial1[] = { 0.3019f, 0.2f, 0.098f };
+GLfloat brownDiffuseMaterial2[] = { 0.8235f, 0.6509f, 0.4745f };
+GLfloat redDiffuseMaterial[] = { 1.0f, 0.0f, 0.0f };
+GLfloat greenDiffuseMaterial[] = { 0.0f, 1.0f, 0.0f };
+GLfloat yellowDiffuseMaterial[] = { 1.0f, 1.0f, 0.0f };
+GLfloat blackDiffuseMaterial[] = { 0.0f, 0.0f, 0.0f };
 
 //variables de animacion
 float angCuadros = 0.0;
@@ -752,6 +801,124 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 
 	objCamera.Position_Camera(6.3,1.3f, 2.0f , 6.0,0.0f,0, 0, 1, 0);
 
+	//ANIMACION PARA MONITO
+	MonkeyKeyFrame[0].monkey_ang0 = 0;
+	MonkeyKeyFrame[0].monkey_posY = 0;
+	MonkeyKeyFrame[0].monkey_posZ = 0;
+	MonkeyKeyFrame[0].monkey_ang1 = 0;
+	MonkeyKeyFrame[0].monkey_ang2 = 0;
+	MonkeyKeyFrame[0].monkey_ang3 = 0;
+	MonkeyKeyFrame[0].monkey_ang4 = 0;
+	MonkeyKeyFrame[0].monkey_ang5 = 0;
+
+	MonkeyKeyFrame[1].monkey_ang0 = 0;
+	MonkeyKeyFrame[1].monkey_posY = 0.5;
+	MonkeyKeyFrame[1].monkey_posZ = 1.0;
+	MonkeyKeyFrame[1].monkey_ang1 = 0.0;
+	MonkeyKeyFrame[1].monkey_ang2 = 0.0;
+	MonkeyKeyFrame[1].monkey_ang3 = 0.0;
+	MonkeyKeyFrame[1].monkey_ang4 = 0.0;
+	MonkeyKeyFrame[1].monkey_ang5 = 0.0;
+
+	MonkeyKeyFrame[2].monkey_ang0 = 0;
+	MonkeyKeyFrame[2].monkey_posY = 0;
+	MonkeyKeyFrame[2].monkey_posZ = 1.0;
+	MonkeyKeyFrame[2].monkey_ang1 = -35.0;
+	MonkeyKeyFrame[2].monkey_ang2 = 35.0;
+	MonkeyKeyFrame[2].monkey_ang3 = -35.0;
+	MonkeyKeyFrame[2].monkey_ang4 = 25.0;
+	MonkeyKeyFrame[2].monkey_ang5 = 10.0;
+
+	MonkeyKeyFrame[3].monkey_ang0 = 0;
+	MonkeyKeyFrame[3].monkey_posY = 0.5;
+	MonkeyKeyFrame[3].monkey_posZ = 1.0;
+	MonkeyKeyFrame[3].monkey_ang1 = -35.0;
+	MonkeyKeyFrame[3].monkey_ang2 = 35.0;
+	MonkeyKeyFrame[3].monkey_ang3 = -35.0;
+	MonkeyKeyFrame[3].monkey_ang4 = 25.0;
+	MonkeyKeyFrame[3].monkey_ang5 = -15.0;
+
+	MonkeyKeyFrame[4].monkey_ang0 = 0;
+	MonkeyKeyFrame[4].monkey_posY = 0;
+	MonkeyKeyFrame[4].monkey_posZ = 1.0;
+	MonkeyKeyFrame[4].monkey_ang1 = -35.0;
+	MonkeyKeyFrame[4].monkey_ang2 = 35.0;
+	MonkeyKeyFrame[4].monkey_ang3 = -35.0;
+	MonkeyKeyFrame[4].monkey_ang4 = 25.0;
+	MonkeyKeyFrame[4].monkey_ang5 = 15.0;
+
+	MonkeyKeyFrame[5].monkey_ang0 = 0;
+	MonkeyKeyFrame[5].monkey_posY = 0;
+	MonkeyKeyFrame[5].monkey_posZ = 1.0;
+	MonkeyKeyFrame[5].monkey_ang1 = 0.0;
+	MonkeyKeyFrame[5].monkey_ang2 = 0.0;
+	MonkeyKeyFrame[5].monkey_ang3 = -45.0;
+	MonkeyKeyFrame[5].monkey_ang4 = -45.0;
+	MonkeyKeyFrame[5].monkey_ang5 = 0.0;
+
+	MonkeyKeyFrame[6].monkey_ang0 = -35.0;
+	MonkeyKeyFrame[6].monkey_posY = 0;
+	MonkeyKeyFrame[6].monkey_posZ = 1.0;
+	MonkeyKeyFrame[6].monkey_ang1 = 0.0;
+	MonkeyKeyFrame[6].monkey_ang2 = 0.0;
+	MonkeyKeyFrame[6].monkey_ang3 = -45.0;
+	MonkeyKeyFrame[6].monkey_ang4 = -45.0;
+	MonkeyKeyFrame[6].monkey_ang5 = 0.0;
+
+	MonkeyKeyFrame[7].monkey_ang0 = 35.0;
+	MonkeyKeyFrame[7].monkey_posY = 0;
+	MonkeyKeyFrame[7].monkey_posZ = 1.0;
+	MonkeyKeyFrame[7].monkey_ang1 = 0.0;
+	MonkeyKeyFrame[7].monkey_ang2 = 0.0;
+	MonkeyKeyFrame[7].monkey_ang3 = -45.0;
+	MonkeyKeyFrame[7].monkey_ang4 = -45.0;
+	MonkeyKeyFrame[7].monkey_ang5 = 0.0;
+
+	MonkeyKeyFrame[8].monkey_ang0 = 0;
+	MonkeyKeyFrame[8].monkey_posY = 0;
+	MonkeyKeyFrame[8].monkey_posZ = 1.0;
+	MonkeyKeyFrame[8].monkey_ang1 = -35.0;
+	MonkeyKeyFrame[8].monkey_ang2 = 35.0;
+	MonkeyKeyFrame[8].monkey_ang3 = -90.0;
+	MonkeyKeyFrame[8].monkey_ang4 = -90.0;
+	MonkeyKeyFrame[8].monkey_ang5 = 0.0;
+
+	MonkeyKeyFrame[9].monkey_ang0 = 0;
+	MonkeyKeyFrame[9].monkey_posY = 0;
+	MonkeyKeyFrame[9].monkey_posZ = 1.0;
+	MonkeyKeyFrame[9].monkey_ang1 = -35.0;
+	MonkeyKeyFrame[9].monkey_ang2 = 35.0;
+	MonkeyKeyFrame[9].monkey_ang3 = -90.0;
+	MonkeyKeyFrame[9].monkey_ang4 = -45.0;
+	MonkeyKeyFrame[9].monkey_ang5 = 0.0;
+
+	MonkeyKeyFrame[10].monkey_ang0 = 0;
+	MonkeyKeyFrame[10].monkey_posY = 0;
+	MonkeyKeyFrame[10].monkey_posZ = 1.0;
+	MonkeyKeyFrame[10].monkey_ang1 = -35.0;
+	MonkeyKeyFrame[10].monkey_ang2 = 35.0;
+	MonkeyKeyFrame[10].monkey_ang3 = -90.0;
+	MonkeyKeyFrame[10].monkey_ang4 = -90.0;
+	MonkeyKeyFrame[10].monkey_ang5 = 0.0;
+
+	MonkeyKeyFrame[11].monkey_ang0 = 0;
+	MonkeyKeyFrame[11].monkey_posY = 0.5;
+	MonkeyKeyFrame[11].monkey_posZ = 0.0;
+	MonkeyKeyFrame[11].monkey_ang1 = -35.0;
+	MonkeyKeyFrame[11].monkey_ang2 = 35.0;
+	MonkeyKeyFrame[11].monkey_ang3 = -35.0;
+	MonkeyKeyFrame[11].monkey_ang4 = 25.0;
+	MonkeyKeyFrame[11].monkey_ang5 = 10.0;
+
+	MonkeyKeyFrame[12].monkey_ang0 = 0;
+	MonkeyKeyFrame[12].monkey_posY = 0.0;
+	MonkeyKeyFrame[12].monkey_posZ = 0.0;
+	MonkeyKeyFrame[12].monkey_ang1 = -35.0;
+	MonkeyKeyFrame[12].monkey_ang2 = 35.0;
+	MonkeyKeyFrame[12].monkey_ang3 = -35.0;
+	MonkeyKeyFrame[12].monkey_ang4 = 25.0;
+	MonkeyKeyFrame[12].monkey_ang5 = 10.0;
+	//TERMINA
 
 }
 
@@ -3227,6 +3394,129 @@ void banio(float rotar)
 	glPopMatrix();
 }
 
+void izq(void)
+{
+	glPushMatrix();//1
+
+		glTranslatef(-0.15f, 0.15f, 0.0f);
+
+		glPushMatrix();//3
+			glTranslatef(0.05f, -0.25f, 0.0f);
+			glPushMatrix();//4
+				glTranslatef(0.0f, -0.1f, 0.0f);
+				glRotatef(monkey_ang1, 0.0f, 0.0f, 1.0f);//Rz
+				glTranslatef(0.0f, -0.15f, 0.0f);
+				glPushMatrix();//5
+					glTranslatef(0.0f, -0.15f, 0.0f);
+					glRotatef(monkey_ang2, 0.0f, 0.0f, 1.0f);//Rz
+					glTranslatef(0.0f, -0.1f, 0.0f);
+					glPushMatrix();//6
+						glTranslatef(-0.05f, -0.15f, 0.0f);
+						glScalef(0.3f, 0.1f, 0.35f);
+						glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, brownDiffuseMaterial2);
+						mi_figura.prisma(1.0f, 1.0f, 1.0f, 0);//H
+						glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, blankMaterial);
+					glPopMatrix();//-6
+					glScalef(0.2f, 0.2f, 0.35f);
+					glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, brownDiffuseMaterial1);
+					mi_figura.prisma(1.0f, 1.0f, 1.0f, 0);//G
+					glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, blankMaterial);
+				glPopMatrix();//-5
+				glScalef(0.2f, 0.3f, 0.4f);
+				glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, brownDiffuseMaterial1);
+				mi_figura.prisma(1.0f, 1.0f, 1.0f, 0);//F
+				glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, blankMaterial);
+			glPopMatrix();//-4
+			glScalef(0.2f, 0.2f, 0.4f);
+			glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, brownDiffuseMaterial2);
+			mi_figura.prisma(1.0f, 1.0f, 1.0f, 0);//B
+			glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, blankMaterial);
+		glPopMatrix();//-3
+
+		glPushMatrix();//13
+			//La siguiente es una implementación auxiliar, por ello vemos que el angulo de giro implica translatef de ida y vuelta
+			glTranslatef(0.15f, -0.15f, 0.0f);
+			glRotatef(monkey_ang0, 0.0f, 1.0f, 0.0f);
+			glTranslatef(-0.15f, 0.15f, 0.0f);
+
+			glPushMatrix();//2
+				glScalef(0.3f,0.3f,0.25f);
+				glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, brownDiffuseMaterial1);
+				mi_figura.prisma(1.0f, 1.0f, 1.0f, 0);//A
+				glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, blankMaterial);
+			glPopMatrix();//-2
+
+			glPushMatrix();//7
+				glTranslatef(-0.15f, 0.0f, 0.0f);
+				glRotatef(monkey_ang3, 0.0f, 0.0f, 1.0f);//Rz
+				glTranslatef(-0.1f, -0.1f, 0.0f);
+				glPushMatrix();//8
+					glTranslatef(0.0f, -0.25f, 0.0f);
+					glRotatef(monkey_ang4, 0.0f, 0.0f, 1.0f);//Rz
+					glTranslatef(0.0f, -0.15f, 0.0f);
+					glPushMatrix();//9
+						glTranslatef(0.0f, -0.25f, 0.0f);
+						glScalef(0.2f, 0.2f, 0.2f);
+						glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, brownDiffuseMaterial2);
+						mi_figura.esfera(0.5f, 10.0f, 10.0f, 0);//J
+						glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, blankMaterial);
+					glPopMatrix();//-9
+					glScalef(0.2f, 0.3f, 0.35f);
+					glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, brownDiffuseMaterial1);
+					mi_figura.prisma(1.0f, 1.0f, 1.0f, 0);//I
+					glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, blankMaterial);
+				glPopMatrix();//-8
+				glScalef(0.2f, 0.5f, 0.4f);
+				glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, brownDiffuseMaterial1);
+				mi_figura.prisma(1.0f, 1.0f, 1.0f, 0);//C
+				glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, blankMaterial);
+			glPopMatrix();//-7
+
+			glPushMatrix();//10
+				glTranslatef(0.15f, 0.15f, 0.0f);
+				glRotatef(monkey_ang5, 0.0f, 1.0f, 0.0f);//Ry
+				glTranslatef(-0.05f, 0.1f, 0.0f);
+				glPushMatrix();//11
+					glTranslatef(-0.075, 0.0f, 0.0f);
+					glScalef(0.05f, 0.05f, 0.1f);
+					glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, brownDiffuseMaterial1);
+					mi_figura.prisma(1.0f, 1.0f, 1.0f, 0);//K
+					glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, blankMaterial);
+				glPopMatrix();//-11
+				glPushMatrix();//12
+					glTranslatef(0.025, 0.125f, 0.0f);
+					glScalef(0.05f, 0.05f, 0.1f);
+					glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, brownDiffuseMaterial1);
+					mi_figura.prisma(1.0f, 1.0f, 1.0f, 0);//L
+					glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, blankMaterial);
+				glPopMatrix();//-12
+				glScalef(0.1f, 0.2f, 0.2f);
+				glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, brownDiffuseMaterial2);
+				mi_figura.prisma(1.0f, 1.0f, 1.0f, 0);//E
+				glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, blankMaterial);
+			glPopMatrix();//-10
+
+		glPopMatrix();//-13
+
+	glPopMatrix();//-1
+}
+
+void der(void)
+{
+	glPushMatrix();//1
+		glRotatef(180.0f, 0.0f, 1.0f, 0.0f);
+		izq();
+	glPopMatrix();//-1
+}
+
+void monito(void)
+{
+	glPushMatrix();//1
+		izq();
+		der();
+	glPopMatrix();//-1
+}
+
 void display ( void )   // Creamos la funcion donde se dibuja
 {
 	glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -3745,7 +4035,12 @@ void display ( void )   // Creamos la funcion donde se dibuja
 				piscina();
 			glPopMatrix();
 
-
+			glPushMatrix();
+				glTranslatef(8.6f, 0.7f, -19.8);
+				glTranslatef(0.0f, monkey_posY, monkey_posZ);
+				glRotatef(-45.0, 0.0f, 1.0f, 0.0f);
+				monito();
+			glPopMatrix();
 
 		glPopMatrix();
 
@@ -4006,6 +4301,46 @@ void animacion()
 			}
 		}
 
+		if (monkey_play)
+		{
+			if (i_curr_steps_monkey >= i_max_steps) //end of animation between frames?
+			{
+				monkeyplayIndex++;
+				if (monkeyplayIndex>MonkeyFrameIndex - 2)	//end of total animation?
+				{
+					printf("termina anim\n");
+					monkeyplayIndex = 0;
+					monkey_play = false;
+				}
+				else //Next frame interpolations
+				{
+					i_curr_steps_monkey = 0; //Reset counter
+									  //Interpolation
+					MonkeyKeyFrame[monkeyplayIndex].monkey_incang0 = (MonkeyKeyFrame[monkeyplayIndex + 1].monkey_ang0 - MonkeyKeyFrame[monkeyplayIndex].monkey_ang0) / i_max_steps;		//100 frames
+					MonkeyKeyFrame[monkeyplayIndex].monkey_incY = (MonkeyKeyFrame[monkeyplayIndex + 1].monkey_posY - MonkeyKeyFrame[monkeyplayIndex].monkey_posY) / i_max_steps;		//100 frames
+					MonkeyKeyFrame[monkeyplayIndex].monkey_incZ = (MonkeyKeyFrame[monkeyplayIndex + 1].monkey_posZ - MonkeyKeyFrame[monkeyplayIndex].monkey_posZ) / i_max_steps;		//100 frames
+					MonkeyKeyFrame[monkeyplayIndex].monkey_incang1 = (MonkeyKeyFrame[monkeyplayIndex + 1].monkey_ang1 - MonkeyKeyFrame[monkeyplayIndex].monkey_ang1) / i_max_steps;		//100 frames
+					MonkeyKeyFrame[monkeyplayIndex].monkey_incang2 = (MonkeyKeyFrame[monkeyplayIndex + 1].monkey_ang2 - MonkeyKeyFrame[monkeyplayIndex].monkey_ang2) / i_max_steps;		//100 frames
+					MonkeyKeyFrame[monkeyplayIndex].monkey_incang3 = (MonkeyKeyFrame[monkeyplayIndex + 1].monkey_ang3 - MonkeyKeyFrame[monkeyplayIndex].monkey_ang3) / i_max_steps;		//100 frames
+					MonkeyKeyFrame[monkeyplayIndex].monkey_incang4 = (MonkeyKeyFrame[monkeyplayIndex + 1].monkey_ang4 - MonkeyKeyFrame[monkeyplayIndex].monkey_ang4) / i_max_steps;		//100 frames
+					MonkeyKeyFrame[monkeyplayIndex].monkey_incang5 = (MonkeyKeyFrame[monkeyplayIndex + 1].monkey_ang5 - MonkeyKeyFrame[monkeyplayIndex].monkey_ang5) / i_max_steps;		//100 frames
+
+				}
+			}
+			else
+			{	//Draw information
+				monkey_ang0 += MonkeyKeyFrame[monkeyplayIndex].monkey_incang0;
+				monkey_posY += MonkeyKeyFrame[monkeyplayIndex].monkey_incY;
+				monkey_posZ += MonkeyKeyFrame[monkeyplayIndex].monkey_incZ;
+
+				monkey_ang1 += MonkeyKeyFrame[monkeyplayIndex].monkey_incang1;
+				monkey_ang2 += MonkeyKeyFrame[monkeyplayIndex].monkey_incang2;
+				monkey_ang3 += MonkeyKeyFrame[monkeyplayIndex].monkey_incang3;
+				monkey_ang4 += MonkeyKeyFrame[monkeyplayIndex].monkey_incang4;
+				monkey_ang5 += MonkeyKeyFrame[monkeyplayIndex].monkey_incang5;
+				i_curr_steps_monkey++;
+			}
+		}
 
 	if (play)
 	{
@@ -4231,6 +4566,39 @@ void keyboard ( unsigned char key, int x, int y )  // Create Keyboard Function
 			animacion_carro ^= true;
 			break;
 
+		case 'm':
+		case 'M':
+			if (monkey_play == false && (MonkeyFrameIndex>1))
+			{
+
+				monkey_ang0 = MonkeyKeyFrame[0].monkey_ang0;
+				monkey_posY = MonkeyKeyFrame[0].monkey_posY;
+				monkey_posZ = MonkeyKeyFrame[0].monkey_posZ;
+				monkey_ang1 = MonkeyKeyFrame[0].monkey_ang1;
+				monkey_ang2 = MonkeyKeyFrame[0].monkey_ang2;
+				monkey_ang3 = MonkeyKeyFrame[0].monkey_ang3;
+				monkey_ang4 = MonkeyKeyFrame[0].monkey_ang4;
+				monkey_ang5 = MonkeyKeyFrame[0].monkey_ang5;
+
+				//First Interpolation
+				MonkeyKeyFrame[monkeyplayIndex].monkey_incang0 = (MonkeyKeyFrame[monkeyplayIndex + 1].monkey_ang0 - MonkeyKeyFrame[monkeyplayIndex].monkey_ang0) / i_max_steps;		//100 frames
+				MonkeyKeyFrame[monkeyplayIndex].monkey_incY = (MonkeyKeyFrame[monkeyplayIndex + 1].monkey_posY - MonkeyKeyFrame[monkeyplayIndex].monkey_posY) / i_max_steps;		//100 frames
+				MonkeyKeyFrame[monkeyplayIndex].monkey_incZ = (MonkeyKeyFrame[monkeyplayIndex + 1].monkey_posZ - MonkeyKeyFrame[monkeyplayIndex].monkey_posZ) / i_max_steps;		//100 frames
+				MonkeyKeyFrame[monkeyplayIndex].monkey_incang1 = (MonkeyKeyFrame[monkeyplayIndex + 1].monkey_ang1 - MonkeyKeyFrame[monkeyplayIndex].monkey_ang1) / i_max_steps;		//100 frames
+				MonkeyKeyFrame[monkeyplayIndex].monkey_incang2 = (MonkeyKeyFrame[monkeyplayIndex + 1].monkey_ang2 - MonkeyKeyFrame[monkeyplayIndex].monkey_ang2) / i_max_steps;		//100 frames
+				MonkeyKeyFrame[monkeyplayIndex].monkey_incang3 = (MonkeyKeyFrame[monkeyplayIndex + 1].monkey_ang3 - MonkeyKeyFrame[monkeyplayIndex].monkey_ang3) / i_max_steps;		//100 frames
+				MonkeyKeyFrame[monkeyplayIndex].monkey_incang4 = (MonkeyKeyFrame[monkeyplayIndex + 1].monkey_ang4 - MonkeyKeyFrame[monkeyplayIndex].monkey_ang4) / i_max_steps;		//100 frames
+				MonkeyKeyFrame[monkeyplayIndex].monkey_incang5 = (MonkeyKeyFrame[monkeyplayIndex + 1].monkey_ang5 - MonkeyKeyFrame[monkeyplayIndex].monkey_ang5) / i_max_steps;		//100 frames
+
+				monkey_play = true;
+				monkeyplayIndex = 0;
+				i_curr_steps_monkey = 0;
+			}
+			else
+			{
+				monkey_play = false;
+			}
+			break;
 
 		case 27:        // Cuando Esc es presionado...
 			exit ( 0 );   // Salimos del programa
