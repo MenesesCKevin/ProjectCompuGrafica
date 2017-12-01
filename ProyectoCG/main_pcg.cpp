@@ -203,6 +203,10 @@ CTexture cc7;
 CTexture estufa1;//parte delantera
 CTexture estufa2;//parte superior
 CTexture estufa3;//Lados de la estufa
+CTexture puertaCuarto;
+CTexture puertadoble;
+CTexture puertaauto;
+CTexture puertaenrejada;
 /********************************************/
 CFiguras fig1;
 CFiguras fig2;
@@ -675,6 +679,22 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 	estufa3.BuildGLTexture();
 	estufa3.ReleaseImage();
 
+	puertaCuarto.LoadTGA("Texturas/puerta_cuartos.tga");
+	puertaCuarto.BuildGLTexture();
+	puertaCuarto.ReleaseImage();
+
+	puertadoble.LoadTGA("Texturas/puertadoble.tga");
+	puertadoble.BuildGLTexture();
+	puertadoble.ReleaseImage();
+
+	puertaauto.LoadTGA("Texturas/puertaauto.tga");
+	puertaauto.BuildGLTexture();
+	puertaauto.ReleaseImage();
+
+	puertaenrejada.LoadTGA("Texturas/puerta_enrejada.tga");
+	puertaenrejada.BuildGLTexture();
+	puertaenrejada.ReleaseImage();
+
 
 	/*************************************/
 	craneo._3dsLoad("modelos/skull.3DS");
@@ -719,19 +739,19 @@ void EstructuraCasa()
 				cubo.prisma2(0.0, muro_casa.GLindex, 1);
 		glPopMatrix();
 
-		/*glPushMatrix();	//Puerta Izquierda de la cochera
+		glPushMatrix();	//Puerta Izquierda de la cochera
 			glTranslatef(7.2125, 1.15, -0.1);
 			glScalef(3.525, 2.3, 0.2);
 			if (!elotroLado)
-				cubo.prisma2(0.0, 0.0, 1);
+				cubo.prisma2(0.0, puertaauto.GLindex, 1);
 		glPopMatrix();
 
 		glPushMatrix();	//Puerta derechaa de la cochera
 			glTranslatef(10.7375, 1.15, -0.1);
 			glScalef(3.525, 2.3, 0.2);
 			if (!elotroLado)
-				cubo.prisma2(0.0, 0.0, 1);
-		glPopMatrix();*/
+				cubo.prisma2(0.0, puertaauto.GLindex, 1);
+		glPopMatrix();
 
 
 		
@@ -840,14 +860,26 @@ void EstructuraCasa()
 				cubo.prisma2(0.0, muro_casa.GLindex, 1);
 		glPopMatrix();
 
-		/*glPushMatrix();	//Puerta de la recamara principal  Poner cuando se texturizemos
-			glTranslatef(3.2, 0.8, -4.1);
-			glScalef(0.7, 1.6, 0.2);
-			if (elotroLado)
-				cubo.prisma2(0.0, muro.GLindex, 1);
-			else
-				cubo.prisma2(0.0, 0.0, 1);
-		glPopMatrix();*/
+		glPushMatrix(); //////////////Todo esto es para la puerta del cuarto, uso dos poara que la figura se aprecie bien por ambos lados
+			glPushMatrix();	//Puerta de la recamara principal  Poner cuando se texturizemos
+				glTranslatef(3.2, 0.8, -4.1);
+				glScalef(0.7, 1.6, 0.1);
+				if (elotroLado)
+					cubo.prisma2(0.0, muro.GLindex, 1);
+				else
+					cubo.prisma2(0.0, puertaCuarto.GLindex, 1);
+			glPopMatrix();
+
+			glPushMatrix();	//Puerta de la recamara principal  Poner cuando se texturizemos
+				glTranslatef(3.2, 0.8, -4.05);
+				glScalef(0.7, 1.6, 0.1);
+				glRotatef(180,0.0,1.0,0.0);
+				if (elotroLado)
+					cubo.prisma2(0.0, muro.GLindex, 1);
+				else
+					cubo.prisma2(0.0, puertaCuarto.GLindex, 1);
+			glPopMatrix();
+		glPopMatrix();
 
 		//////////////////////////////////////////////////////////////////
 
@@ -927,6 +959,28 @@ void EstructuraCasa()
 			else
 				cubo.prisma2(0.0, muro_casa.GLindex, 1);
 		glPopMatrix();
+
+
+		glPushMatrix(); ////////////////puerta del baño
+			glPushMatrix();
+				glTranslatef(2.5, 0.8, -8.55);
+				glScalef(0.1, 1.6, 0.7);
+				if (elotroLado)
+					cubo.prisma2(0.0, muro.GLindex, 2);
+				else
+					cubo.prisma2(0.0, puertaCuarto.GLindex, 1);
+			glPopMatrix();
+			glPushMatrix();
+				glTranslatef(2.45, 0.8, -8.55);
+				glScalef(0.1, 1.6, 0.7);
+				glRotatef(180, 0.0, 1.0, 0.0);
+				if (elotroLado)
+					cubo.prisma2(0.0, muro.GLindex, 2);
+				else
+					cubo.prisma2(0.0, puertaCuarto.GLindex, 1);
+			glPopMatrix();
+		glPopMatrix();
+
 		////////////////////////////////////////////////////////
 
 
@@ -968,15 +1022,26 @@ void EstructuraCasa()
 				cubo.prisma2(0.0, muro_casa.GLindex, 1);
 		glPopMatrix();
 
-		/*glPushMatrix();	//Puerta de la recamara principal  Poner cuando se texturizemos
-		glTranslatef(3.2, 0.8, -14.1);
-			glScalef(0.7, 1.6, 0.2);
-			if (elotroLado)
-			cubo.prisma2(0.0, muro.GLindex, 1);
-			else
-			cubo.prisma2(0.0, 0.0, 1);
-		glPopMatrix();*/
+		glPushMatrix();
+			glPushMatrix();	//Puerta de la recamara principal  Poner cuando se texturizemos
+			glTranslatef(3.2, 0.8, -14.1);
+				glScalef(0.7, 1.6, 0.1);
+				if (elotroLado)
+				cubo.prisma2(0.0, muro.GLindex, 1);
+				else
+				cubo.prisma2(0.0, puertaCuarto.GLindex, 1);
+			glPopMatrix();
 
+			glPushMatrix();	//Puerta de la recamara principal  Poner cuando se texturizemos
+			glTranslatef(3.2, 0.8, -14.05);
+			glScalef(0.7, 1.6, 0.1);
+			glRotatef(180, 0.0, 1.0, 0.0);
+			if (elotroLado)
+				cubo.prisma2(0.0, muro.GLindex, 1);
+			else
+				cubo.prisma2(0.0, puertaCuarto.GLindex, 1);
+			glPopMatrix();
+		glPopMatrix();
 
 		glPushMatrix();	//Muro trasero izquierdo 
 			glTranslatef(0.7, 1.15, -18.45);
@@ -1105,13 +1170,13 @@ void EstructuraCasa()
 				cubo.prisma2(0.0, muro_casa.GLindex, 1);
 		glPopMatrix();
 
-		/*glPushMatrix();	//Puerta izquierda
+		glPushMatrix();	//Puerta izquierda
 			glTranslatef(7.9625, 0.8, -14.1);
 			glScalef(0.825, 1.6, 0.2);
 			if (elotroLado)
 				cubo.prisma2(0.0, muro.GLindex, 1);
 			else
-				cubo.prisma2(0.0, 0.0, 1);
+				cubo.prisma2(0.0, puertadoble.GLindex, 1);
 		glPopMatrix();
 
 		glPushMatrix();	//Puerta derecha
@@ -1120,8 +1185,8 @@ void EstructuraCasa()
 			if (elotroLado)
 				cubo.prisma2(0.0, muro.GLindex, 2);
 			else
-				cubo.prisma2(0.0, 0.0, 1);
-		glPopMatrix();*/
+				cubo.prisma2(0.0, puertadoble.GLindex, 1);
+		glPopMatrix();
 
 		glPushMatrix();	//Parte de arriba de las puertas
 			glTranslatef(8.375, 1.95, -14.1);
@@ -1329,13 +1394,23 @@ void EstructuraCasa()
 			cubo.prisma2(0.0, muro_casa.GLindex, 1);
 	glPopMatrix();
 
-	
-		/*glPushMatrix();	//cuadro de muro arriba de la puerta //Area comentara para colocar puerta posteriormente
+
+
+	glPushMatrix();
+		glPushMatrix();
 			glTranslatef(4.15, 0.8, -6.05);
-			glScalef(0.2, 1.6, 0.6);
+			glScalef(0.1, 1.6, 0.6);
 			if (!elotroLado)
-			cubo.prisma2(0.0, 0.0, 1);
-		glPopMatrix();*/
+			cubo.prisma2(0.0, puertaCuarto.GLindex, 1);
+		glPopMatrix();
+		glPushMatrix();
+			glTranslatef(4.10, 0.8, -6.05);
+			glScalef(0.1, 1.6, 0.6);
+			glRotatef(180, 0.0, 1.0, 0.0);
+			if (!elotroLado)
+				cubo.prisma2(0.0, puertaCuarto.GLindex, 1);
+		glPopMatrix();
+	glPopMatrix();
 
 	glPushMatrix();	//Contianuacion de la pared despues de la puerta
 		glTranslatef(4.15, 1.15, -8.375);
@@ -1362,14 +1437,6 @@ void EstructuraCasa()
 			cubo.prisma2(0.0, muro_casa.GLindex, 1);
 	glPopMatrix();
 
-	/*glPushMatrix();	//Pared planta 1 de 1.5 m separacion rara del cuarto de lavado
-		glTranslatef(1.1, 1.15, -3.25);
-		glScalef(0.2, 2.3, 1.5);
-		if (elotroLado)
-			cubo.prisma2(0.0, muro.GLindex, 2);
-		else
-			cubo.prisma2(0.0, muro_casa.GLindex, 1);;
-	glPopMatrix();*/
 
 	glPushMatrix();	//Pared planta 1 de 1.5 m separacion rara del cuarto de lavado
 		glTranslatef(3.25, 1.15, -3.9);
@@ -1926,6 +1993,14 @@ void EstructuraCasa()
 	glPopMatrix();
 
 	glEnable(GL_LIGHTING);
+
+	glPushMatrix();
+		glTranslatef(4.75, 1.15, 0.0);
+		glEnable(GL_ALPHA_TEST);
+		glAlphaFunc(GL_GREATER, 0.1);
+		fig2.plano(2.3, 1.0, 0.1, puertaenrejada.GLindex, 1);
+		glDisable(GL_ALPHA_TEST);
+	glPopMatrix();
 
 }
 
@@ -3416,9 +3491,18 @@ void display ( void )   // Creamos la funcion donde se dibuja
 			glPopMatrix();
 
 			//PLANTA SEGUNDO NIVEL
-			glPushMatrix();
+			/*glPushMatrix();
 				glTranslatef(6.4f, 4.79f, -16.6f);	//Corregir posición
 				mueble_bajo(4.8, 0.6, 90.0);
+			glPopMatrix();*/
+
+			//Jardin frontal
+
+			glPushMatrix();	//mesita
+				glTranslatef(7.2, 0.2, -9.95);
+				glPushMatrix();
+				glScalef(5.6, 0.5, 0.6);
+				mesa_cuadrada();
 			glPopMatrix();
 
 
