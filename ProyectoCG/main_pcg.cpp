@@ -189,6 +189,7 @@ CTexture marmol_dos;
 CTexture tela_beige;
 CTexture madera_oscura;
 CTexture madera_oscura_puerta;
+CTexture armario;
 /********************************************/
 CFiguras fig1;
 CFiguras fig2;
@@ -602,6 +603,10 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 	madera_oscura_puerta.LoadTGA("Texturas/madera_oscura_puerta.tga");
 	madera_oscura_puerta.BuildGLTexture();
 	madera_oscura_puerta.ReleaseImage();
+
+	armario.LoadTGA("Texturas/armario.tga");
+	armario.BuildGLTexture();
+	armario.ReleaseImage();
 
 	/*************************************/
 	craneo._3dsLoad("modelos/skull.3DS");
@@ -1288,14 +1293,14 @@ void EstructuraCasa()
 			cubo.prisma2(0.0, muro_casa.GLindex, 1);
 	glPopMatrix();
 
-	glPushMatrix();	//Pared planta 1 de 1.5 m separacion rara del cuarto de lavado
+	/*glPushMatrix();	//Pared planta 1 de 1.5 m separacion rara del cuarto de lavado
 		glTranslatef(1.1, 1.15, -3.25);
 		glScalef(0.2, 2.3, 1.5);
 		if (elotroLado)
 			cubo.prisma2(0.0, muro.GLindex, 2);
 		else
 			cubo.prisma2(0.0, muro_casa.GLindex, 1);;
-	glPopMatrix();
+	glPopMatrix();*/
 
 	glPushMatrix();	//Pared planta 1 de 1.5 m separacion rara del cuarto de lavado
 		glTranslatef(3.25, 1.15, -3.9);
@@ -1307,8 +1312,8 @@ void EstructuraCasa()
 	glPopMatrix();
 
 	glPushMatrix();	//Pared planta 1 de 1.85 m separacion cuarto de maquinas y lavado
-		glTranslatef(2.75, 1.15, -4.825);
-		glScalef(0.2, 2.3, 1.85);
+		glTranslatef(2.35, 1.15, -4.725);
+		glScalef(0.2, 2.3, 1.65);
 		if (elotroLado)
 			cubo.prisma2(0.0, muro.GLindex, 2);
 		else
@@ -1316,8 +1321,8 @@ void EstructuraCasa()
 	glPopMatrix();
 
 	glPushMatrix();	//Pared planta 1 de 0.8 m de lado de la entrada al cuarto de maquinas
-		glTranslatef(3.7, 1.15, -5.65);
-		glScalef(0.8, 2.3, 0.2);
+		glTranslatef(3.6, 1.15, -5.45);
+		glScalef(1.0, 2.3, 0.2);
 		if (elotroLado)
 			cubo.prisma2(0.0, muro.GLindex, 2);
 		else
@@ -2337,6 +2342,43 @@ void mueble_bajo(float ancho, float profundidad, float rotacion)
 	glPopMatrix();
 }
 
+void ropero()
+{
+	glPushMatrix();
+		glScalef(0.6, 1.4, 0.3);
+		glRotatef(180, 0.0, 1.0, 0.0);
+		glRotatef(180, 0.0, 0.0, 1.0);
+		cubo.prisma2(0, armario.GLindex, 1);
+	glPopMatrix();
+
+	glPushMatrix();
+		glTranslatef(0.0, 0.0, -0.15);
+		glScalef(0.6, 1.4, 0.01);
+		cubo.prisma2(0, madera.GLindex, 1);
+	glPopMatrix();
+
+	glPushMatrix();
+		glTranslatef(0.3, 0.0, 0.0);
+		glScalef(0.01, 1.4, 0.3);
+		glRotatef(90, 0.0, 1.0, 0.0);
+		cubo.prisma2(0, madera.GLindex, 1);
+	glPopMatrix();
+
+	glPushMatrix();
+		glTranslatef(-0.3, 0.0, 0.0);
+		glScalef(0.01, 1.4, 0.3);
+		glRotatef(90, 0.0, 1.0, 0.0);
+		cubo.prisma2(0, madera.GLindex, 1);
+	glPopMatrix();
+
+	glPushMatrix();
+		glTranslatef(0.0, 0.7, 0.0);
+		glScalef(0.6, 0.01, 0.3);
+		glRotatef(90, 0.0, 1.0, 0.0);
+		cubo.prisma2(0, madera.GLindex, 1);
+	glPopMatrix();
+}
+
 void display ( void )   // Creamos la funcion donde se dibuja
 {
 	glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -2627,26 +2669,72 @@ void display ( void )   // Creamos la funcion donde se dibuja
 				EstructuraCasa();
 			glPopMatrix();
 
-
+			//////////////////////Habitacion principal superior
 			glPushMatrix(); //Cama habitacion principal
 				glTranslatef(1.2, 2.4, -2.0);
 				cama();
 			glPopMatrix();
 
+			glPushMatrix(); //Ropero
+				glTranslatef(1.0, 3.0, -3.9);
+				ropero();
+			glPopMatrix();
+
+
+			//////////////////////Habitacion secundaria superior
 			glPushMatrix(); //Cama habitacion 2 del segundo piso
 				glTranslatef(1.2, 2.4, -16.5);
 				cama();
 			glPopMatrix();
 
+			glPushMatrix(); //Ropero
+				glTranslatef(1.0, 3.0, -14.36);
+				glRotatef(-180, 0.0, 1.0, 0.0);
+				ropero();
+			glPopMatrix();
+
+
+
+			//////////////////////unica habitacion inferior
 			glPushMatrix(); //Cama habitacion del primer piso
 				glTranslatef(1.2, 0.1, -1.9);
 				cama();
 			glPopMatrix();
 
+			glPushMatrix(); //Ropero
+				glTranslatef(1.0, 0.8, -0.4);
+				glRotatef(-180, 0.0, 1.0, 0.0);
+				ropero();
+			glPopMatrix();
+
 			/////////////////////comedor
 			glPushMatrix(); //Mesa del comedor
-				glTranslatef(2.7, 0.1, -12.4);
+				glTranslatef(2.7, 0.1, -13.0);
 				mesa_ovalada();
+			glPopMatrix();
+
+			glPushMatrix(); //Mesa del comedor
+				glTranslatef(2.5, 0.1, -13.2);
+				glRotatef(-125, 0.0, 1.0, 0.0);
+				silla();
+			glPopMatrix();
+
+			glPushMatrix(); //Mesa del comedor
+				glTranslatef(2.5, 0.1, -12.2);
+				glRotatef(-35, 0.0, 1.0, 0.0);
+				silla();
+			glPopMatrix();
+
+			glPushMatrix(); //Mesa del comedor
+				glTranslatef(3.5, 0.1, -13.2);
+				glRotatef(125, 0.0, 1.0, 0.0);
+				silla();
+			glPopMatrix();
+
+			glPushMatrix(); //Mesa del comedor
+				glTranslatef(3.5, 0.1, -12.2);
+				glRotatef(35, 0.0, 1.0, 0.0);
+				silla();
 			glPopMatrix();
 
 			///////////////////Fin comedor
