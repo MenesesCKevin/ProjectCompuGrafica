@@ -207,6 +207,10 @@ CTexture puertaCuarto;
 CTexture puertadoble;
 CTexture puertaauto;
 CTexture puertaenrejada;
+CTexture deslizante;
+CTexture ventana1;
+CTexture ventana2;
+CTexture escalera;
 /********************************************/
 CFiguras fig1;
 CFiguras fig2;
@@ -237,6 +241,13 @@ float movKitY = 4.0;
 float movKitZ = 0.0;
 float rotKit = 0.0;
 float rotTires = 0.0;
+
+float angcarro = 0.0;;
+float posxcarro = 0.0;
+float poszcarro = 0.0;
+float ang_puertas_jardin = 0.0;
+
+bool animacion_carro = false;
 bool g_fanimacion = false;
 bool g_avanza = false;
 float girallanta;
@@ -265,6 +276,18 @@ bool rangCuadros1 = true;
 bool rangCuadros2 = false;
 
 bool elotroLado = false;
+
+bool acarro1 = true;
+bool acarro2 = false;
+bool acarro3 = false;
+bool acarro4 = false;
+bool acarro5 = false;
+bool acarro6 = false;
+bool acarro7 = false;
+bool acarro8 = false;
+bool acarro9 = false;
+bool acarro10 = false;
+bool acarro11 = false;
 
 void saveFrame(void)
 {
@@ -696,8 +719,27 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 	puertaenrejada.ReleaseImage();
 
 
+	deslizante.LoadTGA("Texturas/deslizante.tga");
+	deslizante.BuildGLTexture();
+	deslizante.ReleaseImage();
+
+	ventana1.LoadTGA("Texturas/ventana1.tga");
+	ventana1.BuildGLTexture();
+	ventana1.ReleaseImage();
+
+	ventana2.LoadTGA("Texturas/ventana2.tga");
+	ventana2.BuildGLTexture();
+	ventana2.ReleaseImage();
+
+
+
+	escalera.LoadTGA("Texturas/escalera.tga");
+	escalera.BuildGLTexture();
+	escalera.ReleaseImage();
+
 	/*************************************/
 	craneo._3dsLoad("modelos/skull.3DS");
+	carro1._3dsLoad("modelos/carr1/CHALLENGER71.3ds");
 
 
 	objCamera.Position_Camera(6.3,1.3f, 2.0f , 6.0,0.0f,0, 0, 1, 0);
@@ -740,17 +782,25 @@ void EstructuraCasa()
 		glPopMatrix();
 
 		glPushMatrix();	//Puerta Izquierda de la cochera
-			glTranslatef(7.2125, 1.15, -0.1);
-			glScalef(3.525, 2.3, 0.2);
-			if (!elotroLado)
-				cubo.prisma2(0.0, puertaauto.GLindex, 1);
+			glTranslatef(5.45, 1.15, -0.1);
+			glRotatef(-ang_puertas_jardin, 0.0,1.0,0.0);
+			glPushMatrix();
+				glTranslatef(1.7625, 0.0, 0.0);
+				glScalef(3.525, 2.3, 0.2);
+				if (!elotroLado)
+					cubo.prisma2(0.0, puertaauto.GLindex, 1);
+			glPopMatrix();
 		glPopMatrix();
 
 		glPushMatrix();	//Puerta derechaa de la cochera
-			glTranslatef(10.7375, 1.15, -0.1);
-			glScalef(3.525, 2.3, 0.2);
-			if (!elotroLado)
-				cubo.prisma2(0.0, puertaauto.GLindex, 1);
+		glTranslatef(12.5, 1.15, -0.1);
+		glRotatef(ang_puertas_jardin, 0.0, 1.0, 0.0);
+			glPushMatrix();
+				glTranslatef(-1.7625, 0.0, 0.0);
+				glScalef(3.525, 2.3, 0.2);
+				if (!elotroLado)
+					cubo.prisma2(0.0, puertaauto.GLindex, 1);
+			glPopMatrix();
 		glPopMatrix();
 
 
@@ -802,14 +852,19 @@ void EstructuraCasa()
 		glPopMatrix();
 
 
-		/*glPushMatrix();	//muro frontal delantero inferior   //Prisma reservado para colocar ventana
+		glPushMatrix();	//muro frontal delantero inferior   //Prisma reservado para colocar ventana
 			glTranslatef(2.125, 1.15, -0.1);
 			glScalef(1.85, 1.1, 0.2);
 			if (elotroLado)
 				cubo.prisma2(0.0, muro.GLindex, 2);
 			else
-				cubo.prisma2(0.0, 0.0, 1);
-		glPopMatrix();*/
+			{
+				glEnable(GL_ALPHA_TEST);
+				glAlphaFunc(GL_GREATER, 0.1);
+				fig2.plano(1, 1, 1, ventana1.GLindex, 1);
+				glDisable(GL_ALPHA_TEST);
+			}
+		glPopMatrix();
 		
 
 		glPushMatrix();	//muro lateral derecho
@@ -921,14 +976,19 @@ void EstructuraCasa()
 				cubo.prisma2(0.0, muro_casa.GLindex, 1);
 		glPopMatrix();
 
-		/*glPushMatrix();	//Bloque para poner ventan frontal frente a escaleras
+		glPushMatrix();	//Bloque para poner ventan frontal frente a escaleras
 			glTranslatef(8.37, 1.15, -9.0);
 			glScalef(2.67, 1.1, 0.2);
 			if (elotroLado)
 				cubo.prisma2(0.0, muro.GLindex, 2);
 			else
-				cubo.prisma2(0.0, 0.0, 1);
-		glPopMatrix();*/
+			{
+				glEnable(GL_ALPHA_TEST);
+				glAlphaFunc(GL_GREATER, 0.1);
+				fig2.plano(1, 1, 1, ventana2.GLindex, 1);
+				glDisable(GL_ALPHA_TEST);
+			}
+		glPopMatrix();
 
 
 
@@ -1080,14 +1140,19 @@ void EstructuraCasa()
 		glPopMatrix();
 
 
-		/*glPushMatrix();	//muro frontal delantero inferior   //Prisma reservado para colocar ventana
+		glPushMatrix();	//muro frontal delantero inferior   //Prisma reservado para colocar ventana
 			glTranslatef(2.125, 1.15, -18.45);
 			glScalef(1.85, 1.1, 0.2);
 			if (elotroLado)
 			cubo.prisma2(0.0, muro.GLindex, 2);
 			else
-			cubo.prisma2(0.0, 0.0, 1);
-		glPopMatrix();*/
+			{
+				glEnable(GL_ALPHA_TEST);
+				glAlphaFunc(GL_GREATER, 0.1);
+				fig2.plano(1, 1, 1, ventana2.GLindex, 1);
+				glDisable(GL_ALPHA_TEST);
+			}
+		glPopMatrix();
 
 		/////////////////////////////////////////////////////////
 
@@ -1133,14 +1198,19 @@ void EstructuraCasa()
 				cubo.prisma2(0.0, muro_casa.GLindex, 1);
 		glPopMatrix();
 
-		/*glPushMatrix();	//Bloque para poner ventana de la sala de juegos
+		glPushMatrix();	//Bloque para poner ventana de la sala de juegos
 			glTranslatef(8.37, 1.15, -18.45);
 			glScalef(6.67, 1.1, 0.2);
 			if (elotroLado)
 			cubo.prisma2(0.0, muro.GLindex, 2);
 			else
-			cubo.prisma2(0.0, 0.0, 1);
-		glPopMatrix();*/
+			{
+				glEnable(GL_ALPHA_TEST);
+				glAlphaFunc(GL_GREATER, 0.1);
+				fig2.plano(1, 1, 1, ventana1.GLindex, 1);
+				glDisable(GL_ALPHA_TEST);
+			}
+		glPopMatrix();
 
 		glPushMatrix();	//Pared lado derecho
 			glTranslatef(12.6, 1.15, -13.725);
@@ -1375,6 +1445,12 @@ void EstructuraCasa()
 			fig2.prisma2(marmol_dos.GLindex, marmol_dos.GLindex, 12);
 		glPopMatrix();
 
+		glPushMatrix();
+			glTranslatef(10.5, 0, -16.4);
+			glScalef(4.0, 0.001, 0.8);
+			fig2.prisma2(marmol_dos.GLindex, marmol_dos.GLindex, 12);
+		glPopMatrix();
+
 		glEnable(GL_LIGHTING);
 	}
 	/////////////////////////////////////////////////
@@ -1568,6 +1644,29 @@ void EstructuraCasa()
 	//Fin de techo planta 1
 
 
+	//techo planta 2
+
+	glPushMatrix();
+	glTranslatef(2.125, 4.64, -9.275);
+	glScalef(4.25, 0.05, 18.55);
+	if (elotroLado)
+		cubo.prisma2(0.0, ny.GLindex, 2);
+	else
+		cubo.prisma2(0.0, marmol_dos.GLindex, 1);
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(8.475, 4.64, -13.675);
+	glScalef(8.45, 0.05, 9.75);
+	if (elotroLado)
+		cubo.prisma2(0.0, ny.GLindex, 2);
+	else
+		cubo.prisma2(0.0, marmol_dos.GLindex, 1);
+	glPopMatrix();
+
+	//Fin de techo planta 1
+
+
 
 	//////////////////////////////////////////////////////////////Fin de parte 1 de la plana A
 
@@ -1697,7 +1796,12 @@ void EstructuraCasa()
 				if (elotroLado)
 					cubo.prisma2(0.0, puerta1.GLindex, 1);
 				else
-					cubo.prisma2(0.0, 0.0, 1);
+				{
+					glEnable(GL_ALPHA_TEST);
+					glAlphaFunc(GL_GREATER, 0.1);
+					fig2.plano(1, 1, 1, deslizante.GLindex, 1);
+					glDisable(GL_ALPHA_TEST);
+				}
 				
 				if (elotroLado) {
 					glPushMatrix();	//cadenas puerta de prision
@@ -1735,7 +1839,12 @@ void EstructuraCasa()
 				if (elotroLado)
 					cubo.prisma2(0.0, puerta1.GLindex, 1);
 				else
-					cubo.prisma2(0.0, 0.0, 1);
+				{
+					glEnable(GL_ALPHA_TEST);
+					glAlphaFunc(GL_GREATER, 0.1);
+					fig2.plano(1, 1, 1, deslizante.GLindex, 1);
+					glDisable(GL_ALPHA_TEST);
+				}
 				if (elotroLado) {
 					glPushMatrix();	//cadenas puerta de prision
 						glEnable(GL_ALPHA_TEST);
@@ -1766,7 +1875,12 @@ void EstructuraCasa()
 			if (elotroLado)
 				cubo.prisma2(0.0, puerta1.GLindex, 1);
 			else
-				cubo.prisma2(0.0, 0.0, 1);
+			{
+				glEnable(GL_ALPHA_TEST);
+				glAlphaFunc(GL_GREATER, 0.1);
+				fig2.plano(1, 1, 1, deslizante.GLindex, 1);
+				glDisable(GL_ALPHA_TEST);
+			}
 			
 		glPopMatrix();
 
@@ -1785,7 +1899,12 @@ void EstructuraCasa()
 			if (elotroLado)
 				cubo.prisma2(0.0, puerta1.GLindex, 1);
 			else
-				cubo.prisma2(0.0, 0.0, 1);
+			{
+				glEnable(GL_ALPHA_TEST);
+				glAlphaFunc(GL_GREATER, 0.1);
+				fig2.plano(1, 1, 1, deslizante.GLindex, 1);
+				glDisable(GL_ALPHA_TEST);
+			}
 		glPopMatrix();
 
 		glPushMatrix();	//Pilar en la ultima ventana del comedor
@@ -3009,6 +3128,48 @@ void estufa()
 
 }
 
+void piscina()
+{
+	glPushMatrix();	//base
+		glTranslatef(0.0, 0.0, 0.0);
+		glScalef(4.0, 0.02, 3.0);
+		cubo.prisma2(0, madera.GLindex, 1);
+	glPopMatrix();
+
+	glPushMatrix();	//cara 1
+		glTranslatef(-1.99, 0.5, 0.0);
+		glScalef(0.02, 1.0, 3.0);
+		cubo.prisma2(0, madera.GLindex, 1);
+	glPopMatrix();
+
+	glPushMatrix();	//cara 2
+		glTranslatef(1.99, 0.5, 0.0);
+		glScalef(0.02, 1.0, 3.0);
+		cubo.prisma2(0, madera.GLindex, 1);
+	glPopMatrix();
+
+	glPushMatrix();	//cara 3
+		glTranslatef(0.0, 0.5, 1.49);
+		glScalef(4.0, 1.0, 0.02);
+		cubo.prisma2(0, madera.GLindex, 1);
+	glPopMatrix();
+
+	glPushMatrix();	//cara 4
+		glTranslatef(0.0, 0.5, -1.49);
+		glScalef(4.0, 1.0, 0.02);
+		cubo.prisma2(0, madera.GLindex, 1);
+	glPopMatrix();
+
+	glPushMatrix();//escalera
+		glTranslatef(0.0, 0.5, 1.6);
+		//glRotatef(90, 0.0, 1.0, 0.0);
+		glEnable(GL_ALPHA_TEST);
+		glAlphaFunc(GL_GREATER, 0.1);
+		fig2.plano(1.2, 1.0, 0.1, escalera.GLindex, 1);
+		glDisable(GL_ALPHA_TEST);
+	glPopMatrix();
+}
+
 
 void display ( void )   // Creamos la funcion donde se dibuja
 {
@@ -3429,6 +3590,7 @@ void display ( void )   // Creamos la funcion donde se dibuja
 				sillon(1.7, 2, 270.0); 
 			glPopMatrix();
 
+
 			glPushMatrix();
 				glTranslatef(6.3, 1.6, -10.42);
 				glRotatef(90, 0.0, 1.0, 0.0);
@@ -3505,10 +3667,23 @@ void display ( void )   // Creamos la funcion donde se dibuja
 
 			glPushMatrix();	//mesita
 				glTranslatef(7.2, 0.2, -9.95);
-				glPushMatrix();
 				glScalef(5.6, 0.5, 0.6);
 				mesa_cuadrada();
 			glPopMatrix();
+
+
+			glPushMatrix();
+				glTranslatef(2.0 + posxcarro, -0.2, 6.0 - poszcarro);
+				glRotatef(angcarro, 0.0, 1.0, 0.0);
+				carro1.GLrender(NULL, _SHADED, 1.0);
+			glPopMatrix();
+
+
+			glPushMatrix();	//alberca
+				glTranslatef(6.2, -0.02, -22.0);
+				piscina();
+			glPopMatrix();
+
 
 
 		glPopMatrix();
@@ -3607,6 +3782,122 @@ void animacion()
 				}
 			}
 		}
+
+		if (animacion_carro)
+		{
+			if (acarro1)
+			{
+				ang_puertas_jardin += 1;
+				if (ang_puertas_jardin >= 70.0)
+				{
+					acarro1 = false;
+					acarro2 = true;
+				}
+			}
+			if (acarro2)
+			{
+				poszcarro-=0.2;
+				if (poszcarro <= -10.0)
+				{
+					acarro2 = false;
+					acarro3 = true;
+				}
+			}
+			if (acarro3)
+			{
+				angcarro -= 0.8;
+				if (angcarro <= -90)
+				{
+					acarro3 = false;
+					acarro4 = true;
+				}
+			}
+			if (acarro4)
+			{
+				posxcarro -= 0.8;
+				if (posxcarro <= -30)
+				{
+					acarro4 = false;
+					acarro5 = true;
+				}
+			}
+			if (acarro5)
+			{
+				angcarro = 180.0;
+				poszcarro += 0.8;
+				if (poszcarro >= 30)
+				{
+					acarro5 = false;
+					acarro6 = true;
+				}
+			}
+			if (acarro6)
+			{
+				angcarro = 90.0;
+				posxcarro += 0.8;
+				if (posxcarro >= 30)
+				{
+					acarro6 = false;
+					acarro7 = true;
+				}
+			}
+
+			if (acarro7)
+			{
+				angcarro = 0.0;
+				poszcarro -= 0.8;
+				if (poszcarro <= -10)
+				{
+					acarro7 = false;
+					acarro8 = true;
+				}
+			}
+
+			if (acarro8)
+			{
+				angcarro = -90.0;
+				posxcarro -= 0.8;
+				if (posxcarro <= 0.0)
+				{
+					acarro8 = false;
+					acarro9 = true;
+				}
+			}
+
+			if (acarro9)
+			{
+				angcarro += 0.5;
+				if (angcarro >= 0.0)
+				{
+					acarro9 = false;
+					acarro10 = true;
+				}
+			}
+
+			if (acarro10)
+			{
+				poszcarro += 0.2;
+				if (poszcarro >= 0.0)
+				{
+					acarro10 = false;
+					acarro11 = true;
+				}
+			}
+			if (acarro11)
+			{
+				ang_puertas_jardin -= 0.2;
+				if (ang_puertas_jardin <= 0.0)
+				{
+					acarro11 = false;
+					acarro1 = true;
+					ang_puertas_jardin = 0.0;
+					angcarro = 0.0;
+					posxcarro = 0.0;
+					poszcarro = 0.0;
+				}
+			}
+		}
+
 
 		if (play_cuadros)
 		{
@@ -3848,6 +4139,7 @@ void keyboard ( unsigned char key, int x, int y )  // Create Keyboard Function
 			play_puertas ^= true;
 			g_fanimacion = false;
 			play_cuadros = false;
+			animacion_carro = false;
 			play_murcielagos = false;
 			break;
 
@@ -3856,6 +4148,7 @@ void keyboard ( unsigned char key, int x, int y )  // Create Keyboard Function
 			g_fanimacion = false;
 			play_cuadros = false;
 			play_murcielagos ^= true;
+			animacion_carro = false;
 			break;
 		case '9':
 			PlaySound(TEXT("audio/terror.wav"), NULL, SND_ASYNC);
@@ -3866,6 +4159,15 @@ void keyboard ( unsigned char key, int x, int y )  // Create Keyboard Function
 			g_fanimacion = false;
 			play_murcielagos = false;
 			play_cuadros ^= true;
+			animacion_carro = false;
+			break;
+
+		case '4':
+			play_puertas = false;
+			g_fanimacion = false;
+			play_murcielagos = false;
+			play_cuadros = false;
+			animacion_carro ^= true;
 			break;
 
 
