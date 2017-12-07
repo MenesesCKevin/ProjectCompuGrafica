@@ -23,6 +23,7 @@
 
 //NEW// Keyframes
 FILE *archsal;
+FILE *archsal2;
 
 float posX = 0.0f;
 float posY = 0.0f;
@@ -79,6 +80,38 @@ typedef struct _monkey_frame
 int i_max_steps = 90;
 int i_curr_steps = 0;
 int i_curr_steps_monkey = 0;	//Para iteración en monkey, permite actuar junto a las demás animaciones
+								//TODO LO REFERENTE A PERRITO
+float perrito_ang0 = 0.0;				//Traseras
+float perrito_ang1 = 0.0;			//Delanteras
+float perrito_ang2 = 0.0;			//Cola
+float perrito_posY = 0.0;
+float perrito_posZ = 0.0;
+
+typedef struct _perrito_frame
+{
+	//Variables para GUARDAR Key Frames
+	float perrito_ang0;
+	float perrito_ang1;
+	float perrito_ang2;
+	float perrito_posY;
+	float perrito_posZ;
+
+	float perrito_incang0;
+	float perrito_incang1;
+	float perrito_incang2;
+	float perrito_incY;
+	float perrito_incZ;
+
+}PERRITO_FRAME;
+
+int i_curr_steps_perrito = 0;	//Para iteración en perrito, permite actuar junto a las demás animaciones
+
+PERRITO_FRAME PerritoKeyFrame[MAX_FRAMES];
+int PerritoFrameIndex = 8;			//introducir datos
+bool perrito_play = false;
+int perritoplayIndex = 0;
+
+//TERMINA TODO LO REFERENTE A PERRITO
 typedef struct _frame
 {
 	//Variables para GUARDAR Key Frames
@@ -252,6 +285,19 @@ CTexture ventana2;
 CTexture escalera;
 CTexture azul;
 CTexture aqua;
+CTexture a1;
+CTexture a2;
+CTexture a3;
+CTexture a4;
+CTexture granito;
+CTexture pared;
+CTexture marmol_cuadro;
+CTexture adoquin;
+CTexture mueble1;//Parte frontal (cocina)
+CTexture mueble2;//Parte arriba (cocina)
+CTexture mueble3;//Parte arriba (cocina)
+CTexture refri1;//Parte delantera
+CTexture refri2;//costados del refrigerador
 /********************************************/
 CFiguras fig1;
 CFiguras fig2;
@@ -270,6 +316,12 @@ CFiguras mi_figura;	//Para monito
 CModel slender;
 CModel craneo;
 CModel carro1;
+CModel Buildings;
+CModel casa;
+CModel House;
+CModel Hous;
+CModel Residence;
+CModel StreetLamp;
 
 //Materiales
 GLfloat blankMaterial[] = { 1.0f, 1.0f, 1.0f };
@@ -297,6 +349,8 @@ float angcarro = 0.0;;
 float posxcarro = 0.0;
 float poszcarro = 0.0;
 float ang_puertas_jardin = 0.0;
+
+float posarbol = 0.0;
 
 bool animacion_carro = false;
 bool g_fanimacion = false;
@@ -355,7 +409,7 @@ void saveFrame(void)
 	KeyFrame[FrameIndex].upY = objCamera.mUp.y;
 	KeyFrame[FrameIndex].upZ = objCamera.mUp.z;
 	KeyFrame[FrameIndex].angdown = g_lookupdown;
-	
+
 	KeyFrame[FrameIndex].angMedi3 = angMedi3;
 	KeyFrame[FrameIndex].angAnu1 = angAnu1;
 	KeyFrame[FrameIndex].angAnu2 = angAnu2;
@@ -363,7 +417,7 @@ void saveFrame(void)
 	KeyFrame[FrameIndex].angMen1 = angMen1;
 	KeyFrame[FrameIndex].angMen2 = angMen2;
 	KeyFrame[FrameIndex].angMen3 = angMen3;
-	fprintf(archsal, "%f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f\n", objCamera.mPos.x, objCamera.mPos.y, objCamera.mPos.z, 
+	fprintf(archsal, "%f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f\n", objCamera.mPos.x, objCamera.mPos.y, objCamera.mPos.z,
 		objCamera.mView.x, objCamera.mView.y, objCamera.mView.z, objCamera.mUp.x,
 		objCamera.mUp.y, objCamera.mUp.z, g_lookupdown, angMedi3, angMen1, angMen2, angMen3, angAnu1, angAnu2, angAnu3);
 	FrameIndex++;
@@ -418,7 +472,7 @@ void cargaEstructura() {
 	FrameIndex = 0;
 	archsal = fopen("salida.txt", "r");
 	final = fscanf(archsal, "%f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f\n", &KeyFrame[FrameIndex].posX,
-		&KeyFrame[FrameIndex].posY, &KeyFrame[FrameIndex].posZ, &KeyFrame[FrameIndex].viewX, 
+		&KeyFrame[FrameIndex].posY, &KeyFrame[FrameIndex].posZ, &KeyFrame[FrameIndex].viewX,
 		&KeyFrame[FrameIndex].viewY, &KeyFrame[FrameIndex].viewZ, &KeyFrame[FrameIndex].upX,
 		&KeyFrame[FrameIndex].upY, &KeyFrame[FrameIndex].upZ, &KeyFrame[FrameIndex].angdown,
 		&KeyFrame[FrameIndex].angMedi3,
@@ -794,12 +848,62 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 	aqua.BuildGLTexture();
 	aqua.ReleaseImage();
 
+	a1.LoadTGA("Texturas/a1.tga");
+	a1.BuildGLTexture();
+	a1.ReleaseImage();
+
+	a2.LoadTGA("Texturas/a2.tga");
+	a2.BuildGLTexture();
+	a2.ReleaseImage();
+
+	a3.LoadTGA("Texturas/a3.tga");
+	a3.BuildGLTexture();
+	a3.ReleaseImage();
+
+	a4.LoadTGA("Texturas/a4.tga");
+	a4.BuildGLTexture();
+	a4.ReleaseImage();
+
+	granito.LoadTGA("Texturas/granito.tga");
+	granito.BuildGLTexture();
+	granito.ReleaseImage();
+
+	pared.LoadTGA("Texturas/pared.tga");
+	pared.BuildGLTexture();
+	pared.ReleaseImage();
+
+	marmol_cuadro.LoadTGA("Texturas/marmol_cuadro.tga");
+	marmol_cuadro.BuildGLTexture();
+	marmol_cuadro.ReleaseImage();
+
+	adoquin.LoadTGA("Texturas/adoquin.tga");
+	adoquin.BuildGLTexture();
+	adoquin.ReleaseImage();
+
+	mueble1.LoadTGA("Texturas/muebles_arriba.tga");
+	mueble1.BuildGLTexture();
+	mueble1.ReleaseImage();
+
+	mueble2.LoadTGA("Texturas/mueble_cocina.tga");
+	mueble2.BuildGLTexture();
+	mueble2.ReleaseImage();
+
+	mueble3.LoadTGA("Texturas/mueble_cocina_arriba.tga");
+	mueble3.BuildGLTexture();
+	mueble3.ReleaseImage();
+
+	refri1.LoadTGA("Texturas/refri_delante.tga");
+	refri1.BuildGLTexture();
+	refri1.ReleaseImage();
+
+	refri2.LoadTGA("Texturas/refri_silver.tga");
+	refri2.BuildGLTexture();
+	refri2.ReleaseImage();
 	/*************************************/
 	craneo._3dsLoad("modelos/skull.3DS");
 	carro1._3dsLoad("modelos/carr1/CHALLENGER71.3ds");
-
-
-	objCamera.Position_Camera(6.3,1.3f, 2.0f , 6.0,0.0f,0, 0, 1, 0);
+	
+	objCamera.Position_Camera(6.3,1.3f, 15.0f , 6.0,0.0f,0, 0, 1, 0);
 
 	//ANIMACION PARA MONITO
 	MonkeyKeyFrame[0].monkey_ang0 = 0;
@@ -919,7 +1023,54 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 	MonkeyKeyFrame[12].monkey_ang4 = 25.0;
 	MonkeyKeyFrame[12].monkey_ang5 = 10.0;
 	//TERMINA
+	//ANIMACION PARA PERRITO
+	PerritoKeyFrame[0].perrito_posY = 0;
+	PerritoKeyFrame[0].perrito_posZ = 0;
+	PerritoKeyFrame[0].perrito_ang0 = 0;
+	PerritoKeyFrame[0].perrito_ang1 = 0;
+	PerritoKeyFrame[0].perrito_ang2 = 0;
 
+	PerritoKeyFrame[1].perrito_posY = 0.25;
+	PerritoKeyFrame[1].perrito_posZ = 0.25;
+	PerritoKeyFrame[1].perrito_ang0 = -45.0;
+	PerritoKeyFrame[1].perrito_ang1 = 45.0;
+	PerritoKeyFrame[1].perrito_ang2 = 0;
+
+	PerritoKeyFrame[2].perrito_posY = 0.0;
+	PerritoKeyFrame[2].perrito_posZ = 0.5;
+	PerritoKeyFrame[2].perrito_ang0 = 0;
+	PerritoKeyFrame[2].perrito_ang1 = 0;
+	PerritoKeyFrame[2].perrito_ang2 = 0;
+
+	PerritoKeyFrame[3].perrito_posY = 0.25;
+	PerritoKeyFrame[3].perrito_posZ = 0.25;
+	PerritoKeyFrame[3].perrito_ang0 = -45.0;
+	PerritoKeyFrame[3].perrito_ang1 = 45.0;
+	PerritoKeyFrame[3].perrito_ang2 = 0;
+
+	PerritoKeyFrame[4].perrito_posY = 0;
+	PerritoKeyFrame[4].perrito_posZ = 0;
+	PerritoKeyFrame[4].perrito_ang0 = 0;
+	PerritoKeyFrame[4].perrito_ang1 = 0;
+	PerritoKeyFrame[4].perrito_ang2 = 0;
+
+	PerritoKeyFrame[5].perrito_posY = 0;
+	PerritoKeyFrame[5].perrito_posZ = 0;
+	PerritoKeyFrame[5].perrito_ang0 = 0;
+	PerritoKeyFrame[5].perrito_ang1 = 0;
+	PerritoKeyFrame[5].perrito_ang2 = 22.5;
+
+	PerritoKeyFrame[6].perrito_posY = 0;
+	PerritoKeyFrame[6].perrito_posZ = 0;
+	PerritoKeyFrame[6].perrito_ang0 = 0;
+	PerritoKeyFrame[6].perrito_ang1 = 0;
+	PerritoKeyFrame[6].perrito_ang2 = -22.5;
+
+	PerritoKeyFrame[7].perrito_posY = 0;
+	PerritoKeyFrame[7].perrito_posZ = 0;
+	PerritoKeyFrame[7].perrito_ang0 = 0;
+	PerritoKeyFrame[7].perrito_ang1 = 0;
+	PerritoKeyFrame[7].perrito_ang2 = 0;
 }
 
 void pintaTexto(float x, float y, float z, void *font,char *string)
@@ -932,6 +1083,23 @@ void pintaTexto(float x, float y, float z, void *font,char *string)
   {
     glutBitmapCharacter(font, *c); //imprime
   }
+}
+
+void mueble_cocina(GLint text)
+{
+	glPushMatrix();						//un prima rectangular formando el refrigerador
+	glScalef(0.4, 0.9, 1.0);
+	fig9.prisma4(mueble1.GLindex, text, mueble1.GLindex, mueble1.GLindex, mueble1.GLindex, mueble1.GLindex);
+	glPopMatrix();
+}
+
+void refrigerador()
+{
+	glPushMatrix();						//un prima rectangular formando el refrigerador
+	glTranslatef(0.0, 0.7, 0.0);
+	glScalef(0.4, 1.7, 0.6);
+	fig9.prisma4(refri2.GLindex, refri1.GLindex, refri2.GLindex, refri2.GLindex, refri2.GLindex, refri2.GLindex);
+	glPopMatrix();
 }
 
 void cuadro(GLint textura) {
@@ -2482,12 +2650,12 @@ void antorcha()
 	glPopMatrix();
 }
 
-void arbol() {
+void arbol(GLint textura) {
 	glPushMatrix();
 	glTranslatef(0.0, 2.2, 0.05);
 	glEnable(GL_ALPHA_TEST);
 	glAlphaFunc(GL_GREATER, 0.1);
-	fig2.plano(10, 10, 0.1, tarbol.GLindex, 1);
+	fig2.plano(10, 10, 0.1, textura, 1);
 	glDisable(GL_ALPHA_TEST);
 	glPopMatrix();
 
@@ -2496,7 +2664,7 @@ void arbol() {
 	glRotatef(90, 0.0, 1.0, 0.0);
 	glEnable(GL_ALPHA_TEST);
 	glAlphaFunc(GL_GREATER, 0.1);
-	fig2.plano(10, 10, 0.1, tarbol.GLindex, 1);
+	fig2.plano(10, 10, 0.1, textura, 1);
 	glDisable(GL_ALPHA_TEST);
 	glPopMatrix();
 
@@ -2506,7 +2674,7 @@ void arbol() {
 	glRotatef(45, 0.0, 1.0, 0.0);
 	glEnable(GL_ALPHA_TEST);
 	glAlphaFunc(GL_GREATER, 0.1);
-	fig2.plano(10, 10, 0.1, tarbol.GLindex, 1);
+	fig2.plano(10, 10, 0.1, textura, 1);
 	glDisable(GL_ALPHA_TEST);
 	glPopMatrix();
 
@@ -2516,7 +2684,7 @@ void arbol() {
 	glRotatef(180, 0.0, 1.0, 0.0);
 	glEnable(GL_ALPHA_TEST);
 	glAlphaFunc(GL_GREATER, 0.1);
-	fig2.plano(10, 10, 0.1, tarbol.GLindex, 1);
+	fig2.plano(10, 10, 0.1, textura, 1);
 	glDisable(GL_ALPHA_TEST);
 	glPopMatrix();
 
@@ -2526,7 +2694,7 @@ void arbol() {
 	glRotatef(270, 0.0, 1.0, 0.0);
 	glEnable(GL_ALPHA_TEST);
 	glAlphaFunc(GL_GREATER, 0.1);
-	fig2.plano(10, 10, 0.1, tarbol.GLindex, 1);
+	fig2.plano(10, 10, 0.1, textura, 1);
 	glDisable(GL_ALPHA_TEST);
 	glPopMatrix();
 
@@ -2536,7 +2704,7 @@ void arbol() {
 	glRotatef(135, 0.0, 1.0, 0.0);
 	glEnable(GL_ALPHA_TEST);
 	glAlphaFunc(GL_GREATER, 0.1);
-	fig2.plano(10, 10, 0.1, tarbol.GLindex, 1);
+	fig2.plano(10, 10, 0.1, textura, 1);
 	glDisable(GL_ALPHA_TEST);
 	glPopMatrix();
 }
@@ -3311,38 +3479,47 @@ void piscina()
 		cubo.prisma2(0, madera.GLindex, 1);
 	glPopMatrix();
 
+	glPushMatrix();	//agua
+		glTranslatef(0.0, 0.05, 0.0);
+		glScalef(3.95, 0.02, 2.95);
+		glEnable(GL_ALPHA_TEST);
+		glAlphaFunc(GL_GREATER, 0.1);
+		cubo.prisma2(0, aqua.GLindex, 1);
+		glDisable(GL_ALPHA_TEST);
+	glPopMatrix();
+
 	glPushMatrix();	//cara 1
-		glTranslatef(-1.99, 0.5, 0.0);
-		glScalef(0.02, 1.0, 3.0);
+		glTranslatef(-1.99, 0.05, 0.0);
+		glScalef(0.02, 0.1, 3.0);
 		cubo.prisma2(0, madera.GLindex, 1);
 	glPopMatrix();
 
 	glPushMatrix();	//cara 2
-		glTranslatef(1.99, 0.5, 0.0);
-		glScalef(0.02, 1.0, 3.0);
+		glTranslatef(1.99, 0.05, 0.0);
+		glScalef(0.02, 0.1, 3.0);
 		cubo.prisma2(0, madera.GLindex, 1);
 	glPopMatrix();
 
 	glPushMatrix();	//cara 3
-		glTranslatef(0.0, 0.5, 1.49);
-		glScalef(4.0, 1.0, 0.02);
+		glTranslatef(0.0, 0.05, 1.49);
+		glScalef(4.0, 0.1, 0.02);
 		cubo.prisma2(0, madera.GLindex, 1);
 	glPopMatrix();
 
 	glPushMatrix();	//cara 4
-		glTranslatef(0.0, 0.5, -1.49);
-		glScalef(4.0, 1.0, 0.02);
+		glTranslatef(0.0, 0.05, -1.49);
+		glScalef(4.0, 0.1, 0.02);
 		cubo.prisma2(0, madera.GLindex, 1);
 	glPopMatrix();
 
-	glPushMatrix();//escalera
+	/*glPushMatrix();//escalera
 		glTranslatef(0.0, 0.5, 1.6);
 		//glRotatef(90, 0.0, 1.0, 0.0);
 		glEnable(GL_ALPHA_TEST);
 		glAlphaFunc(GL_GREATER, 0.1);
 		fig2.plano(1.2, 1.0, 0.1, escalera.GLindex, 1);
 		glDisable(GL_ALPHA_TEST);
-	glPopMatrix();
+	glPopMatrix();*/
 }
 void banio_tapa(void)
 {
@@ -3516,6 +3693,110 @@ void monito(void)
 		der();
 	glPopMatrix();//-1
 }
+void perrito_izq(void)
+{
+	glPushMatrix();
+	glScalef(0.1, 0.1, 0.1);
+
+	glPushMatrix(); //RAMA
+	glTranslatef(-2.0, 0.0, 1.0);
+	glRotatef(perrito_ang0, 0.0, 0.0, 1.0);
+	glTranslatef(0.0, -1.5, 0.0);
+	glScalef(1.0, 3.0, 1.0);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, brownDiffuseMaterial2);
+	mi_figura.prisma(1.0f, 1.0f, 1.0f, 0);								//Pata trasera
+	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, blankMaterial);
+	glPopMatrix();
+
+	glPushMatrix(); //RAMA
+	glTranslatef(2.0, 0.0, 1.0);
+	glRotatef(perrito_ang1, 0.0, 0.0, 1.0);
+	glTranslatef(0.0, -1.5, 0.0);
+	glScalef(1.0, 3.0, 1.0);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, brownDiffuseMaterial2);
+	mi_figura.prisma(1.0f, 1.0f, 1.0f, 0);								//Pata delantera
+	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, blankMaterial);
+	glPopMatrix();
+
+
+	glScalef(6.0, 3.0, 1.0);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, brownDiffuseMaterial2);
+	mi_figura.prisma(1.0f, 1.0f, 1.0f, 0);								//CUERPO
+	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, blankMaterial);
+
+	glPopMatrix();
+}
+
+void perrito_der(void)
+{
+	glPushMatrix();//1
+	glTranslatef(0.0, 0.0, -0.1);
+	glRotatef(180.0f, 0.0f, 1.0f, 0.0f);
+	perrito_izq();
+	glPopMatrix();//-1
+}
+
+void perrito_cabeza_cola(void)
+{
+	glPushMatrix();
+	glScalef(0.1, 0.1, 0.1);
+
+	glPushMatrix(); //RAMA
+	glTranslatef(-3.0, 0.25, -0.3725);
+	glRotatef(perrito_ang2, 0.0, 1.0, 0.0);
+	glTranslatef(-0.5, 0.0, 0.0);
+	glScalef(1.0, 0.5, 0.25);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, brownDiffuseMaterial2);
+	mi_figura.prisma(1.0f, 1.0f, 1.0f, 0);								//Cola
+	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, blankMaterial);
+	glPopMatrix();
+
+	glPushMatrix(); //RAMA
+	glTranslatef(2.0, 2.5, -0.5);
+
+	glPushMatrix();
+	glTranslatef(-0.25, 0.25, 1.05);
+	glScalef(0.5, 0.75, 0.1);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, brownDiffuseMaterial1);
+	mi_figura.prisma(1.0f, 1.0f, 1.0f, 0);								//Oreja Der
+	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, blankMaterial);
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(-0.25, 0.25, -1.05);
+	glScalef(0.5, 0.75, 0.1);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, brownDiffuseMaterial1);
+	mi_figura.prisma(1.0f, 1.0f, 1.0f, 0);								//Oreja Izq
+	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, blankMaterial);
+	glPopMatrix();
+
+	glPushMatrix();
+	//glTranslatef(1.125, 0.0, -0.45);
+	glTranslatef(1.125, 0.0, 0.0);
+	glScalef(0.25, 0.25, 0.1);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, brownDiffuseMaterial1);
+	mi_figura.prisma(1.0f, 1.0f, 1.0f, 0);								//Nariz
+	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, blankMaterial);
+	glPopMatrix();
+
+	glScalef(2.0, 2.0, 2.0);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, brownDiffuseMaterial2);
+	mi_figura.prisma(1.0f, 1.0f, 1.0f, 0);								//Cabeza
+	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, blankMaterial);
+
+	glPopMatrix();
+
+	glPopMatrix();
+}
+void perrito(void)
+{
+	glPushMatrix();//1
+	perrito_izq();
+	perrito_der();
+	perrito_cabeza_cola();
+	glPopMatrix();//-1
+}
+
 
 void display ( void )   // Creamos la funcion donde se dibuja
 {
@@ -3754,30 +4035,30 @@ void display ( void )   // Creamos la funcion donde se dibuja
 
 		glPushMatrix(); //arboles
 		glTranslatef(-3.0, 1.7, 5);
-		arbol();
+		arbol(tarbol.GLindex);
 		glPopMatrix();
 		glPushMatrix();
 		glTranslatef(15.0, 1.7, 5);
-		arbol();
+		arbol(tarbol.GLindex);
 		glPopMatrix();
 		glPushMatrix();
 		glTranslatef(17.0, 1.7, 10);
-		arbol();
+		arbol(tarbol.GLindex);
 		glPopMatrix();
 
 		glPushMatrix();
 		glTranslatef(-2, 1.7, 10);
-		arbol();
+		arbol(tarbol.GLindex);
 		glPopMatrix();
 
 		glPushMatrix();
 		glTranslatef(-4, 1.7, 15);
-		arbol();
+		arbol(tarbol.GLindex);
 		glPopMatrix();
 
 		glPushMatrix();
 		glTranslatef(19, 1.7, 15);
-		arbol();
+		arbol(tarbol.GLindex);
 		glPopMatrix();
 		glPushMatrix();
 		glTranslatef(5.0, 1.5, 3);
@@ -3914,14 +4195,36 @@ void display ( void )   // Creamos la funcion donde se dibuja
 
 
 			///////////////////Fin comedor
-			glPushMatrix(); //cuadro
-				glTranslatef(0.5, 0.5, -9.5);
-				estufa();
-			glPopMatrix();
+
 
 			//////////cocinaaaaaa
 
+			glPushMatrix();  //mueble entre estufa y refri
+			glTranslatef(0.45, 0.4, -9.0);
+			mueble_cocina(mueble2.GLindex);
+			glPopMatrix();
 
+			glPushMatrix();  //mueble a un lado de estufa
+			glTranslatef(0.45, 0.4, -7.2);
+			glScalef(1, 1, 1.5);
+			mueble_cocina(mueble2.GLindex);
+			glPopMatrix();
+
+			glPushMatrix();  //mueble superior de la cocina
+			glTranslatef(0.45, 1.6, -8.0);
+			glScalef(0.6, 0.6, 3.0);
+			mueble_cocina(mueble3.GLindex);
+			glPopMatrix();
+
+			glPushMatrix(); //estufa
+			glTranslatef(0.5, 0.5, -8.22);
+			estufa();
+			glPopMatrix();
+
+			glPushMatrix(); //refrigerador
+			glTranslatef(0.5, 0.0, -9.82);
+			refrigerador();
+			glPopMatrix();
 
 			/////////fin cocina
 
@@ -4024,10 +4327,11 @@ void display ( void )   // Creamos la funcion donde se dibuja
 
 
 			glPushMatrix();
-				glTranslatef(2.0 + posxcarro, -0.2, 6.0 - poszcarro);
+				glTranslatef(9.0 + posxcarro, -0.1, -5.5 - poszcarro);
 				glRotatef(angcarro, 0.0, 1.0, 0.0);
 				carro1.GLrender(NULL, _SHADED, 1.0);
 			glPopMatrix();
+			
 
 
 			glPushMatrix();	//alberca
@@ -4041,6 +4345,144 @@ void display ( void )   // Creamos la funcion donde se dibuja
 				glRotatef(-45.0, 0.0f, 1.0f, 0.0f);
 				monito();
 			glPopMatrix();
+
+			glPushMatrix();
+			glTranslatef(3.0f, 0.5f, -19.4);
+			glTranslatef(0.0f, perrito_posY, perrito_posZ);
+			glRotatef(45.0, 0.0f, 1.0f, 0.0f);
+			perrito();
+			glPopMatrix();
+
+			//Arboles
+
+
+			glPushMatrix();
+				glTranslatef(2.0, 1.4, -22.5);
+				glScalef(0.3, 0.5, 0.3);
+				arbol(a1.GLindex);
+			glPopMatrix();
+
+
+			glPushMatrix();
+				glTranslatef(10.0, 1.4, -22.5);
+				glScalef(0.3, 0.5, 0.3);
+				arbol(a3.GLindex);
+			glPopMatrix();
+			//////////////muchos arboles
+			glPushMatrix();
+				glTranslatef(-45.0, 1.4, -52.0);
+				glScalef(0.3, 0.5, 0.3);
+				arbol(a3.GLindex);
+			glPopMatrix();
+
+			glPushMatrix();
+			glTranslatef(-40.0, 1.4, -52.0);
+			glScalef(0.3, 0.5, 0.3);
+			arbol(a3.GLindex);
+			glPopMatrix();
+
+			glPushMatrix();
+			glTranslatef(-35.0, 1.4, -52.0);
+			glScalef(0.3, 0.5, 0.3);
+			arbol(a3.GLindex);
+			glPopMatrix();
+
+			glPushMatrix();
+			glTranslatef(-30.0, 1.4, -52.0);
+			glScalef(0.3, 0.5, 0.3);
+			arbol(a3.GLindex);
+			glPopMatrix();
+
+			glPushMatrix();
+			glTranslatef(-25.0, 1.4, -52.0);
+			glScalef(0.3, 0.5, 0.3);
+			arbol(a3.GLindex);
+			glPopMatrix();
+
+			glPushMatrix();
+			glTranslatef(-20.0, 1.4, -52.0);
+			glScalef(0.3, 0.5, 0.3);
+			arbol(a3.GLindex);
+			glPopMatrix();
+
+			glPushMatrix();
+			glTranslatef(-15.0, 1.4, -52.0);
+			glScalef(0.3, 0.5, 0.3);
+			arbol(a3.GLindex);
+			glPopMatrix();
+
+			glPushMatrix();
+			glTranslatef(-10.0, 1.4, -52.0);
+			glScalef(0.3, 0.5, 0.3);
+			arbol(a3.GLindex);
+			glPopMatrix();
+
+			glPushMatrix();
+			glTranslatef(-5.0, 1.4, -52.0);
+			glScalef(0.3, 0.5, 0.3);
+			arbol(a3.GLindex);
+			glPopMatrix();
+
+			glPushMatrix();
+			glTranslatef(0.0, 1.4, -52.0);
+			glScalef(0.3, 0.5, 0.3);
+			arbol(a3.GLindex);
+			glPopMatrix();
+
+			glPushMatrix();
+			glTranslatef(5.0, 1.4, -52.0);
+			glScalef(0.3, 0.5, 0.3);
+			arbol(a3.GLindex);
+			glPopMatrix();
+
+			glPushMatrix();
+			glTranslatef(10.0, 1.4, -52.0);
+			glScalef(0.3, 0.5, 0.3);
+			arbol(a3.GLindex);
+			glPopMatrix();
+
+			glPushMatrix();
+			glTranslatef(15.0, 1.4, -52.0);
+			glScalef(0.3, 0.5, 0.3);
+			arbol(a3.GLindex);
+			glPopMatrix();
+
+			glPushMatrix();
+			glTranslatef(20.0, 1.4, -52.0);
+			glScalef(0.3, 0.5, 0.3);
+			arbol(a3.GLindex);
+			glPopMatrix();
+
+			glPushMatrix();
+			glTranslatef(25.0, 1.4, -52.0);
+			glScalef(0.3, 0.5, 0.3);
+			arbol(a3.GLindex);
+			glPopMatrix();
+
+			glPushMatrix();
+			glTranslatef(30.0, 1.4, -52.0);
+			glScalef(0.3, 0.5, 0.3);
+			arbol(a3.GLindex);
+			glPopMatrix();
+
+			glPushMatrix();
+			glTranslatef(35.0, 1.4, -52.0);
+			glScalef(0.3, 0.5, 0.3);
+			arbol(a3.GLindex);
+			glPopMatrix();
+
+			glPushMatrix();
+			glTranslatef(40.0, 1.4, -52.0);
+			glScalef(0.3, 0.5, 0.3);
+			arbol(a3.GLindex);
+			glPopMatrix();
+
+			glPushMatrix();
+			glTranslatef(45.0, 1.4, -52.0);
+			glScalef(0.3, 0.5, 0.3);
+			arbol(a3.GLindex);
+			glPopMatrix();
+
 
 		glPopMatrix();
 
@@ -4341,13 +4783,43 @@ void animacion()
 				i_curr_steps_monkey++;
 			}
 		}
+		if (perrito_play)
+		{
+			if (i_curr_steps_perrito >= i_max_steps) //end of animation between frames?
+			{
+				perritoplayIndex++;
+				if (perritoplayIndex>PerritoFrameIndex - 2)	//end of total animation?
+				{
+					printf("termina anim\n");
+					perritoplayIndex = 0;
+					perrito_play = false;
+				}
+				else //Next frame interpolations
+				{
+					i_curr_steps_perrito = 0; //Reset counter
+											  //Interpolation
+					PerritoKeyFrame[perritoplayIndex].perrito_incang0 = (PerritoKeyFrame[perritoplayIndex + 1].perrito_ang0 - PerritoKeyFrame[perritoplayIndex].perrito_ang0) / i_max_steps;		//100 frames
+					PerritoKeyFrame[perritoplayIndex].perrito_incY = (PerritoKeyFrame[perritoplayIndex + 1].perrito_posY - PerritoKeyFrame[perritoplayIndex].perrito_posY) / i_max_steps;		//100 frames
+					PerritoKeyFrame[perritoplayIndex].perrito_incZ = (PerritoKeyFrame[perritoplayIndex + 1].perrito_posZ - PerritoKeyFrame[perritoplayIndex].perrito_posZ) / i_max_steps;		//100 frames
+					PerritoKeyFrame[perritoplayIndex].perrito_incang1 = (PerritoKeyFrame[perritoplayIndex + 1].perrito_ang1 - PerritoKeyFrame[perritoplayIndex].perrito_ang1) / i_max_steps;		//100 frames
+					PerritoKeyFrame[perritoplayIndex].perrito_incang2 = (PerritoKeyFrame[perritoplayIndex + 1].perrito_ang2 - PerritoKeyFrame[perritoplayIndex].perrito_ang2) / i_max_steps;		//100 frames
+				}
+			}
+			else
+			{	//Draw information
+				perrito_ang0 += PerritoKeyFrame[perritoplayIndex].perrito_incang0;
+				perrito_posY += PerritoKeyFrame[perritoplayIndex].perrito_incY;
+				perrito_posZ += PerritoKeyFrame[perritoplayIndex].perrito_incZ;
+				perrito_ang1 += PerritoKeyFrame[perritoplayIndex].perrito_incang1;
+				perrito_ang2 += PerritoKeyFrame[perritoplayIndex].perrito_incang2;
+				i_curr_steps_perrito++;
+			}
+		}
 
 	if (play)
 	{
 		recorrido = true;
-		play_puertas = true;
-		play_cuadros = true;
-		play_murcielagos = true;
+		monkey_play = true;
 
 		if (i_curr_steps >= i_max_steps) //end of animation between frames?
 		{
@@ -4361,7 +4833,7 @@ void animacion()
 				play_puertas = false;
 				play_cuadros = false;
 				play_murcielagos = false;
-
+				animacion_carro = true;
 			}
 			else //Next frame interpolations
 			{
@@ -4430,6 +4902,33 @@ void reshape ( int width , int height )   // Creamos funcion Reshape
 void keyboard ( unsigned char key, int x, int y )  // Create Keyboard Function
 {
 	switch ( key ) {
+	case '6':
+	case '&':
+		if (perrito_play == false && (PerritoFrameIndex>1))
+		{
+
+			perrito_ang0 = PerritoKeyFrame[0].perrito_ang0;
+			perrito_posY = PerritoKeyFrame[0].perrito_posY;
+			perrito_posZ = PerritoKeyFrame[0].perrito_posZ;
+			perrito_ang1 = PerritoKeyFrame[0].perrito_ang1;
+			perrito_ang2 = PerritoKeyFrame[0].perrito_ang2;
+
+			//First Interpolation
+			PerritoKeyFrame[perritoplayIndex].perrito_incang0 = (PerritoKeyFrame[perritoplayIndex + 1].perrito_ang0 - PerritoKeyFrame[perritoplayIndex].perrito_ang0) / i_max_steps;		//100 frames
+			PerritoKeyFrame[perritoplayIndex].perrito_incY = (PerritoKeyFrame[perritoplayIndex + 1].perrito_posY - PerritoKeyFrame[perritoplayIndex].perrito_posY) / i_max_steps;		//100 frames
+			PerritoKeyFrame[perritoplayIndex].perrito_incZ = (PerritoKeyFrame[perritoplayIndex + 1].perrito_posZ - PerritoKeyFrame[perritoplayIndex].perrito_posZ) / i_max_steps;		//100 frames
+			PerritoKeyFrame[perritoplayIndex].perrito_incang1 = (PerritoKeyFrame[perritoplayIndex + 1].perrito_ang1 - PerritoKeyFrame[perritoplayIndex].perrito_ang1) / i_max_steps;		//100 frames
+			PerritoKeyFrame[perritoplayIndex].perrito_incang2 = (PerritoKeyFrame[perritoplayIndex + 1].perrito_ang2 - PerritoKeyFrame[perritoplayIndex].perrito_ang2) / i_max_steps;		//100 frames
+
+			perrito_play = true;
+			perritoplayIndex = 0;
+			i_curr_steps_perrito = 0;
+		}
+		else
+		{
+			perrito_play = false;
+		}
+		break;
 
 		case 'r':   //Movimientos de camara
 		case 'R':
@@ -4481,7 +4980,6 @@ void keyboard ( unsigned char key, int x, int y )  // Create Keyboard Function
 		case 'L':
 			if (play == false && (FrameIndex>1))
 			{
-
 				resetElements();
 				PlaySound(TEXT("audio/terror.wav"), NULL, SND_ASYNC);
 				//First Interpolation				
@@ -4557,7 +5055,7 @@ void keyboard ( unsigned char key, int x, int y )  // Create Keyboard Function
 			play_cuadros ^= true;
 			animacion_carro = false;
 			break;
-
+			
 		case '4':
 			play_puertas = false;
 			g_fanimacion = false;
@@ -4566,8 +5064,7 @@ void keyboard ( unsigned char key, int x, int y )  // Create Keyboard Function
 			animacion_carro ^= true;
 			break;
 
-		case 'm':
-		case 'M':
+		case '5':
 			if (monkey_play == false && (MonkeyFrameIndex>1))
 			{
 
@@ -4600,6 +5097,15 @@ void keyboard ( unsigned char key, int x, int y )  // Create Keyboard Function
 			}
 			break;
 
+		case 'z':        // Ortogonal
+			objCamera.Position_Camera(2, 12, 15.0f, 6.0, 0.0f, 0, 0, 1, 0);
+		break;
+		case 'x':        // Picina
+			objCamera.Position_Camera(2, 1.3, -12.0f, 90.0, 0.0f, 0, 0, 1, 0);
+			break;
+		case 'c':        // cocina
+			objCamera.Position_Camera(2, 2, 2.9f, -45.0, 0.0f, 0, 0, 1, 0);
+			break;
 		case 27:        // Cuando Esc es presionado...
 			exit ( 0 );   // Salimos del programa
 			break;        
@@ -4614,11 +5120,11 @@ void arrow_keys(int a_keys, int x, int y)  // Funcion para manejo de teclas espe
 {
 	switch (a_keys) {
 	case GLUT_KEY_PAGE_UP:
-		objCamera.UpDown_Camera(CAMERASPEED);
+		objCamera.UpDown_Camera(CAMERASPEED*2);
 		break;
 
 	case GLUT_KEY_PAGE_DOWN:
-		objCamera.UpDown_Camera(-CAMERASPEED);
+		objCamera.UpDown_Camera(-CAMERASPEED*2);
 		break;
 
 	case GLUT_KEY_UP:     // Presionamos tecla ARRIBA...
@@ -4659,8 +5165,8 @@ int main ( int argc, char** argv )   // Main Function
   glutKeyboardFunc    ( keyboard );	//Indicamos a Glut función de manejo de teclado
   glutSpecialFunc     ( arrow_keys );	//Otras
   archsal = fopen("salida.txt", "r");
-  if(archsal != NULL)
-  cargaEstructura();
+  if (archsal != NULL)
+	  cargaEstructura();
   glutIdleFunc		  ( animacion );
   glutMainLoop();          // 
 

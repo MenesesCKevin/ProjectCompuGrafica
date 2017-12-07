@@ -1,5 +1,4 @@
 ﻿C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets(387,5): warning MSB8028: El directorio intermedio (Debug\) contiene archivos compartidos de otro proyecto (ProyectoLCG.vcxproj). Esto puede dar lugar a un comportamiento incorrecto de limpieza y recompilación.
   main_pcg.cpp
-c:\users\mauricio\desktop\proyectocg\projectcompugrafica\proyectocg\main_pcg.cpp(1960): warning C4551: la llamada a la función no tiene lista de argumentos
-  ProyectoCG.vcxproj -> C:\Users\mauricio\Desktop\PROYECTOCG\ProjectCompuGrafica\Debug\ProyectoCG.exe
-  ProyectoCG.vcxproj -> C:\Users\mauricio\Desktop\PROYECTOCG\ProjectCompuGrafica\Debug\ProyectoCG.pdb (Partial PDB)
+  ProyectoCG.vcxproj -> C:\Users\k322\Documents\GitHub\ProjectCompuGrafica\Debug\ProyectoCG.exe
+  ProyectoCG.vcxproj -> C:\Users\k322\Documents\GitHub\ProjectCompuGrafica\Debug\ProyectoCG.pdb (Partial PDB)

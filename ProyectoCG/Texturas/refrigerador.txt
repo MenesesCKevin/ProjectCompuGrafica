@@ -1,0 +1,22 @@
+CTexture refri1;//Parte delantera
+CTexture refri2;//costados del refrigerador
+
+
+	refri1.LoadTGA("Texturas/refri_delante.tga");
+	refri1.BuildGLTexture();
+	refri1.ReleaseImage();
+
+	refri2.LoadTGA("Texturas/refri_silver.tga");
+	refri2.BuildGLTexture();
+	refri2.ReleaseImage();
+
+
+
+void refrigerador()
+{
+	glPushMatrix();						//un prima rectangular formando el refrigerador
+		glTranslatef(0.0,0.7,0.0);
+		glScalef(0.4, 1.7, 0.6);
+		fig9.prisma4(refri2.GLindex, refri1.GLindex, refri2.GLindex, refri2.GLindex, refri2.GLindex, refri2.GLindex);
+	glPopMatrix();
+}

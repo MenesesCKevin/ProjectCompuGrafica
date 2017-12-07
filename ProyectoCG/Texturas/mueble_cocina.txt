@@ -1,0 +1,47 @@
+CTexture mueble1;//Parte frontal (cocina)
+CTexture mueble2;//Parte arriba (cocina)
+CTexture mueble3;//Parte arriba (cocina)
+
+
+
+	mueble1.LoadTGA("Texturas/muebles_arriba.tga");
+	mueble1.BuildGLTexture();
+	mueble1.ReleaseImage();
+
+	mueble2.LoadTGA("Texturas/mueble_cocina.tga");
+	mueble2.BuildGLTexture();
+	mueble2.ReleaseImage();
+
+	mueble3.LoadTGA("Texturas/mueble_cocina_arriba.tga");
+	mueble3.BuildGLTexture();
+	mueble3.ReleaseImage();
+
+
+void mueble_cocina(GLint text)
+{
+	glPushMatrix();						//un prima rectangular formando el refrigerador
+	glScalef(0.4, 0.9, 1.0);
+		fig9.prisma4(mueble1.GLindex, text, mueble1.GLindex, mueble1.GLindex, mueble1.GLindex, mueble1.GLindex);
+	glPopMatrix();
+}
+
+
+
+en el display (USE LA MISMA FUNCION PARA LOS 3 MUEBLES DE LA COCINA)
+
+			glPushMatrix();  //mueble entre estufa y refri
+				glTranslatef(0.45, 0.4, -9.0);
+				mueble_cocina(mueble2.GLindex);
+			glPopMatrix();
+
+			glPushMatrix();  //mueble a un lado de estufa
+				glTranslatef(0.45, 0.4, -7.2);
+				glScalef(1, 1, 1.5);
+				mueble_cocina(mueble2.GLindex);
+			glPopMatrix();
+
+			glPushMatrix();  //mueble superior de la cocina
+				glTranslatef(0.45, 1.6, -8.0);
+				glScalef(0.6, 0.6, 3.0);
+				mueble_cocina(mueble3.GLindex);
+			glPopMatrix();
